@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>profile</title>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            padding-top: 65px;
+        }
+        .dropdown-menu {
+            min-width: 15px !important;
+            min-height: 40px !important;
+        }
+
+        .dropdown:hover .dropdown-menu  {display: block;}
+
+        .navbar-nav #match {
+          margin-right:300px;
+          margin-top: 12px;
+        }
+
+        .navbar-nav .nav-link-logo{
+            height:350px;
+            width: 35px;
+            margin-bottom: 8px;
+        }
+
+        *{
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+
+        .navbar{
+          max-height: 65px;
+        }
+
+        .card {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          max-width: 80%;
+          margin: auto;
+        }
+
+        .major {
+          color: grey;
+          font-size: 18px;
+          margin-left: 20px;
+        }
+
+        .card button {
+          border: 1px solid #000;
+          outline: 0;
+          display: inline-block;
+          padding: 8px;
+          color: white;
+          background-color: grey;
+          text-align: center;
+          cursor: pointer;
+          width: 12%;
+          font-size: 18px;
+          margin-left:20px;
+          margin-bottom:20px;
+        }
+        .card p{
+          margin-left: 20px;
+        }
+
+        .card a {
+          text-decoration: none;
+          font-size: 22px;
+          color: black;
+        }
+
+        .card button:hover, a:hover {
+          opacity: 0.7;
+        }
+
+        #settings{
+          margin-top: 20px;
+          margin-right: 20px;
+          position:absolute;
+          top:0;
+          right:0;
+        }
+
+        .checked {
+          color: orange;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top ">
+        <a href="#" class="navbar-brand">PlaDat</a>
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="/"> <img class="nav-link-logo" src="{% static "two-houses.svg" %}"> </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+          <form class="form-inline my-2 my-lg-0 ">
+            <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0 " href="#" type="submit">Search</button>
+          </form>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <button class="btn btn-danger navbar-btn" id="match">FIND MATCH</button>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        User
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item " href="/profile">Profile</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Logout</a>
+                      </div>
+                </li>
+
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <div class="card">
+        <button id="settings" style="font-size:18px" href="#">Settings <i class="fa fa-gear"></i></button>
+        <img src="{% static "avatar.jpg" %}" alt="John" style="width:10%; margin-left: 20px">
+        <h1 style="margin-left: 20px">John Doe</h1>
+        <p class="major">CEO & Founder, Example</p>
+        <p>Harvard University</p>
+        <ul >
+            <li> Skills </li>
+                <ul >
+                    <li> Python
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Database
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> HTML CSS
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Django
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Machine Learning
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Deep Learning
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <button style="font-size:18px" href="#">Add a skill</button>
+    </div>
+
+
+</body>
+</html>
+
+ <!--     {% if skills %}
+        <ul class="skills">
+            {% for skill in skills %}
+            <li> {% if skill.tags %} class="{{ skill.tags }}"{% endif %}>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+         include "blog/search-blog.html" 
+         <form method="GET" action="/blog/">
+             <input type="text" name="q" placeholder="Search">
+         </form>
+
+        {% for object in objects %}
+        <li>
+            <a href='/blog/{{object.id}}'> {{ object.title }} </a>
+           <a href='{% url "blog:detail"  id=object.id %}'> {{ object.title }} </a>
+        </li>
+        {% endfor %} -->
+
