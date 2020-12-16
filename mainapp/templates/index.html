@@ -30,10 +30,42 @@
   position: relative;
   margin-top: 15px;
 }
-
+.carousel .card{
+  position: relative;
+  float: none; /* Added */
+  margin-top: 120px;
+  left: 40%;
+}
+.carousel-control-next{
+  background-color: gray;
+  max-height: 30px;
+  max-width: 30px;
+  margin-top: 250px;
+}
+.carousel-control-prev{
+  background-color: gray;
+  max-height: 30px;
+  max-width: 30px;
+  margin-top: 250px;
+}
 
   </style>
   {% load static %}
+  
+ <!-- JQuery included for slider  -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script> 
+  // Slider's function for find match button click
+  $(document).ready(function(){
+    $(".carousel").hide();
+    $("#match").click(function(){
+      $(".row").remove();
+      $(".carousel").show();
+    });
+  });
+  </script> 
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -84,12 +116,13 @@
           </div>
         </div>
     </nav>
+    <!-- Latest jobs -->
     <div class="container-fluid">
       <div class="row" id="latest-jobs-header">
         <h1 class="latest-jobs">LATEST JOBS</h1>
       </div>
       <div class="row" id="job-cards-row1">
-        <div class="col-md-2">
+        <div class="col-*-*">
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
@@ -99,48 +132,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
+        <div class="col-*-*">
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
@@ -151,9 +143,7 @@
           </div>
         </div>
         
-      </div>
-      <div class="row" id="job-cards-row2">
-        <div class="col-md-2">
+        <div class="col-*-*">
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
@@ -163,7 +153,37 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-*-*">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Job title</h5>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <a href="#" class="btn btn-primary">Apply</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-*-*">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Job title</h5>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <a href="#" class="btn btn-primary">Apply</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-*-*">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Job title</h5>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <a href="#" class="btn btn-primary">Apply</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-*-*">
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
@@ -174,7 +194,7 @@
           </div>
         </div>
         
-        <div class="col-md-2">
+        <div class="col-*-*">
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
@@ -184,7 +204,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-*-*">
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
@@ -194,17 +214,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
+        <div class="col-*-*">
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
@@ -215,9 +225,49 @@
           </div>
         </div>
       </div>
-
-    
-    
+    </div>
+    <!-- Slider -->
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+      <div class="carousel-inner ">
+        <div class="carousel-item active">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Job title</h5>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <a href="#" class="btn btn-primary">Apply</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Job title</h5>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <a href="#" class="btn btn-primary">Apply</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item ">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Job title</h5>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <a href="#" class="btn btn-primary">Apply</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
 
     <!-- Optional JavaScript -->
