@@ -1,228 +1,67 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <style>
-.dropdown-menu {
-    min-width: 15px !important;
-    min-height: 40px !important;
-}
-.dropdown:hover .dropdown-menu  {display: block;}
-.navbar-nav #match {
-  margin-right:300px;
-}
-.navbar-nav .nav-link-logo{
-    height:350px;
-    width: 35px;
-    margin-bottom: 8px;
-}
-*{
-    font-family: "Lucida Console", "Courier New", monospace;
-}
-.navbar{
-  max-height: 65px;
-}
-.container-fluid #latest-jobs-header{
-  position: relative;
-  margin-top: 130px;
-
-}
-.container-fluid .row{
-  position: relative;
-  margin-top: 15px;
-}
-
-
-  </style>
+<head>
   {% load static %}
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <title>{% block title %}PlaDat{% endblock %}</title>
+  <style type="text/css">
+    .asteriskField {
+      display: none;
+    }
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    form .alert ul li {
+      list-style: none;
+    }
 
-    <title>Welcome to PlaDat home page !</title>
-  </head>
-  <body>
+    form .alert ul {
+      padding: 0;
+      margin: 0;
+    }
     
-    <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top ">
-        <a href="#" class="navbar-brand">PlaDat</a>
-        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a href="#"> <img class="nav-link-logo" src="{% static "two-houses.svg" %}"> </a>
-                </li>
-            </ul>
-        </div>
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+      {% if user.is_authenticated %}
+      <a class="navbar-brand" href="{% url 'index' %}">PlaDat</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      {% else %}
+      <a class="navbar-brand" href="{% url 'landing' %}">PlaDat</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      {% endif %}
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          {% if user.is_authenticated %}
+            
+          {% endif %}
+        </ul>
+        {% if user.is_authenticated %}
+          <meta http-equiv="refresh" content="2; URL={% url 'index' %}" />
 
-        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-          <form class="form-inline my-2 my-lg-0 ">
-            <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0 " href="#" type="submit">Search</button>
+        {% else %}
+          <form class="form-inline my-2 my-lg-0">
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+            <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
           </form>
-        </div>
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                  <button class="btn btn-danger navbar-btn" id="match">FIND MATCH</button>
-                </li>
-                
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        User
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item " href="/profile">Profile</a>
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
-                      </div>
-                </li>
-                
-            </ul>
-          </div>
-        </div>
-    </nav>
-    <div class="container-fluid">
-      <div class="row" id="latest-jobs-header">
-        <h1 class="latest-jobs">LATEST JOBS</h1>
+        {% endif %}
       </div>
-      <div class="row" id="job-cards-row1">
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-      <div class="row" id="job-cards-row2">
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    
-    
     </div>
+  </nav>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
 </html>
