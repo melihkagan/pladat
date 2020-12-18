@@ -23,6 +23,9 @@ class Student(models.Model):
     skill_5 = models.CharField(max_length=100,default="")
     condition_5 = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.skill_1
+
 class Job(models.Model):
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     job_title = models.CharField(max_length=100)

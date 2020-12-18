@@ -4,7 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from .forms import SkillForm
+from mainapp.models import Student
 # Create your views here.
 
 def landing(request):
@@ -20,22 +22,37 @@ def employer(request):
 
 @login_required
 def view_self_profile(request, username=None):
-    print(username)
     # obj = get_object_or_404(PostModel, id=id)
     if request.user.is_authenticated:
         context = {
             "object": User
         }
     username = request.user.username
-    print(username)
     template = "profile.html"
     return render(request, template, {"username": username})
 
 @login_required
 def add_skill(request):
+    username = request.user.username
+    print(username)
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = SkillForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            print(form.cleaned_data['skill'])
+            print(request.POST['star'])
+            skill = form.cleaned_data['skill']
+            star_int = int(request.POST['star'])
+            Student(skill_1= skill, condition_1=star_int).save()
+
+        return HttpResponseRedirect("/profile/{username}/".format(username=username))
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SkillForm()
+    return render(request, 'addskill.html', {'form': form})
     # obj = get_object_or_404(PostModel, id=id)
-    template = "addskill.html"
-    return render(request, template)
 
 def signup(request):
     if request.method == 'POST':
