@@ -10,17 +10,32 @@ from django.http import HttpResponse
 def landing(request):
     return render(request, 'landing.html')
 
-@login_required
+@login_required(login_url = 'http://127.0.0.1:8000/admin/login')
 def index(request):
-    return render(request,"index.html")
+    return render(request, "index.html")
 
 @login_required
 def employer(request):
-    return render(request,"employer.html")
+    return render(request, "employer.html")
 
 @login_required
-def profile(request):
-    return render(request,"profile.html")
+def view_self_profile(request, username=None):
+    print(username)
+    # obj = get_object_or_404(PostModel, id=id)
+    if request.user.is_authenticated:
+        context = {
+            "object": User
+        }
+    username = request.user.username
+    print(username)
+    template = "profile.html"
+    return render(request, template, {"username": username})
+
+@login_required
+def add_skill(request):
+    # obj = get_object_or_404(PostModel, id=id)
+    template = "addskill.html"
+    return render(request, template)
 
 def signup(request):
     if request.method == 'POST':
@@ -37,4 +52,3 @@ def signup(request):
 @login_required
 def login(request):
     return redirect('index.html')
-    
