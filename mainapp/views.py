@@ -10,7 +10,7 @@ from django.http import HttpResponse
 def landing(request):
     return render(request, 'landing.html')
 
-@login_required(login_url = 'http://127.0.0.1:8000/admin/login')
+@login_required
 def index(request):
     return render(request, "index.html")
 
