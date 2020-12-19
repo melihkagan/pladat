@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import SkillForm
-from mainapp.models import Student
+from .forms import SkillForm, JobForm
+from mainapp.models import Student, Job, Employer
 # Create your views here.
 
 def landing(request):
@@ -22,20 +22,8 @@ def employer(request):
 
 @login_required
 def view_self_profile(request, username=None):
-    # obj = get_object_or_404(PostModel, id=id)
-    if request.user.is_authenticated:
-        context = {
-            "object": User
-        }
     username = request.user.username
     template = "profile.html"
-    return render(request, template, {"username": username})
-
-@login_required
-def add_skill(request):
-    username = request.user.username
-    print(username)
-    # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = SkillForm(request.POST)
@@ -45,14 +33,30 @@ def add_skill(request):
             print(request.POST['star'])
             skill = form.cleaned_data['skill']
             star_int = int(request.POST['star'])
-            Student(skill_1= skill, condition_1=star_int).save()
+            Student(skill_1=skill, condition_1=star_int).save()
 
-        return HttpResponseRedirect("/profile/{username}/".format(username=username))
+        return HttpResponseRedirect("/{username}/".format(username=username))
+    return render(request, template, {"username": username})
+
+@login_required
+def add_job(request, username=None):
+    username = request.user.username
+    print(username)
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = JobForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            print(form.cleaned_data['title'])
+            print(request.POST['description'])
+            title = form.cleaned_data['skill']
+            description = form.cleaned_data['description']
+            Job(job_title=title, job_description=description, employer=Employer).save()
+
+        return HttpResponseRedirect("/{username}/add".format(username=username))
     # if a GET (or any other method) we'll create a blank form
-    else:
-        form = SkillForm()
-    return render(request, 'addskill.html', {'form': form})
-    # obj = get_object_or_404(PostModel, id=id)
+    return render(request, 'addjob.html', {'username': username})
 
 def signup(request):
     if request.method == 'POST':

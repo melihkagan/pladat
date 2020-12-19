@@ -82,7 +82,7 @@
         <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="#"> <img class="nav-link-logo" src="{% static "two-houses.svg" %}"> </a>
+                    <a href="#"> <img style="width:35px; margin-top: -10px; margin-left: -1%;" src="{% static "two-houses.svg" %}"> </a>
                 </li>
             </ul>
         </div>
@@ -104,7 +104,7 @@
                       {{ user.username }}
                       </a>
                       <div class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item " href="/profile/{{ user.username }}">Profile</a>
+                        <a class="dropdown-item " href="/{{ user.username }}">Profile</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
                         <div class="dropdown-divider"></div>
