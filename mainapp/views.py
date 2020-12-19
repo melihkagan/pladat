@@ -21,6 +21,10 @@ def employer(request):
     return render(request, "employer.html")
 
 @login_required
+def see_details(request):
+    return render(request, "see-details.html")
+
+@login_required
 def view_self_profile(request, username=None):
     username = request.user.username
     template = "profile.html"
