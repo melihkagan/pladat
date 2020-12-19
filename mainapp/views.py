@@ -25,7 +25,8 @@ def see_details(request):
     return render(request, "see-details.html")
 
 @login_required
-def view_self_profile(request, username=None):
+def view_self_profile(request, userid):
+    userid = request.user.id
     username = request.user.username
     template = "profile.html"
     if request.method == 'POST':
@@ -39,11 +40,12 @@ def view_self_profile(request, username=None):
             star_int = int(request.POST['star'])
             Student(skill_1=skill, condition_1=star_int).save()
 
-        return HttpResponseRedirect("/{username}/".format(username=username))
+        return render(request, template, {"username": username})
     return render(request, template, {"username": username})
 
 @login_required
-def add_job(request, username=None):
+def add_job(request, userid):
+    userid = request.user.id
     username = request.user.username
     print(username)
     # if this is a POST request we need to process the form data
@@ -58,7 +60,7 @@ def add_job(request, username=None):
             description = form.cleaned_data['description']
             Job(job_title=title, job_description=description, employer=Employer).save()
 
-        return HttpResponseRedirect("/{username}/add".format(username=username))
+        return render(request, 'addjob.html', {'username': username})
     # if a GET (or any other method) we'll create a blank form
     return render(request, 'addjob.html', {'username': username})
 
