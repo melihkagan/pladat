@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style>
+.dropdown-menu {
+    min-width: 15px !important;
+    min-height: 40px !important;
+}
+.dropdown:hover .dropdown-menu  {display: block;}
+.navbar-nav #match {
+  margin-right:300px;
+}
+.navbar-nav .nav-link-logo{
+    height:350px;
+    width: 35px;
+    margin-bottom: 8px;
+}
+*{
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+.navbar{
+  max-height: 65px;
+}
+.container-fluid #latest-jobs-header{
+  position: relative;
+  margin-top: 130px;
+
+}
+.container-fluid .row{
+  position: relative;
+  margin-top: 15px;
+}
+.carousel .card{
+  position: relative;
+  float: none; /* Added */
+  margin-top: 120px;
+  left: 40%;
+}
+.carousel-control-next{
+  background-color: gray;
+  max-height: 30px;
+  max-width: 30px;
+  margin-top: 250px;
+}
+.carousel-control-prev{
+  background-color: gray;
+  max-height: 30px;
+  max-width: 30px;
+  margin-top: 250px;
+}
+
+  </style>
+  {% load static %}
+  
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Details !</title>
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top ">
+        <a href="#" class="navbar-brand">PlaDat</a>
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#"> <img class="nav-link-logo" src="{% static "two-houses.svg" %}"> </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+          <form class="form-inline my-2 my-lg-0 ">
+            <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0 " href="#" type="submit">Search</button>
+          </form>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <button class="btn btn-danger navbar-btn" id="match">FIND MATCH</button>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{ user.username }}
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item " href="/profile">Profile</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                      </div>
+                </li>
+                
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <!-- Job information -->
+    <br><br>
+    <div class="container-fluid">
+    <div class="row">
+                <h5>Backend Developer</h5>
+                <div>
+                    <h5 class="card-title">Description:</h5>
+                    <p class="card-text">Back-end developers work hand-in-hand with front-end developers by providing the outward facing web application elements server-side logic. In other words, back-end developers create the logic to make the web app function properly, and they accomplish this through the use of server-side scripting languages like Ruby or PHP.</p>
+                    <h5 class="card-title">Due date:</h5> <p class="card-text"> 20.12.2021</p>
+                    <h5 class="card-title">Required Departments:</h5> 
+                    <p class="card-text"> Computer Engineering, Electrical Engineering, Electronics and Communication Engineering</p>
+                    <h5 class="card-title">Required Skills:</h5>
+                    <ul >
+                    <li> Python
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Database
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> HTML CSS
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Django
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Machine Learning
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Deep Learning
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                </ul>
+                    <a href="#" class="btn btn-primary">Update Job</a>
+                    <a href="#" class="btn btn-primary">Delete Job</a>
+                </div>
+            </div>
+        </div>
+    <!-- Applicant Students -->
+    <div class="container-fluid">
+    <div class="row">
+            <div class="card">
+                <h5 class="card-header">Awesome Student 1</h5>
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <a href="#"><img src="{% static "student-pp.png" %}" class="img-fluid" alt="Responsive image"></a>
+                    </div>
+                    <div class="col-6">
+                        <ul class="list-group">
+                          <li class="list-group-item"><b>Name:</b>Awesome Student1</li>
+                          <li class="list-group-item"><b>Department:</b>Computer Engineering</li>
+                          <li class="list-group-item"><b>Degree/Class:</b>+Undergraduate Senior</li>
+                          <li class="list-group-item"><b>CGPA:</b>3.14</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul>
+                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Accept Student</a></li>
+                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Decline Student</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <h5 class="card-title">Top Skills:</h5>
+                    <ul >
+                    <li> Python
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Database
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> HTML CSS
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Django
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        </li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <br><h6>Applicant Students</h6><br>
+    <div class="row">
+            <div class="card">
+                <h5 class="card-header">Awesome Student 1</h5>
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <a href="#"><img src="{% static "student-pp.png" %}" class="img-fluid" alt="Responsive image"></a>
+                    </div>
+                    <div class="col-6">
+                        <ul class="list-group">
+                          <li class="list-group-item"><b>Name:</b>Awesome Student1</li>
+                          <li class="list-group-item"><b>Department:</b>Computer Engineering</li>
+                          <li class="list-group-item"><b>Degree/Class:</b>+Undergraduate Senior</li>
+                          <li class="list-group-item"><b>CGPA:</b>3.14</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul>
+                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Accept Student</a></li>
+                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Decline Student</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <h5 class="card-title">Top Skills:</h5>
+                    <ul >
+                    <li> Python
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Database
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> HTML CSS
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Django
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        </li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="card">
+                <h5 class="card-header">Awesome Student 1</h5>
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <a href="#"><img src="{% static "student-pp.png" %}" class="img-fluid" alt="Responsive image"></a>
+                    </div>
+                    <div class="col-6">
+                        <ul class="list-group">
+                          <li class="list-group-item"><b>Name:</b>Awesome Student1</li>
+                          <li class="list-group-item"><b>Department:</b>Computer Engineering</li>
+                          <li class="list-group-item"><b>Degree/Class:</b>+Undergraduate Senior</li>
+                          <li class="list-group-item"><b>CGPA:</b>3.14</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul>
+                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Accept Student</a></li>
+                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Decline Student</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <h5 class="card-title">Top Skills:</h5>
+                    <ul >
+                    <li> Python
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Database
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> HTML CSS
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </li>
+                    <li> Django
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        </li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
