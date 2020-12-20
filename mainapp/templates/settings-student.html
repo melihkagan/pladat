@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <style>
+.dropdown-menu {
+    min-width: 15px !important;
+    min-height: 40px !important;
+}
+.dropdown:hover .dropdown-menu  {display: block;}
+.navbar-nav #match {
+  margin-right:300px;
+}
+.navbar-nav .nav-link-logo{
+    height:350px;
+    width: 35px;
+    margin-bottom: 8px;
+}
+*{
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+.navbar{
+  max-height: 65px;
+}
+.container-fluid #latest-jobs-header{
+  position: relative;
+  margin-top: 130px;
+
+}
+.container-fluid .row{
+  position: relative;
+  margin-top: 15px;
+}
+
+
+  </style>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Welcome to PlaDat home page !</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top ">
+        <a href="#" class="navbar-brand">PlaDat</a>
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="/"> <img cstyle="width:35px; margin-top: -10px; margin-left: -1%;" src="{% static "two-houses.svg" %}"> </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+          <form class="form-inline my-2 my-lg-0 ">
+            <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0 " href="#" type="submit">Search</button>
+          </form>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <button class="btn btn-danger navbar-btn" id="match">FIND MATCH</button>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        User
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item " href="#">Profile</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Logout</a>
+                      </div>
+                </li>
+                
+            </ul>
+          </div>
+    </nav>
+    
+    <br>
+    <div class="container-fluid">
+    <br>
+    <div class="mx-auto w-75">
+    <form>
+        <div class="row justify-content-center bg-primary">
+            <br><h2>User Information:</h2><br></div>
+        <div class="row bg-light justify-content-around">
+                <div class="col justify-content-center">
+                    <img src="{% static "student-pp.png" %}" class="img-fluid" alt="Responsive image"><br>
+                    <button class="btn btn-primary btn-lg" type="submit">Change Profile Picture</button>
+                </div>
+                <div class="col justify-content-center">
+                    <div class="form-group row">
+                        <label for="static_username" class="col-sm-2 col-form-label">Username:</label>
+                        <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="static_username" value="username_1">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="e-mail" class="col-sm-2 col-form-label">E-mail:</label>
+                        <div class="col-sm-10">
+                        <input type="e-mail" class="form-control" id="e-mail" placeholder="student@itu.edu.tr">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="b-day" class="col-sm-2 col-form-label">Birth Date:</label>
+                        <div class="col-sm-10">
+                            <input type="date" id="b-day" name="Date Of Birth" placeholder="yyyy-mm-dd" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="name_surname" class="col-sm-2 col-form-label">Full Name:</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name_surname" placeholder="Name1 Surname1">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Location" class="col-sm-2 col-form-label">Location:</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="Location" placeholder="Sinop">
+                        </div>
+                    </div>
+                    </div>
+        </div>
+        <div class="row justify-content-center bg-primary">
+            <br><h2>Education:</h2><br></div>
+        <div class="row bg-light">
+            <div class="col justify-content-center">
+                <div class="form-group row">
+                        <label for="School_name" class="col-sm-2 col-form-label">School:</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="School_name" placeholder="Istanbul Technical University">
+                    </div>
+                </div>
+                <div class="form-group row">
+                        <label for="Location" class="col-sm-2 col-form-label">Depertment:</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="Location" placeholder="Sinop">
+                    </div>
+                </div>
+                <div class="form-group row">
+                        <label for="Location" class="col-sm-2 col-form-label">CGPA:</label>
+                        <div class="col-sm-10">
+                        <input type="number" min="0.00" max="4.00" class="form-control" id="Location" placeholder="3.27">
+                    </div>
+                </div>
+                <div class="form-group row">
+                        <label for="b-day" class="col-sm-2 col-form-label">Start Date:</label>
+                        <div class="col-sm-10">
+                        <input type="date" id="b-day" name="Date Of Birth" placeholder="yyyy-mm-dd" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                        <label for="b-day" class="col-sm-2 col-form-label">End Date:</label>
+                        <div class="col-sm-10">
+                        <input type="date" id="b-day" name="Date Of Birth" placeholder="yyyy-mm-dd" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center bg-primary">
+            <br><h2>Notification:</h2><br></div>
+        <div class="row bg-light">
+            <div class="col justify-content-center">
+                <div class="form-group row">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="not_1">
+                        <label class="form-check-label" for="not_1">
+                        Do you wanna get news?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="not_2">
+                        <label class="form-check-label" for="not_2">
+                        Do you wanna get notificated about new matches?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="not_3">
+                        <label class="form-check-label" for="not_3">
+                        Do you wanna get notificated about new messages?
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-light">
+            <div class="col justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-lg mb-2">Save Changes</button>
+            </div>
+        </div>
+    </form>
+    </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
