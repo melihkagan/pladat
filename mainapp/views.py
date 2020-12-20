@@ -25,6 +25,14 @@ def see_details(request):
     return render(request, "see-details.html")
 
 @login_required
+def settings_student(request):
+    return render(request, "settings-student.html")
+
+@login_required
+def settings_employer(request):
+    return render(request, "settings-employer.html")
+
+@login_required
 def view_self_profile(request, userid):
     userid = request.user.id
     username = request.user.username
