@@ -6,13 +6,157 @@
 {% block content %}
 
 
-  <div class="landingphoto" style="padding-top: 10%; padding-left: 45%;">
-    <img src="{% static "logo.png" %}" class="img-fluid" alt="Responsive image">
-    {% if user.is_authenticated %}
-          <meta http-equiv="refresh" content="2; URL={% url 'index' %}" />
+   
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      {% load static %}
+      <meta charset="utf-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+      <title>OnePage Bootstrap Template - Index</title>
+      <meta content="" name="description">
+      <meta content="" name="keywords">
+    
+      <!-- Favicons -->
+      <link href="{% static "landing_page/img/favicon.png" %}" rel="icon">
+      <link href="{% static "landing_page/img/apple-touch-icon.png" %}" rel="apple-touch-icon">
+    
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    
+      <!-- Vendor CSS Files -->
+      <link href="{% static "landing_page/vendor/bootstrap/css/bootstrap.min.css" %}"  rel="stylesheet">
+      <link href="{% static "landing_page/vendor/icofont/icofont.min.css" %}"  rel="stylesheet">
+      <link href="{% static "landing_page/vendor/boxicons/css/boxicons.min.css" %}" rel="stylesheet">
+      <link href="{% static "landing_page/vendor/remixicon/remixicon.css" %}"  rel="stylesheet">
+      <link href="{% static "landing_page/vendor/venobox/venobox.css" %}"  rel="stylesheet">
+      <link href="{% static "landing_page/vendor/owl.carousel/assets/owl.carousel.min.css" %}"  rel="stylesheet">
+      <link href="{% static "landing_page/vendor/aos/aos.css" %}"  rel="stylesheet">
+    
+      <!-- Template Main CSS File -->
+      <link href="{% static "landing_page/css/style.css" %}"  rel="stylesheet">
+    
+      <!-- =======================================================
+      * Template Name: OnePage - v2.2.0
+      * Template URL: https://bootstrapmade.com/onepage-multipurpose-bootstrap-template/
+      * Author: BootstrapMade.com
+      * License: https://bootstrapmade.com/license/
+      ======================================================== -->
+    </head>
+    
+    <body>
+    
+      
+      <!-- ======= Hero Section ======= -->
+      <section id="hero" class="d-flex align-items-center">
+        <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+          <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-9 text-center">
+              <h1>Placement Dating for Students </h1>
+              <h2>Home of the placement students</h2>
+            </div>
+          </div>
+  
+    
+          <div class="row icon-boxes">
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200">
+              <div class="icon-box">
+                <div class="icon"><i class="ri-stack-line"></i></div>
+                <h4 class="title"><a>Find a job</a></h4>
+                <p class="description">You can observe latest published jobs and apply one of them before being graduated !</p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="300">
+              <div class="icon-box">
+                <div class="icon"><i class="ri-palette-line"></i></div>
+                <h4 class="title"><a>For your interests</a></h4>
+                <p class="description">PlaDat searchs,finds best-matching jobs for you and brings them to you !</p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="400">
+              <div class="icon-box">
+                <div class="icon"><i class="ri-command-line"></i></div>
+                <h4 class="title"><a>Communication</a></h4>
+                <p class="description">Contact with employers, introduce yourself to the business world !</p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="500">
+              <div class="icon-box">
+                <div class="icon"><i class="ri-fingerprint-line"></i></div>
+                <h4 class="title"><a>Reliable system</a></h4>
+                <p class="description">With highly secured database system, your personal data will be safe.</p>
+              </div>
+            </div>
+    
+          </div>
+        </div>
+      </section><!-- End Hero -->
+    
+      <main id="main">
+    
+        <!-- ======= About Section ======= -->
+        <section id="about" class="about">
+          <div class="container" data-aos="fade-up">
+    
+            <div class="section-title">
+              <h2>About Us</h2>
+              <p>Designed by ITU Computer Engineering students </p>
+            </div>
+    
+            <div class="row content">
+              <div class="col-lg-6">
 
-          {% endif %}
-  </div>
+                <ul>
+                  <li><i class="ri-check-double-line"></i> Taha Yasin Arslan -- <a href="https://www.linkedin.com/in/tahayarslan/">Linkedin</a>
+                                                                                <a href="https://www.instagram.com/tahayasinarsln/">--Instagram</a></li>
+                  <li><i class="ri-check-double-line"></i> Zeynep Gürler -- <a href="https://www.linkedin.com/in/zeynep-g%C3%BCrler-34b6b5168/">Linkedin</a> 
+                                                                               <a href="https://www.instagram.com/zeyneepgurler/">--Instagram</a></li>
+                </ul>
+              </div>
+              <div class="col-lg-6 pt-4 pt-lg-0">
+                <ul>
+                  <li><i class="ri-check-double-line"></i> Melih Kağan Özçelik -- <a href="https://www.linkedin.com/in/melihkagano/">Linkedin</a>
+                                                                                   <a href="https://www.instagram.com/melihkagano/">--Instagram</a></li>
+                  <li><i class="ri-check-double-line"></i> Mehmet Fatih Teloğlu -- <a href="https://www.linkedin.com/in/mehmet-fatih-telo%C4%9Flu-7920a01b8/">Linkedin</a>
+                                                                                    <a href="https://www.instagram.com/mfteloglu/">--Instagram</a></li>
+                </ul>
+              </div>
+            </div>
+    
+          </div>
+        </section><!-- End About Section -->
+    
+        
+    
+      <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+      <div id="preloader"></div>
+    
+      <!-- Vendor JS Files -->
+      <script src="{% static "landing_page/vendor/jquery/jquery.min.js" %}"></script>
+      <script src="{% static "landing_page/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+      <script src="{% static "landing_page/vendor/jquery.easing/jquery.easing.min.js" %}"></script>
+      <script src="{% static "landing_page/vendor/php-email-form/validate.js" %}"></script>
+      <script src="{% static "landing_page/vendor/waypoints/jquery.waypoints.min.js" %}"></script>
+      <script src="{% static "landing_page/vendor/counterup/counterup.min.js" %}"></script>
+      <script src="{% static "landing_page/vendor/venobox/venobox.min.js" %}"></script>
+      <script src="{% static "landing_page/vendor/owl.carousel/owl.carousel.min.js" %}"></script>
+      <script src="{% static "landing_page/vendor/isotope-layout/isotope.pkgd.min.js" %}"></script>
+      <script src="{% static "landing_page/vendor/aos/aos.js" %}"></script>
+    
+      <!-- Template Main JS File -->
+      <script src="{% static "landing_page/js/main.js" %}"></script>
+    
+    </body>
+    
+    </html>
+
+          
+  
 {% endblock %}
 
 
