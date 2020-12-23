@@ -17,9 +17,9 @@ def landing(request):
 def index(request):
     return render(request, "index.html")
 
-@login_required
-def employer(request):
-    return render(request, "employer.html")
+# @login_required
+# def employer(request):
+#     return render(request, "employer.html")
 
 @login_required
 def see_details(request):
@@ -42,7 +42,6 @@ def view_self_profile(request, userid):
     for i in range(len(skills)):
         skills_database.append(skills[i][1])
     
-    template = "profile.html"
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = SkillForm(request.POST)
@@ -53,8 +52,14 @@ def view_self_profile(request, userid):
             skill = form.cleaned_data['skill']
             star_int = int(request.POST['star'])
             Student(skill_1=skill, condition_1=star_int).save()
-
-    return render(request, template, {"username": username, "skills_database": skills_database} )
+            
+    # check if the user is student or employer, show according profile page
+    if Student.objects.filter(user_id=userid).count()==1:
+        student = Student.objects.get(user_id=userid)           
+        return render(request, "profile.html", {"student": student, "skills_database": skills_database} )
+    if Employer.objects.filter(user_id=userid).count()==1: 
+        employer = Employer.objects.get(user_id=userid)  
+        return render(request, "employer.html",{"employer": employer})
 
 @login_required
 def add_job(request, userid):
