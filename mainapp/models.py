@@ -9,8 +9,8 @@ class UserExtended(User):
     usertype = models.CharField(choices=USERTYPES, max_length=10)
 """
 class Employer(models.Model):
-    user_id = models.IntegerField(default=None, null=True)
-    e_mail = models.EmailField(default=None)
+    user_id = models.IntegerField(default=None)
+    e_mail = models.EmailField(default=None, unique=True)
     name = models.CharField(max_length=100,default=None)
     surname = models.CharField(max_length=100,default=None)
     company_name = models.CharField(max_length=100,default=None,null=True)
@@ -23,8 +23,8 @@ class Employer(models.Model):
         return self.name
 
 class Student(models.Model):
-    user_id = models.IntegerField(default=None,null=True)
-    name = models.CharField(max_length=100,default=None)
+    user_id = models.IntegerField(default=None)
+    name = models.CharField(max_length=100,default=None, unique=True)
     surname = models.CharField(max_length=100,default=None)
     school_name = models.CharField(max_length=100,default=None,null=True)
     department = models.CharField(max_length=100,default=None,null=True)
