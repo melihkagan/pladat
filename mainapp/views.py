@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import SkillForm, JobForm
+from django import forms
+from .forms import SkillForm, JobForm, SignupForm
 from mainapp.models import Student, Job, Employer
 # Create your views here.
 
@@ -74,12 +75,26 @@ def add_job(request, userid):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
+
+            username = User.objects.get(username = form.cleaned_data.get('username'))
+            user_mail = form.cleaned_data.get('email')
+            username.email = user_mail
+            username.save()
+
+            user_name = form.cleaned_data.get('name')
+            user_surname = form.cleaned_data.get('surname')
+            if(form.cleaned_data.get('usertype') == '1'):
+                Student(user_id = username.id, name = user_name, surname = user_surname, e_mail = user_mail).save()
+            elif(form.cleaned_data.get('usertype') == '2'):
+                Employer(user_id = username.id, name = user_name, surname = user_surname, e_mail = user_mail).save()
+            #print(form.cleaned_data.get('email'))
+            #print(form.cleaned_data.get('usertype'))
             return redirect('index')
     else:
-        form = UserCreationForm()
+        form = SignupForm()
     return render(request, 'registration/signup.html', {
         'form': form
     })
@@ -87,3 +102,4 @@ def signup(request):
 @login_required
 def login(request):
     return redirect('index.html')
+

@@ -1,7 +1,15 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+"""
+class UserExtended(User):
+    USERTYPES = [(1,'Student'), (2, 'Employer')]
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    usertype = models.CharField(choices=USERTYPES, max_length=10)
+"""
 class Employer(models.Model):
-    user_id = models.IntegerField(default=None)
+    user_id = models.IntegerField(default=None, null=True)
     e_mail = models.EmailField(default=None)
     name = models.CharField(max_length=100,default=None)
     surname = models.CharField(max_length=100,default=None)

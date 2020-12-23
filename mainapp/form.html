@@ -1,0 +1,39 @@
+<tr>
+   <th><label for="id_username">Username:</label></th>
+   <td><input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username"><br><span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span></td>
+   <br>
+</tr>
+<tr>
+    <th><label for="id_email">E-mail:</label></th>
+    <td><input type="email" name="emailaddress" maxlength="150" autocapitalize="none" autocomplete="email" autofocus required id="id_email"><br><span class="helptext">Enter your email with proper format. ex. example@mymail.com</span></td>
+    <br>
+ </tr>
+<tr>
+   <th><label for="id_password1">Password:</label></th>
+   <td>
+      <input type="password" name="password1" autocomplete="new-password" required id="id_password1"><br>
+      <span class="helptext">
+         <ul>
+            <li>Your password can’t be too similar to your other personal information.</li>
+            <li>Your password must contain at least 8 characters.</li>
+            <li>Your password can’t be a commonly used password.</li>
+            <li>Your password can’t be entirely numeric.</li>
+         </ul>
+      </span>
+   </td>
+
+</tr>
+<tr>
+   <th><label for="id_password2">Password confirmation:</label></th>
+   <td><input type="password" name="password2" autocomplete="new-password" required id="id_password2"><br><span class="helptext">Enter the same password as before, for verification.</span></td>
+   <br>
+</tr>
+<tr>
+    <th><label for="usertype">Select your usertype:</label></th>
+    <td><select name="usertypes" id="usertype">
+        <option value="">Select</option>
+        <option value="student">Student</option>
+        <option value="employer">Employer</option>
+      </select></td>
+
+ </tr>

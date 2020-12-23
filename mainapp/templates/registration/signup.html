@@ -1,7 +1,9 @@
 {% extends 'landing.html' %}
 
 {% load crispy_forms_tags %}
-
+<!--
+  
+-->
 {% block content %}
   <div class="row justify-content-center">
     <div class="col-8">
@@ -9,8 +11,33 @@
         <div class="card-body">
           <h2>Sign Up</h2>
           <form method="post">
-            {% csrf_token %}
-            {{ form|crispy }}
+            {% csrf_token %}<form method="post">
+              {% csrf_token %}
+              <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.username|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.name|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.surname|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.password1|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.password2|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.email|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.usertype|as_crispy_field }}
+                </div>
+                
+              </div>
+              
             <button type="submit" class="btn btn-primary">Sign up</button>
           </form>
         </div>
