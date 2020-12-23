@@ -90,8 +90,7 @@ def signup(request):
                 Student(user_id = username.id, name = user_name, surname = user_surname, e_mail = user_mail).save()
             elif(form.cleaned_data.get('usertype') == '2'):
                 Employer(user_id = username.id, name = user_name, surname = user_surname, e_mail = user_mail).save()
-            #print(form.cleaned_data.get('email'))
-            #print(form.cleaned_data.get('usertype'))
+
             return redirect('index')
     else:
         form = SignupForm()
