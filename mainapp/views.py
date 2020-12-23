@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from .forms import SkillForm, JobForm, SignupForm
-from mainapp.models import Student, Job, Employer
+from mainapp.models import Student, Job, Employer, Skill
 # Create your views here.
 
 def landing(request):
@@ -37,6 +37,11 @@ def settings_employer(request):
 def view_self_profile(request, userid):
     userid = request.user.id
     username = request.user.username
+    skills_database = []
+    skills = Skill.objects.values_list()
+    for i in range(len(skills)):
+        skills_database.append(skills[i][1])
+    
     template = "profile.html"
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -49,8 +54,7 @@ def view_self_profile(request, userid):
             star_int = int(request.POST['star'])
             Student(skill_1=skill, condition_1=star_int).save()
 
-        return render(request, template, {"username": username})
-    return render(request, template, {"username": username})
+    return render(request, template, {"username": username, "skills_database": skills_database} )
 
 @login_required
 def add_job(request, userid):
