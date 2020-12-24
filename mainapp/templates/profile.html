@@ -78,7 +78,7 @@
     <div class="card">
         <button id="settings" style="font-size:18px" onclick="location.href='http://127.0.0.1:8000/setting-student'">Settings <i class="fa fa-gear"></i></button>
         <img src="{% static "avatar.jpg" %}" alt="John" style="width:10%; margin-left: 20px">
-        <h1 style="margin-left: 20px">John Doe</h1>
+        <h1 style="margin-left: 20px">{{student.name}}  {{student.surname}}</h1>
         <p class="major">CEO & Founder, Example</p>
         <p>Harvard University</p>
         <ul >

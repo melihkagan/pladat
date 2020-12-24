@@ -53,9 +53,6 @@ def settings_employer(request, userid):
 
 @login_required
 def view_self_profile(request, userid):
-    userid = request.user.id
-    username = request.user.username
-
     # check if the user is student or employer, show according profile page
     if Student.objects.filter(user_id=userid).count()==1:
         student = Student.objects.get(user_id=userid)           
