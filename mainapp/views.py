@@ -22,8 +22,9 @@ def index(request):
 #     return render(request, "employer.html")
 
 @login_required
-def see_details(request):
-    return render(request, "see-details.html")
+def see_details(request, jobid):
+    job = Job.objects.get(id=jobid) # job to display it's details
+    return render(request, "see-details.html",{"job": job})
 
 @login_required
 def settings_student(request):
