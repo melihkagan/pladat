@@ -86,6 +86,12 @@ def add_job(request, userid):
                 description = form.cleaned_data['description']
                 duedate = form.cleaned_data['duedate']
                 Job(job_title=title, job_description=description, employer=employer, due_date=duedate).save()
+                job_details = {
+                    "title": title,
+                    "description": description,
+                    "duedate": duedate
+                }
+                return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job_details})
         elif 'skill_form' in request.POST:
             print("here")
             form = SkillForm(request.POST)
@@ -99,10 +105,8 @@ def add_job(request, userid):
                 job = Job.objects.filter(employer=employer).last()
                 JobSkill(job=job, skill=skill[0], rate=star_int).save()
                 job_skills = JobSkill.objects.filter(job=job)
-                return render(request, 'addjob.html',
-                              {'username': username, "skills_database": skills_database, "job_skills": job_skills})
+                return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job, "job_skills": job_skills})
 
-    # if a GET (or any other method) we'll create a blank form
     return render(request, 'addjob.html', {'username': username, "skills_database": skills_database})
 
 def signup(request):

@@ -1,56 +1,32 @@
-<!doctype html>
+{% extends 'navbar.html' %}
+
+{% block content %}
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+    <title>addjob</title>
     {% load static %}
-    <link href="{% static "main.css" %}" rel="stylesheet" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Search bar -->
+    <link href="{% static "main.css" %}" rel="stylesheet"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-
-*{
-    font-family: "Lucida Console", "Courier New", monospace;
-}
-
-
-#right {
-	float: right;
-	clear: right;
-}
-
-#left {
-	float: left;
-	clear: left;
-}
-
-        .popup {
-          /*position: relative;*/
-          width: 49%;
-          display: inline-block;
-          cursor: pointer;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
+        body {
+            padding-top: 65px;
         }
 
-        .popup button {
-          border-radius: 5px;
-          border: 1px solid #000;
-          outline: 0;
-          display: inline-block;
-          padding: 8px;
-          color: white;
-          background-color: orange;
-          text-align: center;
-          cursor: pointer;
-          width: 40%;
-          font-size: 18px;
-          margin:0 auto;
+        *{
+            font-family: "Lucida Console", "Courier New", monospace;
         }
 
-        .popup .popuptext{
-          display: none;
+        .card {
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          max-width: 100%;
-          width: 100%;
+          max-width: 80%;
           margin: auto;
         }
 
@@ -60,85 +36,106 @@
           margin-left: 20px;
         }
 
-        .popup .popuptext p{
+        .card button {
+          border-radius: 5px;
+          outline: 0;
+          display: inline-block;
+          padding: 6px;
+          color: white;
+          background-color: orange;
+          text-align: center;
+          cursor: pointer;
+          width: 20%;
+          font-size: 16px;
+        }
+        .card p{
           margin-left: 20px;
         }
 
-        .popup .popuptext a {
+        .card a {
           text-decoration: none;
           font-size: 22px;
           color: black;
         }
 
-        .popup .popuptext button:hover, a:hover {
+        .card button:hover, a:hover {
           opacity: 0.7;
         }
 
-        /* Toggle this class when clicking on the popup container (hide and show the popup) */
-        .popup .show {
-          visibility: visible;
-          -webkit-animation: fadeIn 1s;
-          animation: fadeIn 1s
+        #settings{
+          margin-top: 20px;
+          margin-right: 20px;
+          position:absolute;
+          top:0;
+          right:0;
         }
 
-        /* Add animation (fade in the popup) */
-        @-webkit-keyframes fadeIn {
-          from {opacity: 0;}
-          to {opacity: 1;}
+        .checked {
+          color: orange;
         }
+    </style>
+</head>
+<body>
 
-        @keyframes fadeIn {
-          from {opacity: 0;}
-          to {opacity:1 ;}
-        }
+    <div class="card">
+        <h2 style="margin-left: 1%; margin-top: 1%">Add a job</h2>
 
-  </style>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% if job_details %}
+          <p> Job name: </p>
+          <p>{{ job_details.title }}</p>
+          <p>Description: </p>
+          <p>{{ job_details.description }}</p>
+          <p>Deadline: </p>
+          <p>{{ job_details.duedate }}</p>
+        {% endif %}
+        
+        <p style="margin-left: 0.2%"> You can add required skills as much as you want. To do so, please click "Add a skill" to add required skills and click "submit" when you are done: </p>
+        <!--<button style="font-size:18px" onclick="location.href='/add'">Add a skill</button>-->  
+        <h2 style="margin-left: 1%; margin-top: 1%">Add a skill</h2>
 
-    <title>Welcome to PlaDat home page !</title>
-  </head>
-  <body>
-    <div class="popup" id="left" style="margin-left: 20px">
-            <button style="font-size:18px" onclick="openForm1()">Add a skill</button>
-            <div class="popuptext" id="myPopup" style="margin-bottom: 150px;">
-                <h2 style="margin-left: 1%; margin-top: 1%">Add a skill</h2>
+        <p> Your skills:</p>
+        {% if job_skills %}
+          <ul>
+          {% for s in job_skills %}
+            <li>{{ s.skill }} {{ s.rate}}</li>
+              {% endfor %}
+          </ul>
+        {% endif %}
 
-                <p> Your skills:</p>
-                {% if self_skills %}
-                  <ul>
-                  {% for skill in self_skills %}
-                  <li>{{ skill.skill }} {{ skill.rate}}</li>
-                  {% endfor %}
-                </ul>
-                {% endif %}
+        <!--Make sure the form has the autocomplete function switched off: -->
+        <form autocomplete="off" action="." method="post" name="skill_form"> 
+            {% csrf_token %}
+            <div class="autocomplete" style="width:300px;">
+              <input id="skill" type="text" name="skill" placeholder="  Select a skill">
+            </div>
+            <div class="custom-select" style="width:200px;">
+              <select name="star">
+                <option value="0">Star rate</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+              <input type="submit" name="skill_form" value="Select">
+        </form> 
+        <script>
+          function openForm1() {
+            document.getElementById("myPopup").style.display = "block";
+          }
 
-                <!--Make sure the form has the autocomplete function switched off: -->
-                <form autocomplete="off" action="." method="post"> 
-                  {% csrf_token %}
-                  <div class="autocomplete" style="width:300px;">
-                    <input id="skill" type="text" name="skill" placeholder="  Select a skill">
-                  </div>
-                  <div class="custom-select" style="width:200px;">
-                    <select name="star">
-                      <option value="0">Star rate</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                    </select>
-                  </div>
-                  <input type="submit" value="Select">
-                </form>
-
-              <script>
+          function closeForm1() {
+            document.getElementById("myPopup").style.display = "none";
+          }
+        </script>
+      </div>  
+    <script>
               function autocomplete(inp, arr) {
                 /*the autocomplete function takes two arguments,
                 the text field element and an array of possible autocompleted values:*/
@@ -320,15 +317,16 @@
               /*if the user clicks anywhere outside the select box,
               then close all select boxes:*/
               document.addEventListener("click", closeAllSelect);
-              </script>
-              <script>
-              function openForm1() {
-                document.getElementById("myPopup").style.display = "block";
-              }
+            </script>
+            <script type="text/javascript">
+              function updateObligation() {
+                change('inputlabel', 'required'); 
 
-              function closeForm1() {
-                document.getElementById("myPopup").style.display = "none";
-              }
-              </script>
-        </div>
-    </div>
+                if({{ job_skills }}) {
+                  change('inputlabel', 'normal'); //make address normal
+                  }
+                }
+            </script>
+</body>
+</html>
+{% endblock %}
