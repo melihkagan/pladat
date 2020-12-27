@@ -42,11 +42,11 @@
             </div>
             <div class="col-6">
                 <ul class="list-group">
-                  <li class="list-group-item"><b>Name:</b>{{employer.name}} {{employer.surname}}</li>
-                  <li class="list-group-item"><b>Sector:</b>Super Sector</li>
-                  <li class="list-group-item"><b>Phone:</b>+90 420 619 31 69</li>
-                  <li class="list-group-item"><b>Website:</b><a href="url">www.weareawesome.com</a></li>
-                  <li class="list-group-item"><b>Adress:</b>Maslak tower no:57</li>
+                  <li class="list-group-item"><b>Name:</b> {{employer.name}} {{employer.surname}}</li>
+                  <li class="list-group-item"><b>Sector:</b>{{employer.sector}}</li>
+                  <li class="list-group-item"><b>Phone:</b>{{employer.phone}}</li>
+                  <li class="list-group-item"><b>Website:</b><a href="url">{{employer.website}}</a></li>
+                  <li class="list-group-item"><b>Adress:</b>{{employer.address}}</li>
                 </ul>
             </div>
             <div class="col">
@@ -56,42 +56,20 @@
         <div class="row" id="latest-jobs-header">
         <h1 class="latest-jobs">YOUR JOBS</h1>
         </div>
+        {% for job in employers_job %}
         <div class="row">
             <div class="card">
-                <h5 class="card-header">Backend Developer</h5>
+                <h5 class="card-header">{{job.job_title}}</h5>
                 <div class="card-body">
                     <h5 class="card-title">Description:</h5>
-                    <p class="card-text">Back-end developers work hand-in-hand with front-end developers by providing the outward facing web application elements server-side logic. In other words, back-end developers create the logic to make the web app function properly, and they accomplish this through the use of server-side scripting languages like Ruby or PHP.</p>
+                    <p class="card-text">{{job.job_description}}</p>
                     <a href="#" class="btn btn-primary">Update Job</a>
                     <a href="#" class="btn btn-primary">Delete Job</a>
-                    <a href="#" class="btn btn-primary">See details</a>
+                    <a href="{% url 'see_details' jobid=job.id %}"  class="btn btn-primary">See details</a>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="card">
-                <h5 class="card-header">Backend Developer</h5>
-                <div class="card-body">
-                    <h5 class="card-title">Description:</h5>
-                    <p class="card-text">Back-end developers work hand-in-hand with front-end developers by providing the outward facing web application elements server-side logic. In other words, back-end developers create the logic to make the web app function properly, and they accomplish this through the use of server-side scripting languages like Ruby or PHP.</p>
-                    <a href="#" class="btn btn-primary">Update Job</a>
-                    <a href="#" class="btn btn-primary">Delete Job</a>
-                    <a href="#" class="btn btn-primary">See details</a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="card">
-                <h5 class="card-header">Backend Developer</h5>
-                <div class="card-body">
-                    <h5 class="card-title">Description:</h5>
-                    <p class="card-text">Back-end developers work hand-in-hand with front-end developers by providing the outward facing web application elements server-side logic. In other words, back-end developers create the logic to make the web app function properly, and they accomplish this through the use of server-side scripting languages like Ruby or PHP.</p>
-                    <a href="#" class="btn btn-primary">Update Job</a>
-                    <a href="#" class="btn btn-primary">Delete Job</a>
-                    <a href="#" class="btn btn-primary">See details</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
     

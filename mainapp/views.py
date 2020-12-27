@@ -15,7 +15,8 @@ def landing(request):
 
 @login_required
 def index(request):
-    return render(request, "index.html")
+    all_jobs_by_order = Job.objects.all().order_by('-publish_time') # get all published jobs by order
+    return render(request, "index.html",{"jobs": all_jobs_by_order})
 
 # @login_required
 # def employer(request):
@@ -23,8 +24,16 @@ def index(request):
 
 @login_required
 def see_details(request, jobid):
-    job = Job.objects.get(id=jobid) # job to display it's details
-    return render(request, "see-details.html",{"job": job})
+    job = Job.objects.get(id=jobid) # job to display it's details         
+    jobs_skill = JobSkill.objects.filter(job_id=job.id)
+    jobs_skill_list = []
+    jobs_rate_list = []
+    for item in jobs_skill:
+        jobs_skill_list.append(Skill.objects.get(id=item.skill_id).skill)
+        jobs_rate_list.append(item.rate)
+    jobs_skill_total = zip(jobs_skill_list,jobs_rate_list)
+    print(jobs_skill_total)
+    return render(request, "see-details.html",{"job": job, "jobs_skill_total": jobs_skill_total})
 
 @login_required
 def settings_student(request):
@@ -57,10 +66,19 @@ def view_self_profile(request, userid):
     # check if the user is student or employer, show according profile page
     if Student.objects.filter(user_id=userid).count()==1:
         student = Student.objects.get(user_id=userid)           
-        return render(request, "profile.html", {"student": student} )
+        students_skill = StudentSkill.objects.filter(student_id=student.id)
+        students_skill_list = []
+        students_rate_list = []
+        for item in students_skill:
+            students_skill_list.append(Skill.objects.get(id=item.skill_id).skill)
+            students_rate_list.append(item.rate)
+        students_skill_total = zip(students_skill_list,students_rate_list)
+
+        return render(request, "profile.html", {"student": student, "students_skill_total": students_skill_total})
     if Employer.objects.filter(user_id=userid).count()==1: 
-        employer = Employer.objects.get(user_id=userid)  
-        return render(request, "employer.html", {"employer": employer})
+        employer = Employer.objects.get(user_id=userid)
+        employers_job = Job.objects.filter(employer_id = employer.id)  # get selected employer's published jobs
+        return render(request, "employer.html", {"employer": employer, "employers_job": employers_job})
 
 @login_required
 def add_job(request, userid):

@@ -14,8 +14,8 @@ class Employer(models.Model):
     name = models.CharField(max_length=100,default=None)
     surname = models.CharField(max_length=100,default=None)
     company_name = models.CharField(max_length=100,default=None,null=True)
-    sector = models.CharField(max_length=100,default=None,null=True)
-    phone = models.CharField(max_length=13,default=None,null=True)
+    sector = models.CharField(max_length=100,default="",null=True)
+    phone = models.CharField(max_length=13,default="",null=True)
     website = models.CharField(default="",max_length=100,null=True)
     address = models.CharField(default="",max_length=100,null=True)
 
