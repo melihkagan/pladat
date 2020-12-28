@@ -79,7 +79,12 @@
             <div class="card-body">
               <h5 class="card-title">{{job.job_title}}</h5>
               <p class="card-text">{{job.job_description}}</p>
-              <a href="#" class="btn btn-primary">Apply</a>
+              {% if is_student %}
+              {% if job.id in student_applied_job %}
+              {% else %}
+              <a href="{% url 'apply_job' jobid=job.id %}"class="btn btn-primary">Apply</a>
+              {% endif %}
+              {% endif %}
               <a href="{% url 'see_details' jobid=job.id %}" class="btn btn-primary">See details</a>
             </div>
           </div>

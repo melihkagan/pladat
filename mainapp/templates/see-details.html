@@ -79,17 +79,20 @@
                         {{rate}}
                       {% endfor %}
                 </ul>
+                {% if is_jobs_owner %}
                     <a href="#" class="btn btn-primary">Update Job</a>
                     <a href="#" class="btn btn-primary">Delete Job</a>
+                {% endif %}
                 </div>
             </div>
         </div>
     <!-- Applicant Students -->
     <div class="container-fluid">
     <br><h6>Applicant Students</h6><br>
+    {% for student,skill_rate in students_skill_total_all_zipped %}
     <div class="row">
             <div class="card">
-                <h5 class="card-header">Awesome Student 1</h5>
+                <h5 class="card-header">{{student.name}} {{student.surname}}</h5>
                 <div class="card-body">
                     <div class="row">
                     <div class="col">
@@ -97,171 +100,42 @@
                     </div>
                     <div class="col-6">
                         <ul class="list-group">
-                          <li class="list-group-item"><b>Name:</b>Awesome Student1</li>
-                          <li class="list-group-item"><b>Department:</b>Computer Engineering</li>
-                          <li class="list-group-item"><b>Degree/Class:</b>+Undergraduate Senior</li>
-                          <li class="list-group-item"><b>CGPA:</b>3.14</li>
+                          <li class="list-group-item"><b>Name:</b>{{student.name}} {{student.surname}}</li>
+                          <li class="list-group-item"><b>Department:</b>{{student.department}} </li>
+                          <li class="list-group-item"><b>University:</b>{{student.school_name}} r</li>
+                          <li class="list-group-item"><b>CGPA:</b>{{student.cgpa}} </li>
                         </ul>
                     </div>
                     <div class="col">
                         <ul>
+                        {% if is_jobs_owner %}
                         <li style="margin: 10px;"><a href="#" class="btn btn-primary">Accept Student</a></li>
                         <li style="margin: 10px;"><a href="#" class="btn btn-primary">Decline Student</a></li>
+                        {% endif %}
                         </ul>
                     </div>
                     </div>
                     <div class="row">
                     <h5 class="card-title">Top Skills:</h5>
                     <ul >
-                    <li> Python
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> Database
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> HTML CSS
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> Django
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        </li></ul>
+                        {% for skill,rate in skill_rate %}
+                        <li> {{skill}}
+                          {% for i in '0123456789'|make_list %}
+                          {% if forloop.counter <= rate %}
+                          <span class="fa fa-star checked"></span>
+                          {% else %}
+                          <span class="fa fa-star"></span>
+                          {% endif %}
+                          {% endfor %}
+                        </li>
+                        {{rate}}
+                      {% endfor %}
+                    </ul>
                     </div>
                 </div>
             </div>
         </div>
-    <div class="row">
-            <div class="card">
-                <h5 class="card-header">Awesome Student 1</h5>
-                <div class="card-body">
-                    <div class="row">
-                    <div class="col">
-                        <a href="#"><img src="{% static "student-pp.png" %}" class="img-fluid" alt="Responsive image"></a>
-                    </div>
-                    <div class="col-6">
-                        <ul class="list-group">
-                          <li class="list-group-item"><b>Name:</b>Awesome Student1</li>
-                          <li class="list-group-item"><b>Department:</b>Computer Engineering</li>
-                          <li class="list-group-item"><b>Degree/Class:</b>+Undergraduate Senior</li>
-                          <li class="list-group-item"><b>CGPA:</b>3.14</li>
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul>
-                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Accept Student</a></li>
-                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Decline Student</a></li>
-                        </ul>
-                    </div>
-                    </div>
-                    <div class="row">
-                    <h5 class="card-title">Top Skills:</h5>
-                    <ul >
-                    <li> Python
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> Database
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> HTML CSS
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> Django
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        </li></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="card">
-                <h5 class="card-header">Awesome Student 1</h5>
-                <div class="card-body">
-                    <div class="row">
-                    <div class="col">
-                        <a href="#"><img src="{% static "student-pp.png" %}" class="img-fluid" alt="Responsive image"></a>
-                    </div>
-                    <div class="col-6">
-                        <ul class="list-group">
-                          <li class="list-group-item"><b>Name:</b>Awesome Student1</li>
-                          <li class="list-group-item"><b>Department:</b>Computer Engineering</li>
-                          <li class="list-group-item"><b>Degree/Class:</b>+Undergraduate Senior</li>
-                          <li class="list-group-item"><b>CGPA:</b>3.14</li>
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul>
-                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Accept Student</a></li>
-                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Decline Student</a></li>
-                        </ul>
-                    </div>
-                    </div>
-                    <div class="row">
-                    <h5 class="card-title">Top Skills:</h5>
-                    <ul >
-                    <li> Python
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> Database
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> HTML CSS
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </li>
-                    <li> Django
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        </li></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     
     </div>
     <!-- Optional JavaScript -->

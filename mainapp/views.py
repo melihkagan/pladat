@@ -7,7 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from .forms import SkillForm, JobForm, SignupForm
-from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill
+from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application
+from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student
 # Create your views here.
 
 def landing(request):
@@ -15,25 +16,46 @@ def landing(request):
 
 @login_required
 def index(request):
+    current_user = request.user
     all_jobs_by_order = Job.objects.all().order_by('-publish_time') # get all published jobs by order
-    return render(request, "index.html",{"jobs": all_jobs_by_order})
+    is_student = (Student.objects.filter(user_id=current_user.id).count()==1) # check if user is student
+    if is_student:
+        # check student's applied jobs, dont show apply button if already applied.
+        student = Student.objects.get(user_id=current_user.id)
+        student_applied = Application.objects.filter(student_id=student.id)
+        student_applied_job = student_applied.values_list('job_id', flat = True)
+    else:
+        student_applied_job = []
+    return render(request, "index.html",{"jobs": all_jobs_by_order,"is_student": is_student, "student_applied_job": student_applied_job})
 
-# @login_required
-# def employer(request):
-#     return render(request, "employer.html")
+
 
 @login_required
 def see_details(request, jobid):
-    job = Job.objects.get(id=jobid) # job to display it's details         
-    jobs_skill = JobSkill.objects.filter(job_id=job.id)
-    jobs_skill_list = []
-    jobs_rate_list = []
-    for item in jobs_skill:
-        jobs_skill_list.append(Skill.objects.get(id=item.skill_id).skill)
-        jobs_rate_list.append(item.rate)
-    jobs_skill_total = zip(jobs_skill_list,jobs_rate_list)
-    print(jobs_skill_total)
-    return render(request, "see-details.html",{"job": job, "jobs_skill_total": jobs_skill_total})
+    current_user = request.user
+    job = Job.objects.get(id=jobid) # job to display it's details  
+          
+    jobs_skill_total = get_skill_rate_zipped_job(job) # Zipping skill-rate and sent them to template 
+
+    # check user is job's owner
+    jobs_owner = Employer.objects.get(id = job.employer_id)
+    is_jobs_owner =  (current_user.id == jobs_owner.user_id)
+
+    # get applicant students
+    applications = Application.objects.filter(job_id = jobid)
+    who_applied = []
+    for item in applications:
+        who_applied.append(Student.objects.get(id = item.student_id))
+
+    # zip everything as one like : applicant students,skills,rates
+    students_skill_total_all = []
+    for item in who_applied:      
+        students_skill_total = get_skill_rate_zipped_student(item)
+        students_skill_total_all.append(students_skill_total)      
+    students_skill_total_all_zipped = zip(who_applied,students_skill_total_all)
+
+    return render(request, "see-details.html",{"job": job, "jobs_skill_total": jobs_skill_total
+                                                , "is_jobs_owner": is_jobs_owner, "students_skill_total_all_zipped": students_skill_total_all_zipped})
 
 @login_required
 def settings_student(request):
@@ -63,22 +85,28 @@ def settings_employer(request, userid):
 
 @login_required
 def view_self_profile(request, userid):
+    current_user = request.user
     # check if the user is student or employer, show according profile page
     if Student.objects.filter(user_id=userid).count()==1:
+        # Zipping skill-rate and sent them to template
         student = Student.objects.get(user_id=userid)           
-        students_skill = StudentSkill.objects.filter(student_id=student.id)
-        students_skill_list = []
-        students_rate_list = []
-        for item in students_skill:
-            students_skill_list.append(Skill.objects.get(id=item.skill_id).skill)
-            students_rate_list.append(item.rate)
-        students_skill_total = zip(students_skill_list,students_rate_list)
-
+        students_skill_total = get_skill_rate_zipped_student(student)
         return render(request, "profile.html", {"student": student, "students_skill_total": students_skill_total})
+        
     if Employer.objects.filter(user_id=userid).count()==1: 
         employer = Employer.objects.get(user_id=userid)
+        # check user is the employer
         employers_job = Job.objects.filter(employer_id = employer.id)  # get selected employer's published jobs
-        return render(request, "employer.html", {"employer": employer, "employers_job": employers_job})
+        is_users_profile = (current_user.id == employer.user_id) # check if profile is user's profile
+        is_student = (Student.objects.filter(user_id=current_user.id).count()==1) # check if user is student
+        if is_student:
+            # check student's applied jobs, dont show apply button if already applied.
+            student = Student.objects.get(user_id=current_user.id)
+            student_applied = Application.objects.filter(student_id=student.id)
+            student_applied_job = student_applied.values_list('job_id', flat = True)
+        else:
+            student_applied_job = [] # to avoid error 
+        return render(request, "employer.html", {"employer": employer, "employers_job": employers_job, "is_users_profile": is_users_profile,"is_student": is_student, "student_applied_job": student_applied_job})
 
 @login_required
 def add_job(request, userid):
@@ -126,6 +154,19 @@ def add_job(request, userid):
                 return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job, "job_skills": job_skills})
 
     return render(request, 'addjob.html', {'username': username, "skills_database": skills_database})
+
+@login_required
+def apply_job(request,jobid):
+    current_user = request.user 
+    student = Student.objects.get(user_id=current_user.id)
+    Application(job_id=jobid, student_id=student.id).save()
+    return index(request)
+
+@login_required
+def delete_job(request,jobid):
+    Job.objects.get(id=jobid).delete()
+    return index(request)
+
 
 def signup(request):
     if request.method == 'POST':
