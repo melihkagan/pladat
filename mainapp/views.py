@@ -66,7 +66,7 @@ def settings_student(request):
     self_skills = StudentSkill.objects.filter(student=student)
     for i in range(len(skills)):
         skills_database.append(skills[i][1])
-    if request.method == 'POST':
+    if request.method == 'POST' and 'skillset' in request.POST:
         # create a form instance and populate it with data from the request:
         form = SkillForm(request.POST)
         # check whether it's valid:
@@ -77,10 +77,59 @@ def settings_student(request):
             print(skill[0])
             star_int = int(request.POST['star'])
             StudentSkill(student=student, skill=skill[0], rate=star_int).save()
-    return render(request, "settings-student.html", {"skills_database": skills_database, "self_skills": self_skills})
+    elif request.method == 'POST' and 'set' in request.POST:
+        student.e_mail = request.POST.get('e-mail')
+        fullname = request.POST.get('name_surname')
+        namearr = fullname.split(' ', 1 )
+        student.surname = namearr[0]
+        student.name = namearr[1]
+        student.birth_date = request.POST.get('Date_Of_Birth')
+        student.location = request.POST.get('Location')
+        student.school_name = request.POST.get('School_name')
+        student.department = request.POST.get('department')
+        student.cgpa = request.POST.get('cgpa')
+        student.start_date = request.POST.get('s_day')
+        student.end_date = request.POST.get('e_day')
+        student.save()
+        if(request.POST.get('not_1')):
+            Setting(user_id = userid, not_news = True ).save()
+        if(request.POST.get('not_2')):
+            Setting(user_id = userid, not_matches = True ).save()
+        if(request.POST.get('not_3')):
+            Setting(user_id = userid, not_messages = True ).save()
+    
+    try:
+        curr_set = Setting.objects.get(user_id = userid)
+        not1= curr_set.not_news
+        not2= curr_set.not_matches
+        not3= curr_set.not_messages
+        print("here")
+    except:
+        not1=False
+        not2=False
+        not3=False
+        print("bura")
+    
+    context = {
+            "skills_database": skills_database, "self_skills": self_skills,
+            'username': request.user.username,
+            'e_mail': student.e_mail,
+            'b_date': student.birth_date,
+            'fullname': student.surname + " " + student.name,
+            'location': student.location,
+            'school': student.school_name,
+            'dep': student.department,
+            'gpa': student.cgpa,
+            's_day': student.start_date,
+            'e_day': student.end_date,
+            'not1': not1,
+            'not2': not2,
+            'not3': not3,
+        }
+    return render(request, "settings-student.html", context)
 
 @login_required
-def settings_employer(request, userid):
+def settings_employer(request):
     current_user = request.user
     userid = current_user.id
     if Student.objects.filter(user_id = userid).count()==1:
@@ -100,6 +149,23 @@ def settings_employer(request, userid):
         employer.website = request.POST.get('website')
         employer.address = request.POST.get('adress')
         employer.save()
+        if request.POST.get('not_1'):
+            Setting(user_id = userid, not_news = True ).save()
+        if(request.POST.get('not_2')):
+            Setting(user_id = userid, not_matches = True ).save()
+        if(request.POST.get('not_3')):
+            Setting(user_id = userid, not_messages = True ).save()
+    
+    try:
+        curr_set = Setting.objects.get(user_id = userid)
+        not1= curr_set.not_news
+        not2= curr_set.not_matches
+        not3= curr_set.not_messages
+    except:
+        not1=False
+        not2=False
+        not3=False
+        
     context = {
             'username': current_user.username,
             'e_mail': employer.e_mail,
@@ -109,11 +175,19 @@ def settings_employer(request, userid):
             'phone' : employer.phone,
             'website': employer.website,
             'adress' : employer.address,
-            'not1': '',
-            'not2': '',
-            'not3': ''
+            'not1': not1,
+            'not2': not2,
+            'not3': not3,
         }
     return render(request, "settings-employer.html", context)
+
+@login_required
+def view_settings(request):
+    userid = request.user.id
+    if Student.objects.filter(user_id=userid).count()==1:
+        return redirect('settings_student')
+    else:
+        return redirect('settings_employer')
 
 @login_required
 def view_self_profile(request, userid):

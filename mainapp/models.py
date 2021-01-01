@@ -33,6 +33,7 @@ class Student(models.Model):
     end_date = models.DateField(default=None,null=True)
     cgpa = models.FloatField(default=0.0,null=True) #gpa
     e_mail = models.EmailField(default=None,null=True)
+    location = models.CharField(max_length=30, default=None, null=True)
 
     def __str__(self):
         return self.name
