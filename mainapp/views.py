@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from .forms import SkillForm, JobForm, SignupForm
-from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application
+from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting
 from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student
 # Create your views here.
 
@@ -81,7 +81,39 @@ def settings_student(request):
 
 @login_required
 def settings_employer(request, userid):
-    return render(request, "settings-employer.html")
+    current_user = request.user
+    userid = current_user.id
+    if Student.objects.filter(user_id = userid).count()==1:
+        return HttpResponse('<b>You are not employer</b>')
+    #emp_setting = Setting.objects.filter(user_id = userid)
+    employer = Employer.objects.get(user_id=userid)
+    
+    if request.method == 'POST':
+        employer.e_mail = request.POST.get('e-mail')
+        fullname = request.POST.get('name_surname')
+        namearr = fullname.split(' ', 1 )
+        employer.surname = namearr[0]
+        employer.name = namearr[1]
+        employer.company_name = request.POST.get('company_name')
+        employer.sector = request.POST.get('sector')
+        employer.phone = request.POST.get('phone')
+        employer.website = request.POST.get('website')
+        employer.address = request.POST.get('adress')
+        employer.save()
+    context = {
+            'username': current_user.username,
+            'e_mail': employer.e_mail,
+            'fullname': employer.surname + " " + employer.name,
+            'company' : employer.company_name,
+            'sector' : employer.sector,
+            'phone' : employer.phone,
+            'website': employer.website,
+            'adress' : employer.address,
+            'not1': '',
+            'not2': '',
+            'not3': ''
+        }
+    return render(request, "settings-employer.html", context)
 
 @login_required
 def view_self_profile(request, userid):

@@ -73,6 +73,7 @@ class StudentSkill(models.Model):
     rate = models.IntegerField(default=0)
 
 class Setting(models.Model):
+    user_id = models.IntegerField(default=None)
     not_news = models.BooleanField(default=False)
     not_messages = models.BooleanField(default=False)
     not_matches = models.BooleanField(default=False)

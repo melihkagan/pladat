@@ -38,7 +38,8 @@
     <div class="container-fluid">
     <br>
     <div class="mx-auto w-75">
-    <form>
+    <form action = "." method = "post">
+        {% csrf_token %}
         <div class="row justify-content-center bg-primary">
             <br><h2>User Information:</h2><br></div>
         <div class="row bg-light justify-content-around">
@@ -48,21 +49,21 @@
                 </div>
                 <div class="col justify-content-center">
                     <div class="form-group row">
-                        <label for="static_username" class="col-sm-2 col-form-label">Username:</label>
+                        <label for="static_username" class="col-sm-2 col-form-label">User name:</label>
                         <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="static_username" value="username_1">
+                        <input type="text" readonly class="form-control-plaintext" id="static_username" value="{{username}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="e-mail" class="col-sm-2 col-form-label">E-mail:</label>
                         <div class="col-sm-10">
-                        <input type="e-mail" class="form-control" id="e-mail" placeholder="student@itu.edu.tr">
+                        <input type="e-mail" class="form-control" name="e-mail" value="{{e_mail}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="name_surname" class="col-sm-2 col-form-label">Full Name:</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name_surname" placeholder="Name1 Surname1">
+                        <input type="text" class="form-control" name="name_surname" value="{{fullname}}">
                         </div>
                     </div>
                 </div>
@@ -74,31 +75,31 @@
                 <div class="form-group row">
                         <label for="company_name" class="col-sm-2 col-form-label">Company Name:</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" id="company_name" placeholder="Awesome Company">
+                        <input type="text" class="form-control" name="company_name" value="{{company}}">
                     </div>
                 </div>
                 <div class="form-group row">
                         <label for="sector" class="col-sm-2 col-form-label">Sector:</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" id="sector" placeholder="Super Sector">
+                        <input type="text" class="form-control" name="sector" value="{{sector}}">
                     </div>
                 </div>
                 <div class="form-group row">
                         <label for="phone" class="col-sm-2 col-form-label">Phone:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="phone" placeholder="+90 420 619 3434">
+                            <input type="text" class="form-control" name="phone" value="{{phone}}">
                     </div>
                 </div>
                 <div class="form-group row">
                         <label for="website" class="col-sm-2 col-form-label">Website:</label>
                         <div class="col-sm-10">
-                        <input type="url" class="form-control" id="website" placeholder="www.awesomecompany.com" />
+                        <input type="url" class="form-control" name="website" value="{{website}}" />
                     </div>
                 </div>
                 <div class="form-group row">
                         <label for="adress" class="col-sm-2 col-form-label">Adress:</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" id="adress" placeholder="Maslak tower no:25" />
+                        <input type="text" class="form-control" name="adress" value="{{adress}}" />
                     </div>
                 </div>
             </div>
@@ -110,7 +111,7 @@
             <div class="col justify-content-center">
                 <div class="form-group row">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="not_1">
+                        <input class="form-check-input" type="checkbox" value="{{not1}}" name="not_1">
                         <label class="form-check-label" for="not_1">
                         Do you wanna get news?
                         </label>
@@ -118,7 +119,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="not_2">
+                        <input class="form-check-input" type="checkbox" value="{{not2}}" name="not_2">
                         <label class="form-check-label" for="not_2">
                         Do you wanna get notificated about new matches?
                         </label>
@@ -126,7 +127,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="not_3">
+                        <input class="form-check-input" type="checkbox" value="{{not3}}" name="not_3">
                         <label class="form-check-label" for="not_3">
                         Do you wanna get notificated about new messages?
                         </label>
