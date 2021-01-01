@@ -60,7 +60,7 @@ def see_details(request, jobid):
 @login_required
 def settings_student(request):
     userid = request.user.id
-     if Employer.objects.filter(user_id = userid).count()==1:
+    if Employer.objects.filter(user_id = userid).count()==1:
         return HttpResponse('<b>You are not student</b>')
     
     student = Student.objects.get(user_id=userid)
