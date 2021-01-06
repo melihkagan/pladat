@@ -13,6 +13,8 @@ urlpatterns = [
     path('<int:userid>/add/', views.add_job, name='add_job'),
     path('apply-job/<int:jobid>', views.apply_job, name='apply_job'),
     path('delete-job/<int:jobid>', views.delete_job, name='delete_job'),
+    path('accept-student/<int:jobid>/<int:studentid>', views.accept_student, name='accept_student'),
+    path('decline-student/<int:jobid>/<int:studentid>', views.decline_student, name='decline_student'),
     path('signup/', views.signup, name='signup'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.index, name = 'index'),

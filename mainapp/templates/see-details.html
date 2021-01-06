@@ -109,8 +109,8 @@
                     <div class="col">
                         <ul>
                         {% if is_jobs_owner %}
-                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Accept Student</a></li>
-                        <li style="margin: 10px;"><a href="#" class="btn btn-primary">Decline Student</a></li>
+                        <li style="margin: 10px;"><a href="{% url 'accept_student' jobid=job.id studentid=student.id%}" class="btn btn-primary">Accept Student</a></li>
+                        <li style="margin: 10px;"><a href="{% url 'decline_student' jobid=job.id studentid=student.id%}" class="btn btn-primary">Decline Student</a></li>
                         {% endif %}
                         </ul>
                     </div>

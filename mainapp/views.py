@@ -45,7 +45,8 @@ def see_details(request, jobid):
     applications = Application.objects.filter(job_id = jobid)
     who_applied = []
     for item in applications:
-        who_applied.append(Student.objects.get(id = item.student_id))
+        if item.is_accepted==0: # 0 is waiting, 1 is declined, 2 is accepted
+            who_applied.append(Student.objects.get(id = item.student_id))
 
     # zip everything as one like : applicant students,skills,rates
     students_skill_total_all = []
@@ -200,7 +201,23 @@ def view_self_profile(request, userid):
         # Zipping skill-rate and sent them to template
         student = Student.objects.get(user_id=userid)           
         students_skill_total = get_skill_rate_zipped_student(student)
-        return render(request, "profile.html", {"student": student, "students_skill_total": students_skill_total})
+        is_users_profile = (current_user.id == student.user_id) # check if profile is user's profile
+        # get accepted jobs
+        accepted_applications = Application.objects.filter(student_id=student.id, is_accepted=2)
+        accepted_applications_jobs = []
+        for item in accepted_applications:
+            accepted_applications_jobs.append(Job.objects.get(id = item.job_id))
+        # get rejected jobs
+        declined_applications = Application.objects.filter(student_id=student.id, is_accepted=1)
+        declined_applications_jobs = []
+        for item in declined_applications:
+            declined_applications_jobs.append(Job.objects.get(id = item.job_id))
+        return render(request, "profile.html", {"student": student,     
+                                                "students_skill_total": students_skill_total,
+                                                "accepted_applications_jobs": accepted_applications_jobs,
+                                                "declined_applications_jobs": declined_applications_jobs,
+                                                "is_users_profile": is_users_profile})
+
         
     if Employer.objects.filter(user_id=userid).count()==1: 
         employer = Employer.objects.get(user_id=userid)
@@ -276,6 +293,19 @@ def delete_job(request,jobid):
     Job.objects.get(id=jobid).delete()
     return index(request)
 
+@login_required
+def accept_student(request,jobid,studentid):
+    selected_application = Application.objects.get(job_id=jobid, student_id=studentid)
+    selected_application.is_accepted = 2 # accepted 
+    selected_application.save()
+    return see_details(request,jobid)
+
+@login_required
+def decline_student(request,jobid,studentid):
+    selected_application = Application.objects.get(job_id=jobid, student_id=studentid) # get current application
+    selected_application.is_accepted = 1 # rejected
+    selected_application.save()
+    return see_details(request,jobid)
 
 def signup(request):
     if request.method == 'POST':

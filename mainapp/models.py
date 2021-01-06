@@ -53,6 +53,7 @@ class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE,default=None)
     student = models.ForeignKey(Student, on_delete=models.CASCADE,default=None)
     apply_time = models.DateTimeField(auto_now_add=True, blank=True)
+    is_accepted = models.IntegerField(default=0) # 0 for not responded, 1 for declined, 2 for accepted
 
     def __str__(self):
         return self.apply_time 

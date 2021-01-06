@@ -99,6 +99,18 @@
             </li>
         </ul>       
   </div>
+  {% if is_users_profile %}
+  <p>ACCEPTED</p>
+  {% for item in accepted_applications_jobs %}
+  <a href="{% url 'see_details' jobid=item.id %}">{{item.job_title}}</a>
+  {% endfor %}
+  <br><br>
+
+  <p>REJECTED</p>
+  {% for item in declined_applications_jobs %}
+  <a href="{% url 'see_details' jobid=item.id %}">{{item.job_title}}</a>
+  {% endfor %}
+  {% endif %}
 </body>
 </html>
 
