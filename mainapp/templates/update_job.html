@@ -152,12 +152,12 @@
         <!--Make sure the form has the autocomplete function switched off: -->
         <form method="post" name="job_form" style="width: 80%; margin-left: 1%"> 
           {% csrf_token %}
-          <input id="title" type="text" name="title">
+          <input id="title" type="text" name="title" value="{{ job_details.title }}">
           <p> </p>
           <p style="margin-left: 0.2%"> Description: </p>
-          <input id="description" type="text" name="description" style="height: 150px;">
+          <input id="description" type="text" name="description" style="height: 150px;" value="{{ job_details.description }}">
           <p> Deadline</p>
-          <input id="duedate" type="date" name="duedate">
+          <input id="duedate" type="date" name="duedate" value="{{ job_details.duedate }}">
           <p> </p>
           <button type="submit" name="job_form"  style="margin-bottom: 1%" onclick="openForm1()">submit</button>
         </form>

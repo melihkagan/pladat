@@ -313,10 +313,15 @@ def update_job(request,jobid):
         skills_database.append(skills[i][1])
     job = Job.objects.get(id=jobid)
     job_skills = JobSkill.objects.filter(job=job)
+    job_details = {
+                    "title": job.job_title,
+                    "description": job.job_description,
+                    "duedate": job.due_date
+                }
     context = {
             'username': username, 
             "skills_database": skills_database, 
-            "job_details": job, 
+            "job_details": job_details, 
             "job_skills": job_skills
         }
     return render(request, 'update_job.html', context)
