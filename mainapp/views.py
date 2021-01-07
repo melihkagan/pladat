@@ -294,6 +294,25 @@ def delete_job(request,jobid):
     return index(request)
 
 @login_required
+def update_job(request,jobid):
+    userid = request.user.id
+    username = request.user.username
+    employer = Employer.objects.get(user_id=userid)
+    skills_database = []
+    skills = Skill.objects.values_list()
+    for i in range(len(skills)):
+        skills_database.append(skills[i][1])
+    job = Job.objects.get(id=jobid)
+    job_skills = JobSkill.objects.filter(job=job)
+    context = {
+            'username': username, 
+            "skills_database": skills_database, 
+            "job_details": job, 
+            "job_skills": job_skills
+        }
+    return render(request, 'update_job.html', context)
+
+@login_required
 def accept_student(request,jobid,studentid):
     selected_application = Application.objects.get(job_id=jobid, student_id=studentid)
     selected_application.is_accepted = 2 # accepted 
