@@ -58,24 +58,31 @@ def see_details(request, jobid):
     return render(request, "see-details.html",{"job": job, "jobs_skill_total": jobs_skill_total
                                                 , "is_jobs_owner": is_jobs_owner, "students_skill_total_all_zipped": students_skill_total_all_zipped})
 
+
 @login_required
 def settings_student(request):
     userid = request.user.id
-    if Employer.objects.filter(user_id = userid).count()==1:
+    if Employer.objects.filter(user_id=userid).count() == 1:
         return HttpResponse('<b>You are not student</b>')
-    
+
     student = Student.objects.get(user_id=userid)
     skills_database = []
     skills = Skill.objects.values_list()
+    self_skill_array = []
     self_skills = StudentSkill.objects.filter(student=student)
+    for skill in self_skills:
+        self_skill_array.append(str(skill.skill))
     for i in range(len(skills)):
         skills_database.append(skills[i][1])
+
     if request.method == 'POST' and 'skillset' in request.POST:
         # create a form instance and populate it with data from the request:
         form = SkillForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
             print(form.cleaned_data['skill'])
+            # while int(request.POST['star']) == 0:
+
             print(request.POST['star'])
             skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
             print(skill[0])
@@ -84,7 +91,7 @@ def settings_student(request):
     elif request.method == 'POST' and 'set' in request.POST:
         student.e_mail = request.POST.get('e-mail')
         fullname = request.POST.get('name_surname')
-        namearr = fullname.split(' ', 1 )
+        namearr = fullname.split(' ', 1)
         student.surname = namearr[0]
         student.name = namearr[1]
         student.birth_date = request.POST.get('Date_Of_Birth')
@@ -95,41 +102,41 @@ def settings_student(request):
         student.start_date = request.POST.get('s_day')
         student.end_date = request.POST.get('e_day')
         student.save()
-        if(request.POST.get('not_1')):
-            Setting(user_id = userid, not_news = True ).save()
-        if(request.POST.get('not_2')):
-            Setting(user_id = userid, not_matches = True ).save()
-        if(request.POST.get('not_3')):
-            Setting(user_id = userid, not_messages = True ).save()
-    
+        if (request.POST.get('not_1')):
+            Setting(user_id=userid, not_news=True).save()
+        if (request.POST.get('not_2')):
+            Setting(user_id=userid, not_matches=True).save()
+        if (request.POST.get('not_3')):
+            Setting(user_id=userid, not_messages=True).save()
+
     try:
-        curr_set = Setting.objects.get(user_id = userid)
-        not1= curr_set.not_news
-        not2= curr_set.not_matches
-        not3= curr_set.not_messages
+        curr_set = Setting.objects.get(user_id=userid)
+        not1 = curr_set.not_news
+        not2 = curr_set.not_matches
+        not3 = curr_set.not_messages
         print("here")
     except:
-        not1=False
-        not2=False
-        not3=False
+        not1 = False
+        not2 = False
+        not3 = False
         print("bura")
-    
+
     context = {
-            "skills_database": skills_database, "self_skills": self_skills,
-            'username': request.user.username,
-            'e_mail': student.e_mail,
-            'b_date': student.birth_date,
-            'fullname': student.surname + " " + student.name,
-            'location': student.location,
-            'school': student.school_name,
-            'dep': student.department,
-            'gpa': student.cgpa,
-            's_day': student.start_date,
-            'e_day': student.end_date,
-            'not1': not1,
-            'not2': not2,
-            'not3': not3,
-        }
+        "skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array,
+        'username': request.user.username,
+        'e_mail': student.e_mail,
+        'b_date': student.birth_date,
+        'fullname': student.surname + " " + student.name,
+        'location': student.location,
+        'school': student.school_name,
+        'dep': student.department,
+        'gpa': student.cgpa,
+        's_day': student.start_date,
+        'e_day': student.end_date,
+        'not1': not1,
+        'not2': not2,
+        'not3': not3,
+    }
     return render(request, "settings-student.html", context)
 
 @login_required
@@ -277,10 +284,12 @@ def add_job(request, userid):
                 job = Job.objects.filter(employer=employer).last()
                 JobSkill(job=job, skill=skill[0], rate=star_int).save()
                 job_skills = JobSkill.objects.filter(job=job)
-                return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job, "job_skills": job_skills})
+                self_skill_array = []
+                for skill in job_skills:
+                    self_skill_array.append(str(skill.skill))
+                return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job, "job_skills": job_skills, "self_skill_array": self_skill_array})
 
     return render(request, 'addjob.html', {'username': username, "skills_database": skills_database})
-
 @login_required
 def apply_job(request,jobid):
     current_user = request.user 

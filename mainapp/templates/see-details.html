@@ -70,7 +70,7 @@
                         <li> {{skill}}
                           {% for i in '0123456789'|make_list %}
                           {% if forloop.counter <= rate %}
-                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked" style="color: orange"></span>
                           {% else %}
                           <span class="fa fa-star"></span>
                           {% endif %}
@@ -136,7 +136,6 @@
             </div>
         </div>
         {% endfor %}
-    
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

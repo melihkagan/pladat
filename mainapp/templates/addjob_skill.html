@@ -234,6 +234,23 @@
               }
 
               var skills = {{skills_database|safe}};
+              {% if job_skills %}
+                  var self = {{self_skill_array|safe}};
+
+                  for(i = 0; i < self.length; i++){
+                      var x = skills.indexOf(self[i]);
+                      skills.splice(x, 1);
+                  }
+              {% endif %}
+              /*if({{self_skill_array}}){
+                  var self = {{self_skill_array|safe}};
+
+                  for(i = 0; i < self.length; i++){
+                      var x = skills.indexOf(self[i]);
+                      skills.splice(x, 1);
+                  }
+              }*/
+
 
               /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
               autocomplete(document.getElementById("skill"), skills);
