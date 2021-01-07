@@ -68,8 +68,8 @@ def settings_student(request):
     student = Student.objects.get(user_id=userid)
     skills_database = []
     skills = Skill.objects.values_list()
-    self_skill_array = []
     self_skills = StudentSkill.objects.filter(student=student)
+    self_skill_array = []
     for skill in self_skills:
         self_skill_array.append(str(skill.skill))
     for i in range(len(skills)):
@@ -88,6 +88,11 @@ def settings_student(request):
             print(skill[0])
             star_int = int(request.POST['star'])
             StudentSkill(student=student, skill=skill[0], rate=star_int).save()
+            self_skills = StudentSkill.objects.filter(student=student)
+            self_skill_array = []
+            for skill in self_skills:
+                self_skill_array.append(str(skill.skill))
+            return render(request, "settings-student.html", {"skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array})
     elif request.method == 'POST' and 'set' in request.POST:
         student.e_mail = request.POST.get('e-mail')
         fullname = request.POST.get('name_surname')
