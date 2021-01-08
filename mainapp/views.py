@@ -92,7 +92,34 @@ def settings_student(request):
             self_skill_array = []
             for skill in self_skills:
                 self_skill_array.append(str(skill.skill))
-            return render(request, "settings-student.html", {"skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array})
+            
+            try:
+                curr_set = Setting.objects.get(user_id=userid)
+                not1 = curr_set.not_news
+                not2 = curr_set.not_matches
+                not3 = curr_set.not_messages
+            except:
+                not1 = False
+                not2 = False
+                not3 = False
+
+            context = {
+                "skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array,
+                'username': request.user.username,
+                'e_mail': student.e_mail,
+                'b_date': student.birth_date,
+                'fullname': student.surname + " " + student.name,
+                'location': student.location,
+                'school': student.school_name,
+                'dep': student.department,
+                'gpa': student.cgpa,
+                's_day': student.start_date,
+                'e_day': student.end_date,
+                'not1': not1,
+                'not2': not2,
+                'not3': not3,
+            }
+            return render(request, "settings-student.html", context)
     elif request.method == 'POST' and 'set' in request.POST:
         student.e_mail = request.POST.get('e-mail')
         fullname = request.POST.get('name_surname')
@@ -107,24 +134,50 @@ def settings_student(request):
         student.start_date = request.POST.get('s_day')
         student.end_date = request.POST.get('e_day')
         student.save()
-        if (request.POST.get('not_1')):
-            Setting(user_id=userid, not_news=True).save()
-        if (request.POST.get('not_2')):
-            Setting(user_id=userid, not_matches=True).save()
-        if (request.POST.get('not_3')):
-            Setting(user_id=userid, not_messages=True).save()
+        if Setting.objects.filter(user_id=userid).count()==0:
+            Setting(user_id = userid, not_news = False, not_matches = False, not_messages = False).save()
+        stu_setting = Setting.objects.get(user_id = userid)
+        if request.POST.get('not_1'):
+            stu_setting.not_news = True
+        else:
+            stu_setting.not_news = False
+        if(request.POST.get('not_2')):
+            stu_setting.not_matches = True
+        else:
+            stu_setting.not_matches = False
+        if(request.POST.get('not_3')):
+            stu_setting.not_messages = True
+        else:
+            stu_setting.not_messages = False
+        stu_setting.save()
+    
+        context = {
+        "skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array,
+        'username': request.user.username,
+        'e_mail': student.e_mail,
+        'b_date': student.birth_date,
+        'fullname': student.surname + " " + student.name,
+        'location': student.location,
+        'school': student.school_name,
+        'dep': student.department,
+        'gpa': student.cgpa,
+        's_day': student.start_date,
+        'e_day': student.end_date,
+        'not1': stu_setting.not_news,
+        'not2': stu_setting.not_matches,
+        'not3': stu_setting.not_messages,
+        }
+        return render(request, "settings-student.html", context)
 
     try:
         curr_set = Setting.objects.get(user_id=userid)
         not1 = curr_set.not_news
         not2 = curr_set.not_matches
         not3 = curr_set.not_messages
-        print("here")
     except:
         not1 = False
         not2 = False
         not3 = False
-        print("bura")
 
     context = {
         "skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array,
@@ -150,7 +203,7 @@ def settings_employer(request):
     userid = current_user.id
     if Student.objects.filter(user_id=userid).count()==1:
         return HttpResponse('<b>You are not employer</b>')
-    #emp_setting = Setting.objects.filter(user_id = userid)
+    
     employer = Employer.objects.get(user_id=userid)
     
     if request.method == 'POST':
@@ -165,12 +218,37 @@ def settings_employer(request):
         employer.website = request.POST.get('website')
         employer.address = request.POST.get('adress')
         employer.save()
+        if Setting.objects.filter(user_id=userid).count()==0:
+            Setting(user_id = userid, not_news = False, not_matches = False, not_messages = False).save()
+        emp_setting = Setting.objects.get(user_id = userid)
         if request.POST.get('not_1'):
-            Setting(user_id = userid, not_news = True ).save()
+            emp_setting.not_news = True
+        else:
+            emp_setting.not_news = False
         if(request.POST.get('not_2')):
-            Setting(user_id = userid, not_matches = True ).save()
+            emp_setting.not_matches = True
+        else:
+            emp_setting.not_matches = False
         if(request.POST.get('not_3')):
-            Setting(user_id = userid, not_messages = True ).save()
+            emp_setting.not_messages = True
+        else:
+            emp_setting.not_messages = False
+        emp_setting.save()
+        
+        context = {
+            'username': current_user.username,
+            'e_mail': employer.e_mail,
+            'fullname': employer.surname + " " + employer.name,
+            'company' : employer.company_name,
+            'sector' : employer.sector,
+            'phone' : employer.phone,
+            'website': employer.website,
+            'adress' : employer.address,
+            'not1': emp_setting.not_news,
+            'not2': emp_setting.not_matches,
+            'not3': emp_setting.not_messages,
+        }
+        return render(request, "settings-employer.html", context)
     
     try:
         curr_set = Setting.objects.get(user_id = userid)
