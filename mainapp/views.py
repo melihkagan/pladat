@@ -313,24 +313,121 @@ def update_job(request,jobid):
     userid = request.user.id
     username = request.user.username
     employer = Employer.objects.get(user_id=userid)
+    job = Job.objects.get(id=jobid)
+    if( job.employer != employer ):
+        return HttpResponse('<b>You cannot update this job</b>')
     skills_database = []
     skills = Skill.objects.values_list()
     for i in range(len(skills)):
         skills_database.append(skills[i][1])
-    job = Job.objects.get(id=jobid)
+    
     job_skills = JobSkill.objects.filter(job=job)
+    self_skill_array = []
+    for skill in job_skills:
+        self_skill_array.append(str(skill.skill))
     job_details = {
                     "title": job.job_title,
                     "description": job.job_description,
                     "duedate": job.due_date
                 }
     context = {
+            'jobid' : jobid,
             'username': username, 
             "skills_database": skills_database, 
             "job_details": job_details, 
-            "job_skills": job_skills
+            "job_skills": job_skills,
+            "self_skill_array": self_skill_array,
         }
+    if request.method == 'POST':
+        if 'skill_form_delete' in request.POST:
+            form = SkillForm( request.POST )
+            if form.is_valid():
+                skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
+                JobSkill.objects.get(job = job, skill=skill[0]).delete()
+                job_skills = JobSkill.objects.filter(job=job)
+                self_skill_array = []
+                for skill in job_skills:
+                    self_skill_array.append(str(skill.skill))
+                context = {
+                    'jobid' : jobid,
+                    'username': username, 
+                    "skills_database": skills_database, 
+                    "job_details": job_details, 
+                    "job_skills": job_skills,
+                    "self_skill_array": self_skill_array,
+                }
+                return render(request, 'update_job.html', context)
+        elif 'skill_form_update' in request.POST:
+            form = SkillForm( request.POST )
+            if form.is_valid():
+                skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
+                star_int = int(request.POST['star'])
+                selected = JobSkill.objects.get(job = job, skill=skill[0])
+                selected.rate = star_int
+                selected.save()
+                job_skills = JobSkill.objects.filter(job=job)
+                self_skill_array = []
+                for skill in job_skills:
+                    self_skill_array.append(str(skill.skill))
+                context = {
+                    'jobid' : jobid,
+                    'username': username, 
+                    "skills_database": skills_database, 
+                    "job_details": job_details, 
+                    "job_skills": job_skills,
+                    "self_skill_array": self_skill_array,
+                }
+                return render(request, 'update_job.html', context)
+        elif 'skill_form' in request.POST:
+            form = SkillForm( request.POST )
+            if form.is_valid():
+                skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
+                star_int = int(request.POST['star'])
+                JobSkill(job=job, skill=skill[0], rate=star_int).save()
+                job_skills = JobSkill.objects.filter(job=job)
+                self_skill_array = []
+                for skill in job_skills:
+                    self_skill_array.append(str(skill.skill))
+                context = {
+                    'jobid' : jobid,
+                    'username': username, 
+                    "skills_database": skills_database, 
+                    "job_details": job_details, 
+                    "job_skills": job_skills,
+                    "self_skill_array": self_skill_array,
+                }
+                return render(request, 'update_job.html', context)
+        elif 'job_form' in request.POST:
+            form = JobForm(request.POST)
+            if form.is_valid():
+                title = form.cleaned_data['title']
+                description = form.cleaned_data['description']
+                duedate = form.cleaned_data['duedate']
+                job.job_title = title
+                job.job_description = description
+                job.due_date = duedate
+                job.save()
+                job_skills = JobSkill.objects.filter(job=job)
+                self_skill_array = []
+                for skill in job_skills:
+                    self_skill_array.append(str(skill.skill))
+                job_details = {
+                    "title": job.job_title,
+                    "description": job.job_description,
+                    "duedate": job.due_date
+                }
+                context = {
+                    'jobid' : jobid,
+                    'username': username, 
+                    "skills_database": skills_database, 
+                    "job_details": job_details, 
+                    "job_skills": job_skills,
+                    "self_skill_array": self_skill_array,
+                }
+                return render(request, 'update_job.html', context)
+                
     return render(request, 'update_job.html', context)
+
 
 @login_required
 def accept_student(request,jobid,studentid):
