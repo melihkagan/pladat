@@ -45,7 +45,7 @@
           background-color: orange;
           text-align: center;
           cursor: pointer;
-          width: 20%;
+          width: 30%;
           font-size: 16px;
         }
         .card p{
@@ -93,12 +93,12 @@
               {% for s in job_skills %}
                 <li><form autocomplete="off" action="./{{jobid}}" method="post" name="skill_form"><div class="row">
                         {% csrf_token %}
-                     <div class="col" style="margin-right: 3px; margin-left: 3px;"><input type="submit" name="skill_form_delete" value="Delete" style="margin-right: 3px;"></div>
-                    <div class="col-3" style="margin-right: 3px; margin-left: 3px;"><input readonly id="skill_" type="text" name="skill" value="{{ s.skill }}" style="margin-right: 3px; margin-left: 3px;"></div>    
-                    <div class="col" style="margin-right: 3px; margin-left: 3px;">Current Rate: {{ s.rate}}</div>
-                    <div class="col" style="margin-right: 3px; margin-left: 3px;">
-                    <div class="custom-select" style="width:80px; margin-right: 3px; margin-left: 3px;">
-                      <select name="star" style="margin-right: 3px; margin-left: 3px;">
+                     <div class="col"><input type="submit" name="skill_form_delete" value="Delete" ></div>
+                    <div class="col-3"><input readonly id="skill_" type="text" name="skill" value="{{ s.skill }}" style="margin-right: 3px; margin-left: 3px;"></div>    
+                    <div class="col">Current Rate: {{ s.rate}}</div>
+                    <div class="col">
+                    <div class="custom-select">
+                      <select name="star">
                         <option value="0" disabled>Star rate</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -112,15 +112,15 @@
                         <option value="10">10</option>
                       </select>
                     </div></div>
-                    <div class="col" style="margin-right: 3px; margin-left: 3px;">Current Priority: 
+                    <div class="col">Current Priority: 
                     {% if s.type == 1 %} lowest {% endif %}
                     {% if s.type == 2 %} low {% endif %}
                     {% if s.type == 3 %} medium {% endif %}
                     {% if s.type == 4 %} high {% endif %}
                     {% if s.type == 5 %} highest {% endif %}</div>
-                    <div class="col" style="margin-right: 3px; margin-left: 3px;">
-                     <div class="custom-select" style="width:150px; margin-right: 3px; margin-left: 3px;">
-                          <select name="type" style="margin-right: 3px; margin-left: 3px;">
+                    <div class="col">
+                     <div class="custom-select" >
+                          <select name="type" >
                             <option value="0" disabled>Priority</option>
                             <option value="1">lowest</option>
                             <option value="2">low</option>
@@ -179,10 +179,11 @@
           <p> </p>
           <p style="margin-left: 0.2%"> Description: </p>
           <input id="description" type="text" name="description" style="height: 150px;" value="{{ job_details.description }}">
-          <p> Deadline</p>
+          <p> Deadline: </p>
           <input id="duedate" type="date" name="duedate" value="{{ job_details.duedate|date:'Y-m-d' }}">
           <p> </p>
-          <button type="submit" name="job_form"  style="margin-bottom: 1%">submit</button>
+          <button type="submit" name="job_form"  style="margin-bottom: 1%">Submit</button>
+          <button href="/profile/{{ user.id }}">Exit without saving</button>
         </form>
            
         <script>
