@@ -129,7 +129,7 @@
                             <option value="5">highest</option>
                           </select>
                         </div></div>
-                      <div class="col"><input type="submit" name="skill_form_update" value="Select"></div>
+                      <div class="col"><input type="submit" name="skill_form_update" value="Update"></div>
                    </div></form></li>
                   {% endfor %}
               </ul>
@@ -176,7 +176,9 @@
         <form method="post" name="job_form" action="./{{jobid}}" style="width: 80%; margin-left: 1%"> 
           {% csrf_token %}
           <input id="title" type="text" name="title" value="{{ job_details.title }}">
-          <p> </p>
+          <p>Required Departments: </p>
+          <input id="req_departments" type="text" name="req_departments" pattern="[A-Za-z ,]*" value="{{job_details.req_dep}}">
+          <p> Note: Use commas to seperate department names</p>
           <p style="margin-left: 0.2%"> Description: </p>
           <input id="description" type="text" name="description" style="height: 150px;" value="{{ job_details.description }}">
           <p> Deadline: </p>

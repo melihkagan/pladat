@@ -16,6 +16,7 @@ class JobForm(forms.Form):
     title = forms.CharField(initial='title', max_length=200)
     description = forms.CharField(initial='description', max_length=600)
     duedate = forms.DateField(initial='duedate')
+    req_departments = forms.CharField(initial='req_departments', max_length=200)
 
 class SignupForm(UserCreationForm):
     email = forms.CharField( widget=forms.TextInput(), max_length=100, required=True)

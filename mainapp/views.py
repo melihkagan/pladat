@@ -269,11 +269,13 @@ def add_job(request, userid):
                 title = form.cleaned_data['title']
                 description = form.cleaned_data['description']
                 duedate = form.cleaned_data['duedate']
-                Job(job_title=title, job_description=description, employer=employer, due_date=duedate).save()
+                req = form.cleaned_data['req_departments']
+                Job(job_title=title, job_description=description, employer=employer, due_date=duedate, req_departments=req).save()
                 job_details = {
                     "title": title,
                     "description": description,
-                    "duedate": duedate
+                    "duedate": duedate,
+                    "req_dep": req,
                 }
                 return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job_details})
         elif 'skill_form' in request.POST:
@@ -328,7 +330,8 @@ def update_job(request,jobid):
     job_details = {
                     "title": job.job_title,
                     "description": job.job_description,
-                    "duedate": job.due_date
+                    "duedate": job.due_date,
+                    "req_dep": job.req_departments,
                 }
     context = {
             'jobid' : jobid,
@@ -406,9 +409,11 @@ def update_job(request,jobid):
                 title = form.cleaned_data['title']
                 description = form.cleaned_data['description']
                 duedate = form.cleaned_data['duedate']
+                req = form.cleaned_data['req_departments']
                 job.job_title = title
                 job.job_description = description
                 job.due_date = duedate
+                job.req_departments = req
                 job.save()
                 job_skills = JobSkill.objects.filter(job=job)
                 self_skill_array = []
@@ -417,7 +422,8 @@ def update_job(request,jobid):
                 job_details = {
                     "title": job.job_title,
                     "description": job.job_description,
-                    "duedate": job.due_date
+                    "duedate": job.due_date,
+                    "req_dep": job.req_departments,
                 }
                 context = {
                     'jobid' : jobid,
