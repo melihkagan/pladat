@@ -26,7 +26,7 @@
 
         .card {
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          max-width: 80%;
+          max-width: 90%;
           margin: auto;
         }
 
@@ -93,13 +93,13 @@
               {% for s in job_skills %}
                 <li><form autocomplete="off" action="./{{jobid}}" method="post" name="skill_form"><div class="row">
                         {% csrf_token %}
-                     <div class="col"><input type="submit" name="skill_form_delete" value="Delete"></div>
-                    <div class="col-4"><input readonly id="skill" type="text" name="skill" value="{{ s.skill }}"></div>    
-                    <div class="col">Current Rate: {{ s.rate}}</div>
-                    <div class="col">
-                    <div class="custom-select" style="width:200px;">
-                      <select name="star">
-                        <option value="0">Star rate</option>
+                     <div class="col" style="margin-right: 3px; margin-left: 3px;"><input type="submit" name="skill_form_delete" value="Delete" style="margin-right: 3px;"></div>
+                    <div class="col-3" style="margin-right: 3px; margin-left: 3px;"><input readonly id="skill_" type="text" name="skill" value="{{ s.skill }}" style="margin-right: 3px; margin-left: 3px;"></div>    
+                    <div class="col" style="margin-right: 3px; margin-left: 3px;">Current Rate: {{ s.rate}}</div>
+                    <div class="col" style="margin-right: 3px; margin-left: 3px;">
+                    <div class="custom-select" style="width:80px; margin-right: 3px; margin-left: 3px;">
+                      <select name="star" style="margin-right: 3px; margin-left: 3px;">
+                        <option value="0" disabled>Star rate</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -112,12 +112,29 @@
                         <option value="10">10</option>
                       </select>
                     </div></div>
+                    <div class="col" style="margin-right: 3px; margin-left: 3px;">Current Priority: 
+                    {% if s.type == 1 %} lowest {% endif %}
+                    {% if s.type == 2 %} low {% endif %}
+                    {% if s.type == 3 %} medium {% endif %}
+                    {% if s.type == 4 %} high {% endif %}
+                    {% if s.type == 5 %} highest {% endif %}</div>
+                    <div class="col" style="margin-right: 3px; margin-left: 3px;">
+                     <div class="custom-select" style="width:150px; margin-right: 3px; margin-left: 3px;">
+                          <select name="type" style="margin-right: 3px; margin-left: 3px;">
+                            <option value="0" disabled>Priority</option>
+                            <option value="1">lowest</option>
+                            <option value="2">low</option>
+                            <option value="3">medium</option>
+                            <option value="4">high</option>
+                            <option value="5">highest</option>
+                          </select>
+                        </div></div>
                       <div class="col"><input type="submit" name="skill_form_update" value="Select"></div>
                    </div></form></li>
                   {% endfor %}
               </ul>
             {% endif %}
-            <form autocomplete="off" action="../{{jobid}}" method="post" name="skill_form">
+            <form autocomplete="off" action="./{{jobid}}" method="post" name="skill_form">
             {% csrf_token %}
             <p>Add new skill:</p>
             <div class="autocomplete" style="width:300px;">
@@ -125,7 +142,7 @@
             </div>
             <div class="custom-select" style="width:200px;">
               <select name="star">
-                <option value="0">Star rate</option>
+                <option value="0" disabled>Star rate</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -136,6 +153,16 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
                 <option value="10">10</option>
+              </select>
+            </div>
+             <div class="custom-select" style="width:200px;">
+              <select name="type">
+                <option value="0" disabled>Priority</option>
+                <option value="1">lowest</option>
+                <option value="2">low</option>
+                <option value="3">medium</option>
+                <option value="4">high</option>
+                <option value="5">highest</option>
               </select>
             </div>
               <input type="submit" name="skill_form" value="Select">

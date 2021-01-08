@@ -340,7 +340,7 @@ def update_job(request,jobid):
         }
     if request.method == 'POST':
         if 'skill_form_delete' in request.POST:
-            form = SkillForm( request.POST )
+            form = JobskillForm(request.POST )
             if form.is_valid():
                 skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
                 JobSkill.objects.get(job = job, skill=skill[0]).delete()
@@ -358,12 +358,14 @@ def update_job(request,jobid):
                 }
                 return render(request, 'update_job.html', context)
         elif 'skill_form_update' in request.POST:
-            form = SkillForm( request.POST )
+            form = JobskillForm(request.POST )
             if form.is_valid():
                 skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
                 star_int = int(request.POST['star'])
+                type_int = int(form.cleaned_data['type'])
                 selected = JobSkill.objects.get(job = job, skill=skill[0])
                 selected.rate = star_int
+                selected.type = type_int
                 selected.save()
                 job_skills = JobSkill.objects.filter(job=job)
                 self_skill_array = []
@@ -379,11 +381,12 @@ def update_job(request,jobid):
                 }
                 return render(request, 'update_job.html', context)
         elif 'skill_form' in request.POST:
-            form = SkillForm( request.POST )
+            form = JobskillForm(request.POST )
             if form.is_valid():
                 skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
                 star_int = int(request.POST['star'])
-                JobSkill(job=job, skill=skill[0], rate=star_int).save()
+                type_int = int(form.cleaned_data['type'])
+                JobSkill(job=job, skill=skill[0], rate=star_int, type=type_int).save()
                 job_skills = JobSkill.objects.filter(job=job)
                 self_skill_array = []
                 for skill in job_skills:
