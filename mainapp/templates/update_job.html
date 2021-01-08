@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Update job</title>
+    <title>Update {{ job_details.title }}</title>
     {% load static %}
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -85,14 +85,16 @@
 
 
         <!--Make sure the form has the autocomplete function switched off: -->
-        <form autocomplete="off" action="." method="post" name="skill_form"> 
-            {% csrf_token %}
+         
+            
              <p> Your skills:</p>
               {% if job_skills %}
               <ul>
               {% for s in job_skills %}
-                <li><div class="row">
-                    <div class="col-6"><input readonly id="skill" type="text" name="skill" value="{{ s.skill }}"></div>    
+                <li><form autocomplete="off" action="./{{jobid}}" method="post" name="skill_form"><div class="row">
+                        {% csrf_token %}
+                     <div class="col"><input type="submit" name="skill_form_delete" value="Delete"></div>
+                    <div class="col-4"><input readonly id="skill" type="text" name="skill" value="{{ s.skill }}"></div>    
                     <div class="col">Current Rate: {{ s.rate}}</div>
                     <div class="col">
                     <div class="custom-select" style="width:200px;">
@@ -110,11 +112,13 @@
                         <option value="10">10</option>
                       </select>
                     </div></div>
-                      <div class="col"><input type="submit" name="skill_form" value="Select"></div>
-                    </div></li>
+                      <div class="col"><input type="submit" name="skill_form_update" value="Select"></div>
+                   </div></form></li>
                   {% endfor %}
               </ul>
             {% endif %}
+            <form autocomplete="off" action="../{{jobid}}" method="post" name="skill_form">
+            {% csrf_token %}
             <p>Add new skill:</p>
             <div class="autocomplete" style="width:300px;">
               <input id="skill" type="text" name="skill" placeholder="  Select a skill">
@@ -136,6 +140,24 @@
             </div>
               <input type="submit" name="skill_form" value="Select">
         </form> 
+      
+        <h2 style="margin-left: 1%; margin-top: 1%">Update job details</h2>
+
+        <p> Job name: </p>
+
+        <!--Make sure the form has the autocomplete function switched off: -->
+        <form method="post" name="job_form" action="./{{jobid}}" style="width: 80%; margin-left: 1%"> 
+          {% csrf_token %}
+          <input id="title" type="text" name="title" value="{{ job_details.title }}">
+          <p> </p>
+          <p style="margin-left: 0.2%"> Description: </p>
+          <input id="description" type="text" name="description" style="height: 150px;" value="{{ job_details.description }}">
+          <p> Deadline</p>
+          <input id="duedate" type="date" name="duedate" value="{{ job_details.duedate|date:'Y-m-d' }}">
+          <p> </p>
+          <button type="submit" name="job_form"  style="margin-bottom: 1%">submit</button>
+        </form>
+           
         <script>
           function openForm1() {
             document.getElementById("myPopup").style.display = "block";
@@ -145,23 +167,6 @@
             document.getElementById("myPopup").style.display = "none";
           }
         </script>
-        <h2 style="margin-left: 1%; margin-top: 1%">Update job details</h2>
-
-        <p> Job name: </p>
-
-        <!--Make sure the form has the autocomplete function switched off: -->
-        <form method="post" name="job_form" style="width: 80%; margin-left: 1%"> 
-          {% csrf_token %}
-          <input id="title" type="text" name="title" value="{{ job_details.title }}">
-          <p> </p>
-          <p style="margin-left: 0.2%"> Description: </p>
-          <input id="description" type="text" name="description" style="height: 150px;" value="{{ job_details.description }}">
-          <p> Deadline</p>
-          <input id="duedate" type="date" name="duedate" value="{{ job_details.duedate }}">
-          <p> </p>
-          <button type="submit" name="job_form"  style="margin-bottom: 1%" onclick="openForm1()">submit</button>
-        </form>
-        
       </div>  
     <script>
               function autocomplete(inp, arr) {
@@ -262,6 +267,23 @@
               }
 
               var skills = {{skills_database|safe}};
+              {% if job_skills %}
+                  var self = {{self_skill_array|safe}};
+
+                  for(i = 0; i < self.length; i++){
+                      var x = skills.indexOf(self[i]);
+                      skills.splice(x, 1);
+                  }
+              {% endif %}
+              /*if({{self_skill_array}}){
+                  var self = {{self_skill_array|safe}};
+
+                  for(i = 0; i < self.length; i++){
+                      var x = skills.indexOf(self[i]);
+                      skills.splice(x, 1);
+                  }
+              }*/
+
 
               /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
               autocomplete(document.getElementById("skill"), skills);
