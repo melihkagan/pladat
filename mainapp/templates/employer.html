@@ -66,7 +66,7 @@
                     <h5 class="card-title">Description:</h5>
                     <p class="card-text">{{job.job_description}}</p>
                     {% if is_users_profile %}
-                    <a href="#" class="btn btn-primary">Update Job</a>
+                    <a href="{% url 'update_job' jobid=job.id %}" class="btn btn-primary">Update Job</a>
                     <a href="{% url 'delete_job' jobid=job.id %}" class="btn btn-primary">Delete Job</a>
                     {% endif %}
                     {% if is_student %}

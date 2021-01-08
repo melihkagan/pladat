@@ -79,8 +79,8 @@
                       {% endfor %}
                 </ul>
                 {% if is_jobs_owner %}
-                    <a href="#" class="btn btn-primary">Update Job</a>
-                    <a href="#" class="btn btn-primary">Delete Job</a>
+                    <a href="{% url 'update_job' jobid=job.id %}" class="btn btn-primary">Update Job</a>
+                    <a href="{% url 'delete_job' jobid=job.id %}" class="btn btn-primary">Delete Job</a>
                 {% endif %}
                 </div>
             </div>
