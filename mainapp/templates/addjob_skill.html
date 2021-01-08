@@ -97,7 +97,13 @@
         {% if job_skills %}
           <ul>
           {% for s in job_skills %}
-            <li>{{ s.skill }} {{ s.rate}}</li>
+            <li>{{ s.skill }} {{ s.rate}}
+                {% if s.type == 1 %} lowest {% endif %}
+                {% if s.type == 2 %} low {% endif %}
+                {% if s.type == 3 %} medium {% endif %}
+                {% if s.type == 4 %} high {% endif %}
+                {% if s.type == 5 %} highest {% endif %}
+            </li>
               {% endfor %}
           </ul>
         {% endif %}
@@ -121,6 +127,16 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
                 <option value="10">10</option>
+              </select>
+            </div>
+            <div class="custom-select" style="width:200px;">
+              <select name="type">
+                <option value="0">Priority</option>
+                <option value="1">lowest</option>
+                <option value="2">low</option>
+                <option value="3">medium</option>
+                <option value="4">high</option>
+                <option value="5">highest</option>
               </select>
             </div>
               <input type="submit" name="skill_form" value="Select">

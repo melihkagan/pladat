@@ -67,7 +67,8 @@ class Skill(models.Model):
 class JobSkill(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE,default=None)
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE,default=None)
-    rate = models.IntegerField(default=0)    
+    rate = models.IntegerField(default=0)
+    type = models.IntegerField(default=0)
 
 class StudentSkill(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,default=None)

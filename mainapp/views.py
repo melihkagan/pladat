@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from .forms import SkillForm, JobForm, SignupForm
+from .forms import SkillForm, JobForm, SignupForm, JobskillForm
 from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting
 from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student
 # Create your views here.
@@ -148,7 +148,7 @@ def settings_student(request):
 def settings_employer(request):
     current_user = request.user
     userid = current_user.id
-    if Student.objects.filter(user_id = userid).count()==1:
+    if Student.objects.filter(user_id=userid).count()==1:
         return HttpResponse('<b>You are not employer</b>')
     #emp_setting = Setting.objects.filter(user_id = userid)
     employer = Employer.objects.get(user_id=userid)
@@ -278,7 +278,7 @@ def add_job(request, userid):
                 return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job_details})
         elif 'skill_form' in request.POST:
             print("here")
-            form = SkillForm(request.POST)
+            form = JobskillForm(request.POST)
             # check whether it's valid:
             if form.is_valid():
                 print(form.cleaned_data['skill'])
@@ -286,8 +286,9 @@ def add_job(request, userid):
                 skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
                 print(skill[0])
                 star_int = int(request.POST['star'])
+                type_int = int(form.cleaned_data['type'])
                 job = Job.objects.filter(employer=employer).last()
-                JobSkill(job=job, skill=skill[0], rate=star_int).save()
+                JobSkill(job=job, skill=skill[0], rate=star_int, type=type_int).save()
                 job_skills = JobSkill.objects.filter(job=job)
                 self_skill_array = []
                 for skill in job_skills:

@@ -6,7 +6,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 class SkillForm(forms.Form):
-    skill = forms.CharField(initial='skill', max_length=100)
+    skill = forms.CharField(initial='skill', max_length=100, required=True)
+
+class JobskillForm(forms.Form):
+    skill = forms.CharField(initial='skill', max_length=100, required=True)
+    type = forms.IntegerField(initial='type', required=True)
 
 class JobForm(forms.Form):
     title = forms.CharField(initial='title', max_length=200)
