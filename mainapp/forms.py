@@ -4,6 +4,7 @@ from django import forms
 from . import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Employer,Student
 
 class SkillForm(forms.Form):
     skill = forms.CharField(initial='skill', max_length=100, required=True)
@@ -26,5 +27,12 @@ class SignupForm(UserCreationForm):
     name = forms.CharField( widget=forms.TextInput(), max_length=100, required=True)
     surname = forms.CharField( widget=forms.TextInput(), max_length=100, required=True)
 
+class ImageFormEmployer(forms.ModelForm):
+    class Meta:
+        model = Employer
+        fields = ('profile_img')
 
-
+class ImageFormStudent(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ('profile_img')
