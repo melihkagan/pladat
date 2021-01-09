@@ -118,6 +118,7 @@ def settings_student(request):
                 'not1': not1,
                 'not2': not2,
                 'not3': not3,
+                'img' : student.profile_img,
             }
             return render(request, "settings-student.html", context)
     elif request.method == 'POST' and 'set' in request.POST:
@@ -166,6 +167,7 @@ def settings_student(request):
         'not1': stu_setting.not_news,
         'not2': stu_setting.not_matches,
         'not3': stu_setting.not_messages,
+        'img' : student.profile_img,
         }
         return render(request, "settings-student.html", context)
 
@@ -194,6 +196,7 @@ def settings_student(request):
         'not1': not1,
         'not2': not2,
         'not3': not3,
+        'img' : student.profile_img,
     }
     return render(request, "settings-student.html", context)
 
@@ -247,6 +250,7 @@ def settings_employer(request):
             'not1': emp_setting.not_news,
             'not2': emp_setting.not_matches,
             'not3': emp_setting.not_messages,
+            'img' : employer.profile_img,
         }
         return render(request, "settings-employer.html", context)
     
@@ -272,6 +276,7 @@ def settings_employer(request):
             'not1': not1,
             'not2': not2,
             'not3': not3,
+            'img' : employer.profile_img,
         }
     return render(request, "settings-employer.html", context)
 
