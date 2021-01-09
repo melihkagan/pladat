@@ -102,7 +102,8 @@ def settings_student(request):
                 not1 = False
                 not2 = False
                 not3 = False
-
+            
+            form1 = ImageFormStudent()
             context = {
                 "skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array,
                 'username': request.user.username,
@@ -119,6 +120,7 @@ def settings_student(request):
                 'not2': not2,
                 'not3': not3,
                 'img' : student.profile_img,
+                'form': form1,
             }
             return render(request, "settings-student.html", context)
     elif request.method == 'POST' and 'set' in request.POST:
@@ -151,7 +153,8 @@ def settings_student(request):
         else:
             stu_setting.not_messages = False
         stu_setting.save()
-    
+        
+        form1 = ImageFormStudent()
         context = {
         "skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array,
         'username': request.user.username,
@@ -168,9 +171,48 @@ def settings_student(request):
         'not2': stu_setting.not_matches,
         'not3': stu_setting.not_messages,
         'img' : student.profile_img,
+        'form': form1
         }
         return render(request, "settings-student.html", context)
+    
+    elif request.method == 'POST' and 'change_img' in request.POST:
+        form = ImageFormStudent(request.POST, request.FILES)
+        if form.is_valid():
+            student.profile_img = form.cleaned_data['profile_img']
+            student.save()
+            img_obj = student.profile_img
+            try:
+                curr_set = Setting.objects.get(user_id=userid)
+                not1 = curr_set.not_news
+                not2 = curr_set.not_matches
+                not3 = curr_set.not_messages
+            except:
+                not1 = False
+                not2 = False
+                not3 = False
 
+            context = {
+                "skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array,
+                'username': request.user.username,
+                'e_mail': student.e_mail,
+                'b_date': student.birth_date,
+                'fullname': student.surname + " " + student.name,
+                'location': student.location,
+                'school': student.school_name,
+                'dep': student.department,
+                'gpa': student.cgpa,
+                's_day': student.start_date,
+                'e_day': student.end_date,
+                'not1': not1,
+                'not2': not2,
+                'not3': not3,
+                'img' : student.profile_img,
+                'form' : form,
+                'img_obj': img_obj,
+            }
+            return render(request, "settings-student.html", context)
+            
+    
     try:
         curr_set = Setting.objects.get(user_id=userid)
         not1 = curr_set.not_news
@@ -180,7 +222,8 @@ def settings_student(request):
         not1 = False
         not2 = False
         not3 = False
-
+    
+    form1 = ImageFormStudent()
     context = {
         "skills_database": skills_database, "self_skills": self_skills, "self_skill_array": self_skill_array,
         'username': request.user.username,
@@ -197,6 +240,7 @@ def settings_student(request):
         'not2': not2,
         'not3': not3,
         'img' : student.profile_img,
+        'form': form1,
     }
     return render(request, "settings-student.html", context)
 
