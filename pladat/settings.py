@@ -126,6 +126,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mainapp/media/')
+
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'landing'
 

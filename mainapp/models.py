@@ -8,6 +8,10 @@ class UserExtended(User):
     
     usertype = models.CharField(choices=USERTYPES, max_length=10)
 """
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
 class Employer(models.Model):
     user_id = models.IntegerField(default=None)
     e_mail = models.EmailField(default=None, unique=True)
@@ -18,6 +22,7 @@ class Employer(models.Model):
     phone = models.CharField(max_length=13,default="",null=True)
     website = models.CharField(default="",max_length=100,null=True)
     address = models.CharField(default="",max_length=100,null=True)
+    profile_img = models.ImageField(upload_to= user_directory_path, default='comp-logo.jpg' )
 
     def __str__(self):
         return self.name
@@ -34,6 +39,7 @@ class Student(models.Model):
     cgpa = models.FloatField(default=0.0,null=True) #gpa
     e_mail = models.EmailField(default=None,null=True)
     location = models.CharField(max_length=30, default=None, null=True)
+    profile_img = models.ImageField(upload_to= user_directory_path, default='student-pp.png' )
 
     def __str__(self):
         return self.name
