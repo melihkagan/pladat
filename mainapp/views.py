@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from .forms import SkillForm, JobForm, SignupForm, JobskillForm
+from .forms import SkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent
 from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting
 from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student
 # Create your views here.
@@ -209,7 +209,40 @@ def settings_employer(request):
     
     employer = Employer.objects.get(user_id=userid)
     
-    if request.method == 'POST':
+    if request.method == 'POST' and 'change_img' in request.POST:
+        form = ImageFormEmployer(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            img_obj = form.instance
+            try:
+                curr_set = Setting.objects.get(user_id = userid)
+                not1= curr_set.not_news
+                not2= curr_set.not_matches
+                not3= curr_set.not_messages
+            except:
+                not1=False
+                not2=False
+                not3=False
+        
+            context = {
+                    'username': current_user.username,
+                    'e_mail': employer.e_mail,
+                    'fullname': employer.surname + " " + employer.name,
+                    'company' : employer.company_name,
+                    'sector' : employer.sector,
+                    'phone' : employer.phone,
+                    'website': employer.website,
+                    'adress' : employer.address,
+                    'not1': not1,
+                    'not2': not2,
+                    'not3': not3,
+                    'img' : employer.profile_img,
+                    'form' : form,
+                    'img_obj': img_obj,
+                }
+            return render(request, "settings-employer.html", context)
+    
+    elif request.method == 'POST':
         employer.e_mail = request.POST.get('e-mail')
         fullname = request.POST.get('name_surname')
         namearr = fullname.split(' ', 1 )
@@ -237,7 +270,7 @@ def settings_employer(request):
         else:
             emp_setting.not_messages = False
         emp_setting.save()
-        
+        form = ImageFormEmployer()
         context = {
             'username': current_user.username,
             'e_mail': employer.e_mail,
@@ -251,6 +284,7 @@ def settings_employer(request):
             'not2': emp_setting.not_matches,
             'not3': emp_setting.not_messages,
             'img' : employer.profile_img,
+            'form' : form,
         }
         return render(request, "settings-employer.html", context)
     
@@ -263,7 +297,7 @@ def settings_employer(request):
         not1=False
         not2=False
         not3=False
-        
+    form = ImageFormEmployer()    
     context = {
             'username': current_user.username,
             'e_mail': employer.e_mail,
@@ -277,6 +311,7 @@ def settings_employer(request):
             'not2': not2,
             'not3': not3,
             'img' : employer.profile_img,
+            'form': form,
         }
     return render(request, "settings-employer.html", context)
 

@@ -30,9 +30,9 @@ class SignupForm(UserCreationForm):
 class ImageFormEmployer(forms.ModelForm):
     class Meta:
         model = Employer
-        fields = ('profile_img')
+        fields = ('profile_img',)
 
 class ImageFormStudent(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ('profile_img')
+        fields = ('profile_img',)
