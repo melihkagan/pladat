@@ -212,8 +212,9 @@ def settings_employer(request):
     if request.method == 'POST' and 'change_img' in request.POST:
         form = ImageFormEmployer(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            img_obj = form.instance
+            employer.profile_img = form.cleaned_data['profile_img']
+            employer.save()
+            img_obj = employer.profile_img
             try:
                 curr_set = Setting.objects.get(user_id = userid)
                 not1= curr_set.not_news

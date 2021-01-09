@@ -44,7 +44,7 @@
             <br><h2>User Information:</h2><br></div>
         <div class="row bg-light justify-content-around">
                 <div class="col justify-content-center">
-                    <img src="{{ img.url }}" class="img-fluid" alt="Responsive image"><br>
+                    <img src="{{ img.url }}" class="img-fluid" alt="Responsive image" style=" max-width: 80%;  height: auto;"><br>
                     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Change Picture</button>
                 </div>
                 <div class="col justify-content-center">
@@ -157,11 +157,11 @@
           <form method="post" enctype="multipart/form-data">
           <div class="modal-body">
             {% csrf_token %}
-            <h3>Choose Image:</h3>
+            <h3>Choose Image:</h3><br>
                {{ form.as_p }}
              {% if img_obj %}
-              <h3>Succesfully uploaded : {{company}} logo</h3>
-              <img src="{{ img_obj.profile_img.url}}" alt="connect" style="max-height:200px">
+              <br><h3>Succesfully uploaded : {{company}} logo</h3><br>
+              <img src="{{ img_obj.url}}" alt="connect" style="max-width: 80%;  height: auto;">
             {% endif %}
           </div>
           <div class="modal-footer">
