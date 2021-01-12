@@ -1,4 +1,9 @@
 {% extends 'navbar.html' %}
+{% block findbutton %}
+{% if is_jobs_owner %}
+<button class="btn btn-danger navbar-btn" id="match">FIND MATCH</button>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <!doctype html>
@@ -9,15 +14,7 @@
     font-family: "Lucida Console", "Courier New", monospace;
 }
 
-.container-fluid #latest-jobs-header{
-  position: relative;
-  margin-top: 130px;
 
-}
-.container-fluid .row{
-  position: relative;
-  margin-top: 15px;
-}
 .carousel .card{
   position: relative;
   float: none; /* Added */
@@ -37,9 +34,22 @@
   margin-top: 250px;
 }
 
+
   </style>
   {% load static %}
-  
+   <!-- JQuery included for slider  -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script> 
+// Slider's function for find match button click
+$(document).ready(function(){
+  $(".carousel").hide();
+  $("#match").click(function(){
+    $(".container-fluid").remove();
+    $(".carousel").show();
+  });
+});
+</script> 
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -91,11 +101,11 @@
     {% for student,skill_rate in students_skill_total_all_zipped %}
     <div class="row">
             <div class="card">
-                <h5 class="card-header">{{student.name}} {{student.surname}}</h5>
+                <h5 class="card-header"><a href="/profile/{{ student.user_id }}" >{{student.name}} {{student.surname}}</a></h5>
                 <div class="card-body">
                     <div class="row">
                     <div class="col">
-                        <a href="#"><img src="{{ student.profile_img.url }}" class="img-fluid" alt="Responsive image"></a>
+                        <a href="/profile/{{ student.user_id }}"><img src="{{ student.profile_img.url }}" class="img-fluid" alt="Responsive image"></a>
                     </div>
                     <div class="col-6">
                         <ul class="list-group">
@@ -134,6 +144,40 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <!-- Slider -->
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+      <div class="carousel-inner ">
+        <div class="carousel-item active">
+          <div class="card" style="width: 18rem;">
+            
+            <div class="card-body">
+              <h5 class="card-title">Find best fit for yourself</h5>
+              <p class="card-text">This slider will explore and find available jobs that suits your profile. Start by sliding right !</p>
+
+            </div>
+          </div>
+        </div>
+        {% for student in matched_students %}
+        <div class="carousel-item">        
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{student.name}} {{student.surname}}</h5>
+              <p class="card-text">{{student.school_name}}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

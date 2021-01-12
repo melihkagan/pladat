@@ -1,6 +1,8 @@
 {% extends 'navbar.html' %}
 {% block findbutton %}
+{% if is_student %}
 <button class="btn btn-danger navbar-btn" id="match">FIND MATCH</button>
+{% endif %}
 {% endblock %}
 {% block content %}
 <!doctype html>
@@ -97,40 +99,38 @@
       <div class="carousel-inner ">
         <div class="carousel-item active">
           <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            
             <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
+              <h5 class="card-title">Find best fit for yourself</h5>
+              <p class="card-text">This slider will explore and find available jobs that suits your profile. Start by sliding right !</p>
+
             </div>
           </div>
         </div>
-        <div class="carousel-item">
+        {% for job in matched_jobs %}
+        <div class="carousel-item">        
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
+              <h5 class="card-title">{{job.job_title}}</h5>
+              <p class="card-text">{{job.job_description}}</p>
+              {% if is_student %}
+              {% if job.id in student_applied_job %}
+              {% else %}
+              <a href="{% url 'apply_job' jobid=job.id %}"class="btn btn-primary">Apply</a>
+              {% endif %}
+              {% endif %}
+              <a href="{% url 'see_details' jobid=job.id %}" class="btn btn-primary">See details</a>
             </div>
           </div>
         </div>
-        <div class="carousel-item ">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Job title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <a href="#" class="btn btn-primary">Apply</a>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
-      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="prev">
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
       </a>
-      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="next">
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>

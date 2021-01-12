@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from .forms import SkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent
 from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting
-from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student
+from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student,match_students,match_jobs
 # Create your views here.
 
 def landing(request):
@@ -24,9 +24,18 @@ def index(request):
         student = Student.objects.get(user_id=current_user.id)
         student_applied = Application.objects.filter(student_id=student.id)
         student_applied_job = student_applied.values_list('job_id', flat = True)
+        matched_jobs = []
+        for item in match_jobs(student):
+            if item[0] != 0 and item[0] != 9 and item[0] != 10 and item[0] != 11 and item[0] != 12:
+                matched_jobs.append(Job.objects.get(id=item[0]))
+        print(matched_jobs)
     else:
-        student_applied_job = []
-    return render(request, "index.html",{"jobs": all_jobs_by_order,"is_student": is_student, "student_applied_job": student_applied_job})
+        student_applied_job = [] # handle error
+        matched_jobs = [] # handle error
+    return render(request, "index.html",{"jobs": all_jobs_by_order,
+                                        "is_student": is_student, 
+                                        "student_applied_job": student_applied_job,
+                                        "matched_jobs": matched_jobs})
 
 
 
@@ -41,6 +50,13 @@ def see_details(request, jobid):
     jobs_owner = Employer.objects.get(id = job.employer_id)
     is_jobs_owner =  (current_user.id == jobs_owner.user_id)
 
+    # find matching students
+    matched_students = []
+    if JobSkill.objects.filter(job_id=job.id).count() > 1:
+        for item in match_students(job):
+            matched_students.append(Student.objects.get(id=item[0]))
+    
+    
     # get applicant students
     applications = Application.objects.filter(job_id = jobid)
     who_applied = []
@@ -54,9 +70,12 @@ def see_details(request, jobid):
         students_skill_total = get_skill_rate_zipped_student(item)
         students_skill_total_all.append(students_skill_total)      
     students_skill_total_all_zipped = zip(who_applied,students_skill_total_all)
+    
 
-    return render(request, "see-details.html",{"job": job, "jobs_skill_total": jobs_skill_total
-                                                , "is_jobs_owner": is_jobs_owner, "students_skill_total_all_zipped": students_skill_total_all_zipped})
+    return render(request, "see-details.html",{"job": job, "jobs_skill_total": jobs_skill_total,  
+                                               "is_jobs_owner": is_jobs_owner, 
+                                                "students_skill_total_all_zipped": students_skill_total_all_zipped,
+                                                "matched_students": matched_students})
 
 
 @login_required
