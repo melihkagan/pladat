@@ -42,7 +42,6 @@ def match(student):
         sum = 0
         for skill in skills:
             sum += skill.type
-
         return 100 / sum
 
     # highest 5, high 4, medium 3, low 2, lowest 1
@@ -50,12 +49,15 @@ def match(student):
     def matching(student, job):
         jobskills = JobSkill.objects.filter(job=job)
 
+        if jobskills.count() == 0:
+            return 0
+
         unit = compute_unit(jobskills)
 
         point = 0
         for skill in jobskills:
             if StudentSkill.objects.filter(student=student, skill=skill.skill).count() == 1:
-                point += get_point(skill, StudentSkill.objects.filter(student=student, skill=skill.skill), unit)
+                point += get_point(skill, StudentSkill.objects.filter(student=student, skill=skill.skill)[0], unit)
 
         return point
 
@@ -70,8 +72,7 @@ def match(student):
             points.append(matching(student, job))
 
         ids = list(range(0, len(jobs)))
-        #points.sort()
-        points_ids = zip(ids, points)
+        points_ids = list(zip(ids, points))
         points_ids.sort(key=takeSecond, reverse=True)
         return points_ids
 
