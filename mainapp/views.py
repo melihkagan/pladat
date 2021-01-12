@@ -26,8 +26,8 @@ def index(request):
         student_applied_job = student_applied.values_list('job_id', flat = True)
         matched_jobs = []
         for item in match_jobs(student):
-            if item[0] != 0 and item[0] != 9 and item[0] != 10 and item[0] != 11 and item[0] != 12:
-                matched_jobs.append(Job.objects.get(id=item[0]))
+            print(item)
+            matched_jobs.append(Job.objects.get(id=item[0]))
         print(matched_jobs)
     else:
         student_applied_job = [] # handle error

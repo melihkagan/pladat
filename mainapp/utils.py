@@ -2,7 +2,6 @@ from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill
 
 
 def get_skill_rate_zipped_student(student):
-    
     students_skill = StudentSkill.objects.filter(student_id=student.id)
     students_skill_list = []
     students_rate_list = []
@@ -14,14 +13,13 @@ def get_skill_rate_zipped_student(student):
 
 
 def get_skill_rate_zipped_job(job):
-
     jobs_skill = JobSkill.objects.filter(job_id=job.id)
     jobs_skill_list = []
     jobs_rate_list = []
     for item in jobs_skill:
         jobs_skill_list.append(Skill.objects.get(id=item.skill_id).skill)
         jobs_rate_list.append(item.rate)
-    jobs_skill_total = zip(jobs_skill_list,jobs_rate_list)
+    jobs_skill_total = zip(jobs_skill_list, jobs_rate_list)
     return jobs_skill_total
 
 
@@ -54,10 +52,11 @@ def match_jobs(student):
             return 0
 
         unit = compute_unit(jobskills)
-
+        #print(unit)
         point = 0
         for skill in jobskills:
             if StudentSkill.objects.filter(student=student, skill=skill.skill).count() == 1:
+                print(job)
                 point += get_point(skill, StudentSkill.objects.filter(student=student, skill=skill.skill)[0], unit)
 
         return point
@@ -72,14 +71,20 @@ def match_jobs(student):
         for job in jobs:
             points.append(matching(student, job))
 
-        ids = list(range(1, len(jobs)+1))
-        #points.sort()
+        print(points)
+        ids = Job.objects.all().values_list('id', flat=True)
+        ids = list(ids)
+        print(ids)
+        ids.sort()
+        print(ids)
+        # points.sort()
         points_ids = list(zip(ids, points))
         points_ids.sort(key=takeSecond, reverse=True)
         return points_ids
 
     point = match_all_jobs(student)
     return point
+
 
 def match_students(job):
     def get_point(skill, studentskill, unit):
@@ -128,8 +133,9 @@ def match_students(job):
         for student in students:
             points.append(matching(job, student, unit))
 
-        ids = list(range(1, len(students)+1))
-        #points.sort()
+        ids = Student.objects.all().values_list('id', flat=True)
+
+        # points.sort()
         points_ids = list(zip(ids, points))
         points_ids.sort(key=takeSecond, reverse=True)
         return points_ids
