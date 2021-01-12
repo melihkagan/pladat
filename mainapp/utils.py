@@ -25,7 +25,7 @@ def get_skill_rate_zipped_job(job):
     return jobs_skill_total
 
 
-def match(student):
+def match_jobs(student):
     def get_point(skill, studentskill, unit):
         dif = studentskill.rate - skill.rate
 
@@ -42,6 +42,7 @@ def match(student):
         sum = 0
         for skill in skills:
             sum += skill.type
+
         return 100 / sum
 
     # highest 5, high 4, medium 3, low 2, lowest 1
@@ -71,7 +72,8 @@ def match(student):
         for job in jobs:
             points.append(matching(student, job))
 
-        ids = list(range(0, len(jobs)))
+        ids = list(range(1, len(jobs)+1))
+        #points.sort()
         points_ids = list(zip(ids, points))
         points_ids.sort(key=takeSecond, reverse=True)
         return points_ids
@@ -79,3 +81,58 @@ def match(student):
     point = match_all_jobs(student)
     return point
 
+def match_students(job):
+    def get_point(skill, studentskill, unit):
+        dif = studentskill.rate - skill.rate
+
+        if dif < 0:
+            point = (10 + dif)
+        else:
+            point = 10
+
+        point = (point * unit * skill.type) / 10
+
+        return point
+
+    def compute_unit(skills):
+        sum = 0
+        for skill in skills:
+            sum += skill.type
+
+        return 100 / sum
+
+    # highest 5, high 4, medium 3, low 2, lowest 1
+
+    def matching(job, student, unit):
+        jobskills = JobSkill.objects.filter(job=job)
+        point = 0
+        for skill in jobskills:
+            if StudentSkill.objects.filter(student=student, skill=skill.skill).count() == 1:
+                point += get_point(skill, StudentSkill.objects.filter(student=student, skill=skill.skill)[0], unit)
+
+        return point
+
+    # take second element for sort
+    def takeSecond(elem):
+        return elem[1]
+
+    def match_all_students(job):
+        jobskills = JobSkill.objects.filter(job=job)
+        if jobskills.count() == 0:
+            return 0
+
+        unit = compute_unit(jobskills)
+
+        students = Student.objects.all()
+        points = []
+        for student in students:
+            points.append(matching(job, student, unit))
+
+        ids = list(range(1, len(students)+1))
+        #points.sort()
+        points_ids = list(zip(ids, points))
+        points_ids.sort(key=takeSecond, reverse=True)
+        return points_ids
+
+    point = match_all_students(job)
+    return point
