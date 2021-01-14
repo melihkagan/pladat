@@ -1,7 +1,7 @@
+<!DOCTYPE html>
 {% extends 'navbar.html' %}
 
 {% block content %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>addjob</title>
@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Search bar -->
-    <link href="{% static "main.css" %}" rel="stylesheet" />
+    <link href="{% static 'main.css' %}" rel="stylesheet" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Add icon library -->
@@ -85,12 +85,12 @@
         <!--Make sure the form has the autocomplete function switched off: -->
         <form method="post" name="job_form" style="width: 80%; margin-left: 1%"> 
           {% csrf_token %}
-          <input id="title" type="text" name="title">
+          <input id="title" type="text" name="title" required>
           <p>Required Departments: </p>
           <input id="req_departments" type="text" name="req_departments" pattern="[A-Za-z ,]*">
           <p> Note: Use commas to seperate department names</p>
           <p style="margin-left: 0.2%"> Description: </p>
-          <input id="description" type="text" name="description" style="height: 150px;">
+          <input id="description" type="text" name="description" style="height: 150px;" required>
           <p> Deadline</p>
           <input id="duedate" type="date" name="duedate">
           <p> </p>

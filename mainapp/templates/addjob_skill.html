@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Search bar -->
-    <link href="{% static "main.css" %}" rel="stylesheet"/>
+    <link href="{% static 'main.css' %}" rel="stylesheet"/>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Add icon library -->
@@ -114,11 +114,11 @@
         <form autocomplete="off" action="." method="post" name="skill_form"> 
             {% csrf_token %}
             <div class="autocomplete" style="width:300px;">
-              <input id="skill" type="text" name="skill" placeholder="  Select a skill">
+              <input id="skill" type="text" name="skill" placeholder="  Select a skill" required>
             </div>
             <div class="custom-select" style="width:200px;">
-              <select name="star">
-                <option value="0">Star rate</option>
+              <select name="star" required>
+                <option value="">Star rate</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -132,8 +132,8 @@
               </select>
             </div>
             <div class="custom-select" style="width:200px;">
-              <select name="type">
-                <option value="0">Priority</option>
+              <select name="type" required>
+                <option value="">Priority</option>
                 <option value="1">lowest</option>
                 <option value="2">low</option>
                 <option value="3">medium</option>

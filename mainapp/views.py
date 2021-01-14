@@ -477,7 +477,7 @@ def add_job(request, userid):
                 self_skill_array = []
                 for skill in job_skills:
                     self_skill_array.append(str(skill.skill))
-                return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job, "job_skills": job_skills, "self_skill_array": self_skill_array})
+                return render('addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job, "job_skills": job_skills, "self_skill_array": self_skill_array})
 
     return render(request, 'addjob.html', {'username': username, "skills_database": skills_database})
 @login_required

@@ -8,101 +8,104 @@
     <link href="{% static "main.css" %}" rel="stylesheet" />
     <style>
 
-*{
-    font-family: "Lucida Console", "Courier New", monospace;
-}
+	.dis {
+	  display: none;
+	}
 
-.container-fluid #latest-jobs-header{
-  position: relative;
-  margin-top: 130px;
+	:target {
+	  display: block;
+	}
 
-}
-.container-fluid .row{
-  position: relative;
-  margin-top: 15px;
-}
+	*{
+		font-family: "Lucida Console", "Courier New", monospace;
+	}
 
-#right {
-	float: right;
-	clear: right;
-}
+	.container-fluid #latest-jobs-header{
+	  position: relative;
+	  margin-top: 130px;
 
-#left {
-	float: left;
-	clear: left;
-}
+	}
+	.container-fluid .row{
+	  position: relative;
+	  margin-top: 15px;
+	}
 
-        .popup {
-          /*position: relative;*/
-          width: 49%;
-          display: inline-block;
-          cursor: pointer;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-        }
+	#right {
+		float: right;
+		clear: right;
+	}
 
-        .popup button {
-          border-radius: 5px;
-          border: 1px solid #000;
-          outline: 0;
-          display: inline-block;
-          padding: 8px;
-          color: white;
-          background-color: orange;
-          text-align: center;
-          cursor: pointer;
-          width: 40%;
-          font-size: 18px;
-          margin:0 auto;
-        }
+	#left {
+		float: left;
+		clear: left;
+	}
 
-        .popup .popuptext{
-          display: none;
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          max-width: 100%;
-          width: 100%;
-          margin: auto;
-        }
+	.popup {
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	}
 
-        .major {
-          color: grey;
-          font-size: 18px;
-          margin-left: 20px;
-        }
+	.choose {
 
-        .popup .popuptext p{
-          margin-left: 20px;
-        }
+	}
 
-        .popup .popuptext a {
-          text-decoration: none;
-          font-size: 22px;
-          color: black;
-        }
+	.choose a {
+	  border-radius: 5px;
+	  outline: 0;
+	  display: inline-block;
+	  padding: 8px;
+	  color: white;
+	  background-color: orange;
+	  text-align: center;
+	  cursor: pointer;
+	  font-size: 18px;
+	  margin:0 auto;
+	}
 
-        .popup .popuptext button:hover, a:hover {
-          opacity: 0.7;
-        }
+	.popup {
+	  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	  margin: auto;
+	}
 
-        /* Toggle this class when clicking on the popup container (hide and show the popup) */
-        .popup .show {
-          visibility: visible;
-          -webkit-animation: fadeIn 1s;
-          animation: fadeIn 1s
-        }
+	.major {
+	  color: grey;
+	  font-size: 18px;
+	  margin-left: 20px;
+	}
 
-        /* Add animation (fade in the popup) */
-        @-webkit-keyframes fadeIn {
-          from {opacity: 0;}
-          to {opacity: 1;}
-        }
+	.popup p{
+	  margin-left: 20px;
+	}
 
-        @keyframes fadeIn {
-          from {opacity: 0;}
-          to {opacity:1 ;}
-        }
+	.popup a {
+	  text-decoration: none;
+	  font-size: 22px;
+	  color: black;
+	}
+
+	.popup button:hover, a:hover {
+	  opacity: 0.7;
+	}
+
+	/* Toggle this class when clicking on the popup container (hide and show the popup) */
+	.popup .show {
+	  visibility: visible;
+	  -webkit-animation: fadeIn 1s;
+	  animation: fadeIn 1s
+	}
+
+	/* Add animation (fade in the popup) */
+	@-webkit-keyframes fadeIn {
+	  from {opacity: 0;}
+	  to {opacity: 1;}
+	}
+
+	@keyframes fadeIn {
+	  from {opacity: 0;}
+	  to {opacity:1 ;}
+	}
 
   </style>
     <!-- Required meta tags -->
@@ -116,247 +119,251 @@
   </head>
   <body>
   	<h1 style="margin-top: 100px; text-align: center;"> What do you want to do?</h1>
-    <div class="popup" id="left" style="margin-left: 20px">
-            <button style="font-size:18px" onclick="openForm1()">Add a skill</button>
-            <div class="popuptext" id="myPopup" style="margin-bottom: 150px;">
-                <h2 style="margin-left: 1%; margin-top: 1%">Add a skill</h2>
+	<div class="choose">
+		<a style="font-size:18px" href="#addskill">Add a skill</a>
+		<a style="font-size:18px; margin-left:70%" href="#change">Change settings</a>
+	</div>
 
-                <p> Your skills:</p>
-                {% if self_skills %}
-                  <ul>
-                  {% for skill in self_skills %}
-                  <li>{{ skill.skill }} {{ skill.rate}}</li>
-                  {% endfor %}
-                </ul>
-                {% endif %}
+    <div class="popup" >
+		<div class="dis" id="addskill">
+			<br>
+			<h2 style="margin-left:20px">Add a skill</h2>
 
-                <!--Make sure the form has the autocomplete function switched off: -->
-                <form autocomplete="off" action="." method="post"> 
-                  {% csrf_token %}
-                  <div class="autocomplete" style="width:300px;">
-                    <input id="skill" type="text" name="skill" placeholder="  Select a skill">
-                  </div>
-                  <div class="custom-select" style="width:200px;">
-                    <select name="star">
-                      <option value="0">Star rate</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                    </select>
-                  </div>
-                  <input name="skillset" type="submit" value="Select">
-                </form>
+			<p> Your skills:</p>
+			{% if self_skills %}
+			  <ul>
+			  {% for skill in self_skills %}
+			  	<li>{{ skill.skill }} {{ skill.rate}}</li>
+			  {% endfor %}
+			  </ul>
+			{% endif %}
 
-              <script>
-              function autocomplete(inp, arr) {
-                /*the autocomplete function takes two arguments,
-                the text field element and an array of possible autocompleted values:*/
-                var currentFocus;
-                /*execute a function when someone writes in the text field:*/
-                inp.addEventListener("input", function(e) {
-                    var a, b, i, val = this.value;
-                    /*close any already open lists of autocompleted values*/
-                    closeAllLists();
-                    if (!val) { return false;}
-                    currentFocus = -1;
-                    /*create a DIV element that will contain the items (values):*/
-                    a = document.createElement("DIV");
-                    a.setAttribute("id", this.id + "autocomplete-list");
-                    a.setAttribute("class", "autocomplete-items");
-                    /*append the DIV element as a child of the autocomplete container:*/
-                    this.parentNode.appendChild(a);
-                    /*for each item in the array...*/
-                    for (i = 0; i < arr.length; i++) {
-                      /*check if the item starts with the same letters as the text field value:*/
-                      if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                        /*create a DIV element for each matching element:*/
-                        b = document.createElement("DIV");
-                        /*make the matching letters bold:*/
-                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                        b.innerHTML += arr[i].substr(val.length);
-                        /*insert a input field that will hold the current array item's value:*/
-                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                        /*execute a function when someone clicks on the item value (DIV element):*/
-                        b.addEventListener("click", function(e) {
-                            /*insert the value for the autocomplete text field:*/
-                            inp.value = this.getElementsByTagName("input")[0].value;
-                            /*close the list of autocompleted values,
-                            (or any other open lists of autocompleted values:*/
-                            closeAllLists();
-                        });
-                        a.appendChild(b);
-                      }
-                    }
-                });
-                /*execute a function presses a key on the keyboard:*/
-                inp.addEventListener("keydown", function(e) {
-                    var x = document.getElementById(this.id + "autocomplete-list");
-                    if (x) x = x.getElementsByTagName("div");
-                    if (e.keyCode == 40) {
-                      /*If the arrow DOWN key is pressed,
-                      increase the currentFocus variable:*/
-                      currentFocus++;
-                      /*and and make the current item more visible:*/
-                      addActive(x);
-                    } else if (e.keyCode == 38) { //up
-                      /*If the arrow UP key is pressed,
-                      decrease the currentFocus variable:*/
-                      currentFocus--;
-                      /*and and make the current item more visible:*/
-                      addActive(x);
-                    } else if (e.keyCode == 13) {
-                      /*If the ENTER key is pressed, prevent the form from being submitted,*/
-                      e.preventDefault();
-                      if (currentFocus > -1) {
-                        /*and simulate a click on the "active" item:*/
-                        if (x) x[currentFocus].click();
-                      }
-                    }
-                });
-                function addActive(x) {
-                  /*a function to classify an item as "active":*/
-                  if (!x) return false;
-                  /*start by removing the "active" class on all items:*/
-                  removeActive(x);
-                  if (currentFocus >= x.length) currentFocus = 0;
-                  if (currentFocus < 0) currentFocus = (x.length - 1);
-                  /*add class "autocomplete-active":*/
-                  x[currentFocus].classList.add("autocomplete-active");
-                }
-                function removeActive(x) {
-                  /*a function to remove the "active" class from all autocomplete items:*/
-                  for (var i = 0; i < x.length; i++) {
-                    x[i].classList.remove("autocomplete-active");
-                  }
-                }
-                function closeAllLists(elmnt) {
-                  /*close all autocomplete lists in the document,
-                  except the one passed as an argument:*/
-                  var x = document.getElementsByClassName("autocomplete-items");
-                  for (var i = 0; i < x.length; i++) {
-                    if (elmnt != x[i] && elmnt != inp) {
-                      x[i].parentNode.removeChild(x[i]);
-                    }
-                  }
-                }
-                /*execute a function when someone clicks in the document:*/
-                document.addEventListener("click", function (e) {
-                    closeAllLists(e.target);
-                });
-              }
+			<!--Make sure the form has the autocomplete function switched off: -->
+			<form autocomplete="off" action="." method="post">
+			  {% csrf_token %}
+			  <div class="autocomplete">
+				<input style="width:130%" id="skill" type="text" name="skill" placeholder="  Select a skill" required>
+			  </div>
+			  <div class="custom-select" style="width:20%; margin-left:6%">
+				<select name="star" required>
+				  <option value="0">Star rate</option>
+				  <option value="1">1</option>
+				  <option value="2">2</option>
+				  <option value="3">3</option>
+				  <option value="4">4</option>
+				  <option value="5">5</option>
+				  <option value="6">6</option>
+				  <option value="7">7</option>
+				  <option value="8">8</option>
+				  <option value="9">9</option>
+				  <option value="10">10</option>
+				</select>
+			  </div>
+			  <input name="skillset" type="submit" value="Select">
+			</form>
 
-              var skills = {{skills_database|safe}};
-              var self = {{self_skill_array|safe}};
+		  <script>
+		  function autocomplete(inp, arr) {
+			/*the autocomplete function takes two arguments,
+			the text field element and an array of possible autocompleted values:*/
+			var currentFocus;
+			/*execute a function when someone writes in the text field:*/
+			inp.addEventListener("input", function(e) {
+				var a, b, i, val = this.value;
+				/*close any already open lists of autocompleted values*/
+				closeAllLists();
+				if (!val) { return false;}
+				currentFocus = -1;
+				/*create a DIV element that will contain the items (values):*/
+				a = document.createElement("DIV");
+				a.setAttribute("id", this.id + "autocomplete-list");
+				a.setAttribute("class", "autocomplete-items");
+				/*append the DIV element as a child of the autocomplete container:*/
+				this.parentNode.appendChild(a);
+				/*for each item in the array...*/
+				for (i = 0; i < arr.length; i++) {
+				  /*check if the item starts with the same letters as the text field value:*/
+				  if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+					/*create a DIV element for each matching element:*/
+					b = document.createElement("DIV");
+					/*make the matching letters bold:*/
+					b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+					b.innerHTML += arr[i].substr(val.length);
+					/*insert a input field that will hold the current array item's value:*/
+					b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+					/*execute a function when someone clicks on the item value (DIV element):*/
+					b.addEventListener("click", function(e) {
+						/*insert the value for the autocomplete text field:*/
+						inp.value = this.getElementsByTagName("input")[0].value;
+						/*close the list of autocompleted values,
+						(or any other open lists of autocompleted values:*/
+						closeAllLists();
+					});
+					a.appendChild(b);
+				  }
+				}
+			});
+			/*execute a function presses a key on the keyboard:*/
+			inp.addEventListener("keydown", function(e) {
+				var x = document.getElementById(this.id + "autocomplete-list");
+				if (x) x = x.getElementsByTagName("div");
+				if (e.keyCode == 40) {
+				  /*If the arrow DOWN key is pressed,
+				  increase the currentFocus variable:*/
+				  currentFocus++;
+				  /*and and make the current item more visible:*/
+				  addActive(x);
+				} else if (e.keyCode == 38) { //up
+				  /*If the arrow UP key is pressed,
+				  decrease the currentFocus variable:*/
+				  currentFocus--;
+				  /*and and make the current item more visible:*/
+				  addActive(x);
+				} else if (e.keyCode == 13) {
+				  /*If the ENTER key is pressed, prevent the form from being submitted,*/
+				  e.preventDefault();
+				  if (currentFocus > -1) {
+					/*and simulate a click on the "active" item:*/
+					if (x) x[currentFocus].click();
+				  }
+				}
+			});
+			function addActive(x) {
+			  /*a function to classify an item as "active":*/
+			  if (!x) return false;
+			  /*start by removing the "active" class on all items:*/
+			  removeActive(x);
+			  if (currentFocus >= x.length) currentFocus = 0;
+			  if (currentFocus < 0) currentFocus = (x.length - 1);
+			  /*add class "autocomplete-active":*/
+			  x[currentFocus].classList.add("autocomplete-active");
+			}
+			function removeActive(x) {
+			  /*a function to remove the "active" class from all autocomplete items:*/
+			  for (var i = 0; i < x.length; i++) {
+				x[i].classList.remove("autocomplete-active");
+			  }
+			}
+			function closeAllLists(elmnt) {
+			  /*close all autocomplete lists in the document,
+			  except the one passed as an argument:*/
+			  var x = document.getElementsByClassName("autocomplete-items");
+			  for (var i = 0; i < x.length; i++) {
+				if (elmnt != x[i] && elmnt != inp) {
+				  x[i].parentNode.removeChild(x[i]);
+				}
+			  }
+			}
+			/*execute a function when someone clicks in the document:*/
+			document.addEventListener("click", function (e) {
+				closeAllLists(e.target);
+			});
+		  }
 
-              for(i = 0; i < self.length; i++){
-              	var x = skills.indexOf(self[i]);
-              	skills.splice(x, 1);
-              }
+		  var skills = {{skills_database|safe}};
+		  var self = {{self_skill_array|safe}};
 
-              /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-              autocomplete(document.getElementById("skill"), skills);
-              </script>
-              <script>
-              var x, i, j, l, ll, selElmnt, a, b, c;
-              /*look for any elements with the class "custom-select":*/
-              x = document.getElementsByClassName("custom-select");
-              l = x.length;
-              for (i = 0; i < l; i++) {
-                selElmnt = x[i].getElementsByTagName("select")[0];
-                ll = selElmnt.length;
-                /*for each element, create a new DIV that will act as the selected item:*/
-                a = document.createElement("DIV");
-                a.setAttribute("class", "select-selected");
-                a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-                x[i].appendChild(a);
-                /*for each element, create a new DIV that will contain the option list:*/
-                b = document.createElement("DIV");
-                b.setAttribute("class", "select-items select-hide");
-                for (j = 1; j < ll; j++) {
-                  /*for each option in the original select element,
-                  create a new DIV that will act as an option item:*/
-                  c = document.createElement("DIV");
-                  c.innerHTML = selElmnt.options[j].innerHTML;
-                  c.addEventListener("click", function(e) {
-                      /*when an item is clicked, update the original select box,
-                      and the selected item:*/
-                      var y, i, k, s, h, sl, yl;
-                      s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-                      sl = s.length;
-                      h = this.parentNode.previousSibling;
-                      for (i = 0; i < sl; i++) {
-                        if (s.options[i].innerHTML == this.innerHTML) {
-                          s.selectedIndex = i;
-                          h.innerHTML = this.innerHTML;
-                          y = this.parentNode.getElementsByClassName("same-as-selected");
-                          yl = y.length;
-                          for (k = 0; k < yl; k++) {
-                            y[k].removeAttribute("class");
-                          }
-                          this.setAttribute("class", "same-as-selected");
-                          break;
-                        }
-                      }
-                      h.click();
-                  });
-                  b.appendChild(c);
-                }
-                x[i].appendChild(b);
-                a.addEventListener("click", function(e) {
-                    /*when the select box is clicked, close any other select boxes,
-                    and open/close the current select box:*/
-                    e.stopPropagation();
-                    closeAllSelect(this);
-                    this.nextSibling.classList.toggle("select-hide");
-                    this.classList.toggle("select-arrow-active");
-                  });
-              }
-              function closeAllSelect(elmnt) {
-                /*a function that will close all select boxes in the document,
-                except the current select box:*/
-                var x, y, i, xl, yl, arrNo = [];
-                x = document.getElementsByClassName("select-items");
-                y = document.getElementsByClassName("select-selected");
-                xl = x.length;
-                yl = y.length;
-                for (i = 0; i < yl; i++) {
-                  if (elmnt == y[i]) {
-                    arrNo.push(i)
-                  } else {
-                    y[i].classList.remove("select-arrow-active");
-                  }
-                }
-                for (i = 0; i < xl; i++) {
-                  if (arrNo.indexOf(i)) {
-                    x[i].classList.add("select-hide");
-                  }
-                }
-              }
-              /*if the user clicks anywhere outside the select box,
-              then close all select boxes:*/
-              document.addEventListener("click", closeAllSelect);
-              </script>
-              <script>
-              function openForm1() {
-                document.getElementById("myPopup").style.display = "block";
-              }
+		  for(i = 0; i < self.length; i++){
+			var x = skills.indexOf(self[i]);
+			skills.splice(x, 1);
+		  }
 
-              function closeForm1() {
-                document.getElementById("myPopup").style.display = "none";
-              }
-              </script>
-        </div>
+		  /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+		  autocomplete(document.getElementById("skill"), skills);
+		  </script>
+		  <script>
+		  var x, i, j, l, ll, selElmnt, a, b, c;
+		  /*look for any elements with the class "custom-select":*/
+		  x = document.getElementsByClassName("custom-select");
+		  l = x.length;
+		  for (i = 0; i < l; i++) {
+			selElmnt = x[i].getElementsByTagName("select")[0];
+			ll = selElmnt.length;
+			/*for each element, create a new DIV that will act as the selected item:*/
+			a = document.createElement("DIV");
+			a.setAttribute("class", "select-selected");
+			a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+			x[i].appendChild(a);
+			/*for each element, create a new DIV that will contain the option list:*/
+			b = document.createElement("DIV");
+			b.setAttribute("class", "select-items select-hide");
+			for (j = 1; j < ll; j++) {
+			  /*for each option in the original select element,
+			  create a new DIV that will act as an option item:*/
+			  c = document.createElement("DIV");
+			  c.innerHTML = selElmnt.options[j].innerHTML;
+			  c.addEventListener("click", function(e) {
+				  /*when an item is clicked, update the original select box,
+				  and the selected item:*/
+				  var y, i, k, s, h, sl, yl;
+				  s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+				  sl = s.length;
+				  h = this.parentNode.previousSibling;
+				  for (i = 0; i < sl; i++) {
+					if (s.options[i].innerHTML == this.innerHTML) {
+					  s.selectedIndex = i;
+					  h.innerHTML = this.innerHTML;
+					  y = this.parentNode.getElementsByClassName("same-as-selected");
+					  yl = y.length;
+					  for (k = 0; k < yl; k++) {
+						y[k].removeAttribute("class");
+					  }
+					  this.setAttribute("class", "same-as-selected");
+					  break;
+					}
+				  }
+				  h.click();
+			  });
+			  b.appendChild(c);
+			}
+			x[i].appendChild(b);
+			a.addEventListener("click", function(e) {
+				/*when the select box is clicked, close any other select boxes,
+				and open/close the current select box:*/
+				e.stopPropagation();
+				closeAllSelect(this);
+				this.nextSibling.classList.toggle("select-hide");
+				this.classList.toggle("select-arrow-active");
+			  });
+		  }
+		  function closeAllSelect(elmnt) {
+			/*a function that will close all select boxes in the document,
+			except the current select box:*/
+			var x, y, i, xl, yl, arrNo = [];
+			x = document.getElementsByClassName("select-items");
+			y = document.getElementsByClassName("select-selected");
+			xl = x.length;
+			yl = y.length;
+			for (i = 0; i < yl; i++) {
+			  if (elmnt == y[i]) {
+				arrNo.push(i)
+			  } else {
+				y[i].classList.remove("select-arrow-active");
+			  }
+			}
+			for (i = 0; i < xl; i++) {
+			  if (arrNo.indexOf(i)) {
+				x[i].classList.add("select-hide");
+			  }
+			}
+		  }
+		  /*if the user clicks anywhere outside the select box,
+		  then close all select boxes:*/
+		  document.addEventListener("click", closeAllSelect);
+		  </script>
+		  <script>
+		  function openForm1() {
+			document.getElementById("myPopup").style.display = "block";
+		  }
+
+		  function closeForm1() {
+			document.getElementById("myPopup").style.display = "none";
+		  }
+		  </script>
+	</div>
     </div>
-    <div class="popup", id="right">
-        <button style="font-size:18px; margin-left: 55%" onclick="openForm2()">Change settings</button>
-        <div class="popuptext" id="settingspop" style="font-size:18px; margin-right: 1%">
+    <div class="popup">
+        <div class="dis" id="change" style="font-size:18px">
 		    <br>
 		    <div class="container-fluid">
 		    <br>
@@ -487,8 +494,9 @@
               }
               </script>
 		</div>
+	 </div>
 	</div>
-	
+
 	        <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
