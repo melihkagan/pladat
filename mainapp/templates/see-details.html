@@ -9,6 +9,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    {% load static %}
     <style>
 *{
     font-family: "Lucida Console", "Courier New", monospace;
@@ -19,7 +20,9 @@
   position: relative;
   float: none; /* Added */
   margin-top: 120px;
-  left: 40%;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 .carousel-control-next{
   background-color: gray;
@@ -33,10 +36,16 @@
   max-width: 30px;
   margin-top: 250px;
 }
-
+body{
+  background: url('{% static "hero-bg.jpg" %}')
+}
+.container-fluid{
+  position: relative;
+  margin-top: 30px;
+}
 
   </style>
-  {% load static %}
+ 
    <!-- JQuery included for slider  -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -44,9 +53,13 @@
 // Slider's function for find match button click
 $(document).ready(function(){
   $(".carousel").hide();
+  $(".carousel-control-next").hide();
+  $(".carousel-control-prev").hide();
   $("#match").click(function(){
     $(".container-fluid").remove();
     $(".carousel").show();
+    $(".carousel-control-next").show();
+    $(".carousel-control-prev").show();
   });
 });
 </script> 
@@ -153,22 +166,35 @@ $(document).ready(function(){
             
             <div class="card-body">
               <h5 class="card-title">Find best fit for yourself</h5>
-              <p class="card-text">This slider will explore and find available jobs that suits your profile. Start by sliding right !</p>
+              <p class="card-text">This slider will explore and find best students that suits your job criteria. Start by sliding right !</p>
 
             </div>
           </div>
         </div>
         {% for student in matched_students %}
-        <div class="carousel-item">        
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+        <div class="carousel-item">
+          <div class="card">
+            <h5 class="card-header"><a href="/profile/{{ student.user_id }}" >{{student.name}} {{student.surname}}</a></h5>
             <div class="card-body">
-              <h5 class="card-title">{{student.name}} {{student.surname}}</h5>
-              <p class="card-text">{{student.school_name}}</p>
+                <div class="row">
+                <div class="col">
+                    <a href="/profile/{{ student.user_id }}"><img src="{{ student.profile_img.url }}" class="img-fluid" alt="Responsive image"></a>
+                </div>
+                <div class="col-6">
+                    <ul class="list-group">
+                      <li class="list-group-item"><b>Name:</b>{{student.name}} {{student.surname}}</li>
+                      <li class="list-group-item"><b>Department:</b>{{student.department}} </li>
+                      <li class="list-group-item"><b>University:</b>{{student.school_name}} r</li>
+                      <li class="list-group-item"><b>CGPA:</b>{{student.cgpa}} </li>
+                    </ul>
+                </div>
+                </div>
             </div>
-          </div>
         </div>
-        {% endfor %}
+    </div>
+    {% endfor %}
+        </div>
+        
       </div>
       <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>

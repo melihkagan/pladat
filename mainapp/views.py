@@ -55,7 +55,7 @@ def see_details(request, jobid):
     if JobSkill.objects.filter(job_id=job.id).count() > 1:
         for item in match_students(job):
             matched_students.append(Student.objects.get(id=item[0]))
-    
+
     
     # get applicant students
     applications = Application.objects.filter(job_id = jobid)

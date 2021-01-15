@@ -8,6 +8,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    {% load static %}
     <style>
 *{
     font-family: "Lucida Console", "Courier New", monospace;
@@ -26,7 +27,8 @@
   position: relative;
   float: none; /* Added */
   margin-top: 120px;
-  left: 40%;
+  margin-right: auto;
+  margin-left: auto;
 }
 .carousel-control-next{
   background-color: gray;
@@ -40,13 +42,16 @@
   max-width: 30px;
   margin-top: 250px;
 }
+body{
+  background: url('{% static "hero-bg.jpg" %}')
+}
 
   </style>
-  {% load static %}
+  
   
  <!-- JQuery included for slider  -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.4/jquery.touchSwipe.min.js'></script>
   <script> 
   // Slider's function for find match button click
   $(document).ready(function(){
@@ -77,9 +82,9 @@
         {% for job in jobs %}
         <div class="col-*-*">
           <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">{{job.job_title}}</h5>
+              <p class="card-text">Due date: {{job.due_date}}</p>
               <p class="card-text">{{job.job_description}}</p>
               {% if is_student %}
               {% if job.id in student_applied_job %}
@@ -110,9 +115,9 @@
         {% for job in matched_jobs %}
         <div class="carousel-item">        
           <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">{{job.job_title}}</h5>
+              <p class="card-text">Due date: {{job.due_date}}</p>
               <p class="card-text">{{job.job_description}}</p>
               {% if is_student %}
               {% if job.id in student_applied_job %}
