@@ -13,6 +13,13 @@ class JobskillForm(forms.Form):
     skill = forms.CharField(initial='skill', max_length=100, required=True)
     type = forms.IntegerField(initial='type', required=True)
 
+class UpdateSkillForm(forms.Form):
+    updateskill = forms.CharField(initial='updateskill', max_length=100, required=True)
+    oldskill = forms.CharField(initial='oldskill', max_length=100, required=True)
+
+class DeleteSkillForm(forms.Form):
+    oldskill = forms.CharField(initial='oldskill', max_length=100, required=True)
+    
 class JobForm(forms.Form):
     title = forms.CharField(initial='title', max_length=200)
     description = forms.CharField(initial='description', max_length=600)

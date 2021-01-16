@@ -63,6 +63,35 @@
 	  font-size: 18px;
 	  margin:0 auto;
 	}
+	
+	#delbtn {
+	  width: min-content;
+	  border-radius: 5px;
+	  outline: 0;
+	  display: inline-block;
+	  padding: 8px;
+	  color: white;
+	  background-color: red;
+	  text-align: center;
+	  cursor: pointer;
+	  font-size: 18px;
+	  margin:0 auto;
+	}
+	
+	#updatebtn {
+	  width: min-content;
+	  border-radius: 5px;
+	  outline: 0;
+	  display: inline-block;
+	  padding: 8px;
+	  color: white;
+	  background-color: blue;
+	  text-align: center;
+	  cursor: pointer;
+	  font-size: 18px;
+	  margin:0 auto;
+	}
+
 
 	.popup {
 	  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -110,6 +139,109 @@
 	  to {opacity:1 ;}
 	}
 
+	li{
+		display: inline;
+	}
+
+	* {box-sizing: border-box}
+
+	/* Set a style for all buttons */
+	button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	opacity: 0.9;
+	}
+
+	button:hover {
+	opacity:1;
+	}
+
+	/* Float cancel and delete buttons and add an equal width */
+	.cancelbtn, .deletebtn {
+	float: left;
+	width: 50%;
+	}
+
+	/* Add a color to the cancel button */
+	.cancelbtn {
+	background-color: #ccc;
+	color: black;
+	}
+
+	/* Add a color to the delete button */
+	.deletebtn {
+	background-color: #f44336;
+	}
+
+	/* Add padding and center-align text to the container */
+	.containermodal {
+	padding: 16px;
+	text-align: center;
+	}
+
+	/* The Modal (background) */
+	.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: #474e5d;
+	padding-top: 50px;
+	}
+
+	/* Modal Content/Box */
+	.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
+	}
+
+	/* Style the horizontal ruler */
+	hr {
+	border: 1px solid #f1f1f1;
+	margin-bottom: 25px;
+	}
+
+	/* The Modal Close Button (x) */
+	.close {
+	position: absolute;
+	right: 35px;
+	top: 15px;
+	font-size: 40px;
+	font-weight: bold;
+	color: #f1f1f1;
+	}
+
+	.close:hover,
+	.close:focus {
+	color: #f44336;
+	cursor: pointer;
+	}
+
+	/* Clear floats */
+	.clearfix::after {
+	content: "";
+	clear: both;
+	display: table;
+	}
+
+	/* Change styles for cancel button and delete button on extra small screens */
+	@media screen and (max-width: 300px) {
+	.cancelbtn, .deletebtn {
+		width: 100%;
+	}
+	}
+
   </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -123,24 +255,29 @@
   <body>
   	<h1 style="margin-top: 100px; text-align: center;"> What do you want to do?</h1>
 	<div class="choose">
-		<a style="font-size:18px" href="#addskill">Add a skill</a>
-		<a style="font-size:18px; margin-left:70%" href="#change">Change settings</a>
+		<a style="font-size:18px" href="#addskill">Manage skills</a>
+		<a style="font-size:18px; margin-left:60%" href="#change">Change settings</a>
 	</div>
 
     <div class="popup" >
 		<div class="dis" id="addskill">
 			<br>
-			<h2 style="margin-left:20px">Add a skill</h2>
+			<h2 style="margin-left:20px">Manage skills</h2>
 
 			<p> Your skills:</p>
-			{% if self_skills %}
-			  <ul>
-			  {% for skill in self_skills %}
-			  	<li>{{ skill.skill }} {{ skill.rate}}</li>
-			  {% endfor %}
-			  </ul>
-			{% endif %}
-
+                {% if self_skills %}
+                  
+					{% for skill in self_skills %}
+						<ul>
+							<li name="listrow">{{ skill.skill }} {{ skill.rate}}</li>
+						</ul>
+				  	{% endfor %}
+				 
+					<li ><button onclick="document.getElementById('updatemodal').style.display='block'" id="updatebtn" >Update</button></li> 
+					<li ><button onclick="document.getElementById('deletemodal').style.display='block'" id="delbtn" >Delete</button></li>
+				{% endif %}
+			
+			
 			<!--Make sure the form has the autocomplete function switched off: -->
 			<form autocomplete="off" action="." method="post">
 			  {% csrf_token %}
@@ -162,8 +299,93 @@
 				  <option value="10">10</option>
 				</select>
 			  </div>
-			  <input name="skillset" type="submit" value="Select">
+			  <input name="skillset" type="submit" value="Add">
 			</form>
+
+			<div id="deletemodal" class="modal">
+				<span onclick="document.getElementById('deletemodal').style.display='none'" class="close" title="Close ">&times;</span>
+				<div class="modal-content">
+				  <div class="containermodal">
+					<form method="post">
+						{% csrf_token %}
+						<div class="skillSelect">
+							Please select the skill you want to delete:
+							<select name="oldskill" required>
+								{% for skill in self_skills %}
+								<option value="{{ skill.skill }}">{{ skill.skill }}</option>
+				  				{% endfor %}
+							</select>
+						
+					  	</div>
+
+						<div class="clearfix">
+					  		<button type="button" class="cancelbtn" onclick="document.getElementById('deletemodal').style.display='none'">Cancel</button>
+					  		<button name= "delete" type="submit" class="deletebtn">Delete</button>
+					</form>
+				  		</div>
+					</div>
+				</div>
+			</div>
+			<div id="updatemodal" class="modal">
+				<span onclick="document.getElementById('updatemodal').style.display='none'" class="close" title="Close ">&times;</span>
+				<div class="modal-content">
+				  <div class="containermodal">
+					<form autocomplete="off" action="." method="post">
+						{% csrf_token %}
+						<div class="skillSelect">
+							Please select the skill you want to update:
+							<select name="oldskill" required>
+								{% for skill in self_skills %}
+								<option value="{{ skill.skill }}">{{ skill.skill }}</option>
+				  				{% endfor %}
+							</select>
+							
+							<br>
+							Now you can change the skill with new one or its rate: 
+					  	</div>
+											
+						<div class="autocomplete">
+						  <input style="width:130%" id="updateskill" type="text" name="updateskill" placeholder="  Select a skill" required>
+						</div>
+						
+						<div class="custom-select" style="width:20%; margin-left:6%">
+						  <select name="updatestar" required>
+							<option value="0">Star rate</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						  </select>
+						</div>
+					  
+						<div class="clearfix">
+					  		<button type="button" class="cancelbtn" onclick="document.getElementById('updatemodal').style.display='none'">Cancel</button>
+					  		<button name= "update" type="submit" class="deletebtn">Update</button>
+					</form>
+				  		</div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+			  <script>
+				// Get the modal
+				var modal = document.getElementById('updatemodal');
+				
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+				  if (event.target == modal) {
+					modal.style.display = "none";
+				  }
+				}
+				</script>
 
 		  <script>
 		  function autocomplete(inp, arr) {
@@ -273,6 +495,7 @@
 
 		  /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 		  autocomplete(document.getElementById("skill"), skills);
+		  autocomplete(document.getElementById("updateskill"), skills);
 		  </script>
 		  <script>
 		  var x, i, j, l, ll, selElmnt, a, b, c;

@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from .forms import SkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent
+from .forms import SkillForm, UpdateSkillForm, DeleteSkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent
 from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting
 from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student,match_students,match_jobs
 # Create your views here.
@@ -97,6 +97,7 @@ def settings_student(request):
     if request.method == 'POST' and 'skillset' in request.POST:
         # create a form instance and populate it with data from the request:
         form = SkillForm(request.POST)
+        print(request.POST)
         # check whether it's valid:
         if form.is_valid():
             print(form.cleaned_data['skill'])
@@ -142,6 +143,31 @@ def settings_student(request):
                 'form': form1,
             }
             return render(request, "settings-student.html", context)
+
+    elif request.method == 'POST' and 'delete' in request.POST:
+        form = DeleteSkillForm(request.POST)
+        if form.is_valid():
+            oldskill = Skill.objects.filter(skill=form.cleaned_data['oldskill'])
+            StudentSkill.objects.get(student = student, skill=oldskill[0]).delete()
+            self_skills = StudentSkill.objects.filter(student=student)
+            self_skill_array = []
+            for skill in self_skills:
+                self_skill_array.append(str(skill.skill))
+    
+    elif request.method == 'POST' and 'update' in request.POST:
+        
+        form = UpdateSkillForm(request.POST)
+        if form.is_valid():
+            oldskill = Skill.objects.filter(skill=form.cleaned_data['oldskill'])
+            StudentSkill.objects.get(student = student, skill=oldskill[0]).delete()
+            skill = Skill.objects.filter(skill=form.cleaned_data['updateskill'])
+            star_int = int(request.POST['updatestar'])
+            StudentSkill(student=student, skill=skill[0], rate=star_int).save()
+            self_skills = StudentSkill.objects.filter(student=student)
+            self_skill_array = []
+            for skill in self_skills:
+                self_skill_array.append(str(skill.skill))
+        
     elif request.method == 'POST' and 'set' in request.POST:
         student.e_mail = request.POST.get('e-mail')
         fullname = request.POST.get('name_surname')
