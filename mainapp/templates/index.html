@@ -45,6 +45,22 @@
 body{
   background: url('{% static "hero-bg.jpg" %}')
 }
+#latest_jobs{
+  display: inline-block;
+  position: relative;
+}
+.company-image {
+  max-width:100%;
+  max-height:100%;
+  overflow: hidden;
+  text-align: center;
+  }
+
+.company-image img {
+    width: 150px;
+    height: 150px;
+    margin-top: 0px 0 0 0px;
+}
 
   </style>
   
@@ -56,9 +72,19 @@ body{
   // Slider's function for find match button click
   $(document).ready(function(){
     $(".carousel").hide();
+    var temp = 0;
     $("#match").click(function(){
-      $(".row").remove();
+      if(temp==0){
+      $(".row").hide();
       $(".carousel").show();
+      temp = 1;
+    }
+    else{
+      $(".carousel").hide();
+      $(".row").show();
+      temp = 0;
+    }
+
     });
   });
   </script> 
@@ -79,9 +105,12 @@ body{
         <h1 class="latest-jobs">LATEST JOBS</h1>
       </div>
       <div class="row" id="job-cards-row1">
-        {% for job in jobs %}
-        <div class="col-*-*">
-          <div class="card" style="width: 18rem;">
+        {% for job,employer in jobs_and_employers %}
+        <div class="col-*-* d-flex align-items-stretch ">
+          <div class="card" id="latest_jobs" style="width: 18rem;">
+            <div class="company-image">
+            <img class="card-img-top" src="{{ employer.profile_img.url }}" alt="Card image cap">
+          </div>
             <div class="card-body">
               <h5 class="card-title">{{job.job_title}}</h5>
               <p class="card-text">Due date: {{job.due_date}}</p>

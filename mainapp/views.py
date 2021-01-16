@@ -18,6 +18,10 @@ def landing(request):
 def index(request):
     current_user = request.user
     all_jobs_by_order = Job.objects.all().order_by('-publish_time') # get all published jobs by order
+    jobs_employers = []
+    for item in all_jobs_by_order:
+        jobs_employers.append(Employer.objects.get(id=item.employer_id))
+    jobs_and_employers = zip(all_jobs_by_order,jobs_employers)
     is_student = (Student.objects.filter(user_id=current_user.id).count()==1) # check if user is student
     if is_student:
         # check student's applied jobs, dont show apply button if already applied.
@@ -33,6 +37,7 @@ def index(request):
         student_applied_job = [] # handle error
         matched_jobs = [] # handle error
     return render(request, "index.html",{"jobs": all_jobs_by_order,
+                                        "jobs_and_employers":jobs_and_employers,
                                         "is_student": is_student, 
                                         "student_applied_job": student_applied_job,
                                         "matched_jobs": matched_jobs})

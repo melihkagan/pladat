@@ -55,11 +55,22 @@ $(document).ready(function(){
   $(".carousel").hide();
   $(".carousel-control-next").hide();
   $(".carousel-control-prev").hide();
+  var temp = 0;
   $("#match").click(function(){
-    $(".container-fluid").remove();
+    if(temp==0){
+    $(".container-fluid").hide();
     $(".carousel").show();
     $(".carousel-control-next").show();
     $(".carousel-control-prev").show();
+    temp=1;
+    }
+    else{
+    $(".container-fluid").show();
+    $(".carousel").hide();
+    $(".carousel-control-next").hide();
+    $(".carousel-control-prev").hide();
+    temp=0;
+    }
   });
 });
 </script> 
