@@ -29,7 +29,7 @@ class Employer(models.Model):
 
 class Student(models.Model):
     user_id = models.IntegerField(default=None)
-    name = models.CharField(max_length=100,default=None, unique=True)
+    name = models.CharField(max_length=100,default=None)
     surname = models.CharField(max_length=100,default=None)
     school_name = models.CharField(max_length=100,default=None,null=True)
     department = models.CharField(max_length=100,default=None,null=True)
