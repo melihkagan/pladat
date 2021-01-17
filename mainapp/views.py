@@ -3,11 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
+from django.views.generic.list import ListView 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from .forms import SkillForm, UpdateSkillForm, DeleteSkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent
-from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting
+from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting, Notification
 from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student,match_students,match_jobs
 # Create your views here.
 
@@ -656,6 +657,18 @@ def accept_student(request,jobid,studentid):
     selected_application = Application.objects.get(job_id=jobid, student_id=studentid)
     selected_application.is_accepted = 2 # accepted 
     selected_application.save()
+    userid= request.user.id
+    employer = Employer.objects.get(user_id=userid)
+    desp = "Congratulations! You have been hired by " + str(employer.company_name) + " to the "
+    job = Job.objects.get(id=jobid)
+    desp = desp + str(job.job_title) + " position"
+    student = Student.objects.get(id = studentid)
+    link = "see-details/<int:"+ str(jobid) + ">/" 
+    Notification(user_id = student.user_id, title = "New Match!", link=link, description = desp).save()
+    desp = "Congratulations! You hired " + str(student.name) + " " + str(student.surname) + " to the "
+    desp = desp + str(job.job_title) + " position"
+    link = "profile/<int:" + str(student.user_id) + ">/"
+    Notification(user_id = employer.user_id, title= "New Match!", link=link, description = desp).save()
     return see_details(request,jobid)
 
 @login_required
@@ -682,7 +695,12 @@ def signup(request):
                 Student(user_id = username.id, name = user_name, surname = user_surname, e_mail = user_mail).save()
             elif(form.cleaned_data.get('usertype') == '2'):
                 Employer(user_id = username.id, name = user_name, surname = user_surname, e_mail = user_mail).save()
-
+            
+            link = "settings/"
+            desp= """We are happy to see you inside us. This is your first notification. 
+            <a href=\"../settings/\" class=\"text-light\">Click here</a> to change your notifications settings or 
+            to do more like changing your profile picture. Enyoj ;) """
+            Notification(user_id = username.id, title= "Welcome PlaDat!", link=link, description = desp).save()
             return redirect('index')
     else:
         form = SignupForm()
@@ -694,3 +712,12 @@ def signup(request):
 def login(request):
     return redirect('index.html')
 
+#@login_required
+class notview(ListView):
+      model = Notification 
+      paginate_by = 3
+      context_object_name = 'notif'
+      template_name = 'notification.html'
+      def get_queryset(self):
+          usernots = Notification.objects.filter(user_id =self.request.user.id)
+          return usernots.order_by('-publish_time')

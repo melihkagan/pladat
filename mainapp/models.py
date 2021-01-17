@@ -87,6 +87,15 @@ class Setting(models.Model):
     not_messages = models.BooleanField(default=False)
     not_matches = models.BooleanField(default=False)
 
+class Notification(models.Model):
+    user_id = models.IntegerField(default=None)
+    title = models.CharField(max_length=250)
+    description = models.CharField(max_length=1000)
+    link = models.CharField(max_length=250)
+    publish_time = models.DateTimeField(auto_now_add=True, blank=True)
+     
 
+    def __str__(self):
+        return self.title
 
 # Create your models here.
