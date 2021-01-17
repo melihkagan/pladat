@@ -28,8 +28,8 @@
         .card {
           user-select: none;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          max-width: 80%;
-          margin: auto;
+          max-width: 100%;
+          background-color:rgba(256, 256, 256, 0.2);
         }
 
         .card button {
@@ -61,6 +61,12 @@
           opacity: 0.7;
         }
 
+        .major {
+	        color: grey;
+	        font-size: 18px;
+	        margin-left: 20px;
+	    }
+
         #settings{
           margin-top: 20px;
           margin-right: 20px;
@@ -78,42 +84,86 @@
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="card" style="margin: auto">
         <!-- <button id="settings" style="font-size:18px" onclick="location.href='http://127.0.0.1:8000/setting-student'">Settings <i class="fa fa-gear"></i></button> -->
-        <img src="{{ student.profile_img.url }}" alt="John" style="width:10%; margin-left: 20px">
+        <img src="{{ student.profile_img.url }}" alt="John" style="width:25%; margin-left: 20px">
+        <br>
         <h1 style="margin-left: 20px">{{student.name}}  {{student.surname}}</h1>
-        <p class="major"><p>{{student.department}} </p></p>
-        <p>{{student.school_name}} </p>
-        <ul >
-            <li> Skills </li>
-                <ul >
-                  {% for skill,rate in students_skill_total %}
-                    <li> {{skill}}
-                      {% for i in '0123456789'|make_list %}
-                      {% if forloop.counter <= rate %}
-                      <span class="fa fa-star checked"></span>
-                      {% else %}
-                      <span class="fa fa-star"></span>
-                      {% endif %}
+        <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px">
+            <br>
+            <p class="major"> {{student.department}} </p>
+            <p> {{student.school_name}} </p>
+            {% if student.cgpa != 0.0 %}
+            <p> {{student.cgpa}} </p>
+            {% endif %}
+            {% if student.start_date %}
+            {% if student.end_date %}
+            <p style="font-size: 12px"> {{student.start_date}} - {{student.end_date}} </p>
+            {% endif %}
+            {% endif %}
+        </div>
+        <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px">
+            <br>
+            {% if student.location %}
+            <p> Location: {{student.location}} </p>
+            {% endif %}
+        </div>
+        <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px; margin-bottom:20px">
+            <br>
+            <ul >
+                <li> Skills </li>
+                    <ul >
+                      {% for skill,rate in students_skill_total %}
+                        <li> {{skill}}
+                          {% for i in '0123456789'|make_list %}
+                          {% if forloop.counter <= rate %}
+                          <span class="fa fa-star checked"></span>
+                          {% else %}
+                          <span class="fa fa-star"></span>
+                          {% endif %}
+                          {% endfor %}
+                        </li>
                       {% endfor %}
-                    </li>
-                  {% endfor %}
-                </ul>
-            </li>
-        </ul>       
+                    </ul>
+                </li>
+            </ul>
+        </div>
   </div>
-  {% if is_users_profile %}
-  <p>ACCEPTED</p>
-  {% for item in accepted_applications_jobs %}
-  <a href="{% url 'see_details' jobid=item.id %}">{{item.job_title}}</a>
-  {% endfor %}
-  <br><br>
-
-  <p>REJECTED</p>
-  {% for item in declined_applications_jobs %}
-  <a href="{% url 'see_details' jobid=item.id %}">{{item.job_title}}</a>
-  {% endfor %}
-  {% endif %}
+    <br>
+    <div class="card" style="background-color:">
+        <br>
+        {% if is_users_profile %}
+          <p>ACCEPTED</p>
+            <p style="font-size:12px"> Your accepted job applications are displayed here. </p>
+        <div class="card" style="margin-left:20px; margin-right:20px; margin-bottom:10px; background-color:rgba(218, 247, 166, 0.5)">
+            <br>
+          {% for item in accepted_applications_jobs %}
+            <p> {{item.job_title}}
+          <a href="{% url 'see_details' jobid=item.id %}" style="margin-left:20px; border-radius: 5px; outline: 0; display: inline; padding: 8px;
+      color: white; background-color: #24CA0F; text-align: center; cursor: pointer; font-size: 18px; width:10%"> see details </a>
+            </p>
+          {% endfor %}
+        {% endif %}
+        </div>
+      <br><br>
+    </div>
+    <br>
+    <div class="card" >
+        <br>
+        {% if is_users_profile %}
+          <p>REJECTED</p>
+            <p style="font-size:12px"> Your rejected job applications are displayed here. </p>
+            <div class="card" style="margin-left:20px; margin-right:20px; margin-bottom:10px; background-color:rgba(252, 144, 114, 0.5)">
+                <br>
+              {% for item in declined_applications_jobs %}
+                <p> {{item.job_title}}
+              <a href="{% url 'see_details' jobid=item.id %}" style="margin-left:20px; border-radius: 5px; outline: 0; display: inline; padding: 8px;
+      color: white; background-color: #C70039 ; text-align: center; cursor: pointer; font-size: 18px; width:10%"> see details </a>
+                </p>
+                {% endfor %}
+                {% endif %}
+            </div>
+    </div>
 </body>
 </html>
 

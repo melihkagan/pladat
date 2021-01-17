@@ -146,7 +146,7 @@
 	* {box-sizing: border-box}
 
 	/* Set a style for all buttons */
-	button {
+	.popup button {
 	background-color: #4CAF50;
 	color: white;
 	padding: 14px 20px;
@@ -256,7 +256,7 @@
   	<h1 style="margin-top: 100px; text-align: center;"> What do you want to do?</h1>
 	<div class="choose">
 		<a style="font-size:18px" href="#addskill">Manage skills</a>
-		<a style="font-size:18px; margin-left:60%" href="#change">Change settings</a>
+		<a style="font-size:18px; margin-left:68.5%" href="#change">Change settings</a>
 	</div>
 
     <div class="popup" >
@@ -273,7 +273,7 @@
 						</ul>
 				  	{% endfor %}
 				 
-					<li ><button onclick="document.getElementById('updatemodal').style.display='block'" id="updatebtn" >Update</button></li> 
+					<li ><button onclick="document.getElementById('updatemodal').style.display='block'" id="updatebtn" style="margin-left:20px">Update</button></li>
 					<li ><button onclick="document.getElementById('deletemodal').style.display='block'" id="delbtn" >Delete</button></li>
 				{% endif %}
 			
