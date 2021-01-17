@@ -659,16 +659,28 @@ def accept_student(request,jobid,studentid):
     selected_application.save()
     userid= request.user.id
     employer = Employer.objects.get(user_id=userid)
-    desp = "Congratulations! You have been hired by " + str(employer.company_name) + " to the "
     job = Job.objects.get(id=jobid)
-    desp = desp + str(job.job_title) + " position"
     student = Student.objects.get(id = studentid)
-    link = "see-details/"+ str(jobid) + "/" 
-    Notification(user_id = student.user_id, title = "New Match!", link=link, description = desp).save()
-    desp = "Congratulations! You hired " + str(student.name) + " " + str(student.surname) + " to the "
-    desp = desp + str(job.job_title) + " position"
-    link = "profile/" + str(student.user_id) + "/"
-    Notification(user_id = employer.user_id, title= "New Match!", link=link, description = desp).save()
+    try:
+        stusetting = Setting.objects.get(user_id = student.user_id)
+        if( stusetting.not_matches ):
+            desp = "Congratulations! You have been hired by " + str(employer.company_name) + " to the "
+            desp = desp + str(job.job_title) + " position"
+            link = "see-details/"+ str(jobid) + "/" 
+            Notification(user_id = student.user_id, title = "New Match!", link=link, description = desp).save()
+    except:
+        print("there is no setting object")
+
+    try:
+        empsetting = Setting.objects.get(user_id = employer.user_id)
+        if( empsetting.not_matches ):
+            desp = "Congratulations! You hired " + str(student.name) + " " + str(student.surname) + " to the "
+            desp = desp + str(job.job_title) + " position"
+            link = "profile/" + str(student.user_id) + "/"
+            Notification(user_id = employer.user_id, title= "New Match!", link=link, description = desp).save()
+    except:
+        print("there is no setting object")
+    
     return see_details(request,jobid)
 
 @login_required
