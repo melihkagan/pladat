@@ -663,11 +663,11 @@ def accept_student(request,jobid,studentid):
     job = Job.objects.get(id=jobid)
     desp = desp + str(job.job_title) + " position"
     student = Student.objects.get(id = studentid)
-    link = "see-details/<int:"+ str(jobid) + ">/" 
+    link = "see-details/"+ str(jobid) + "/" 
     Notification(user_id = student.user_id, title = "New Match!", link=link, description = desp).save()
     desp = "Congratulations! You hired " + str(student.name) + " " + str(student.surname) + " to the "
     desp = desp + str(job.job_title) + " position"
-    link = "profile/<int:" + str(student.user_id) + ">/"
+    link = "profile/" + str(student.user_id) + "/"
     Notification(user_id = employer.user_id, title= "New Match!", link=link, description = desp).save()
     return see_details(request,jobid)
 
