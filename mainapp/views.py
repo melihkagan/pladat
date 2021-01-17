@@ -15,7 +15,7 @@ from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student,matc
 def landing(request):
     return render(request, 'landing.html')
 
-@login_required
+@login_required 
 def index(request):
     current_user = request.user
     all_jobs_by_order = Job.objects.all().order_by('-publish_time') # get all published jobs by order
@@ -30,10 +30,10 @@ def index(request):
         student_applied = Application.objects.filter(student_id=student.id)
         student_applied_job = student_applied.values_list('job_id', flat = True)
         matched_jobs = []
-        for item in match_jobs(student):
-            print(item)
+        for item in match_jobs(student): # matching algorithm
+            #print(item)
             matched_jobs.append(Job.objects.get(id=item[0]))
-        print(matched_jobs)
+        #print(matched_jobs)
     else:
         student_applied_job = [] # handle error
         matched_jobs = [] # handle error
@@ -56,12 +56,21 @@ def see_details(request, jobid):
     jobs_owner = Employer.objects.get(id = job.employer_id)
     is_jobs_owner =  (current_user.id == jobs_owner.user_id)
 
+    # check if user is student
+    is_student = (Student.objects.filter(user_id=current_user.id).count()==1) 
+    if is_student:
+        # check student's applied jobs, dont show apply button if already applied.
+        student = Student.objects.get(user_id=current_user.id)
+        student_applied = Application.objects.filter(student_id=student.id)
+        student_applied_job = student_applied.values_list('job_id', flat = True)
+    else:
+        student_applied_job = [] # handle error
+
     # find matching students
     matched_students = []
     if JobSkill.objects.filter(job_id=job.id).count() > 1:
         for item in match_students(job):
             matched_students.append(Student.objects.get(id=item[0]))
-
     
     # get applicant students
     applications = Application.objects.filter(job_id = jobid)
@@ -79,6 +88,8 @@ def see_details(request, jobid):
     
 
     return render(request, "see-details.html",{"job": job, "jobs_skill_total": jobs_skill_total,  
+                                                "is_student": is_student, "student_applied_job": student_applied_job,
+                                                "jobs_owner": jobs_owner,
                                                "is_jobs_owner": is_jobs_owner, 
                                                 "students_skill_total_all_zipped": students_skill_total_all_zipped,
                                                 "matched_students": matched_students})

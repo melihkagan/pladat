@@ -188,7 +188,7 @@
           <input id="duedate" type="date" name="duedate" value="{{ job_details.duedate|date:'Y-m-d' }}">
           <p> </p>
           <button type="submit" name="job_form"  style="margin-bottom: 1%">Submit</button>
-          <button href="/profile/{{ user.id }}">Exit without saving</button>
+          <a href="/profile/{{ user.id }}"> <button type="button">Exit without saving</button></a>
         </form>
            
         <script>

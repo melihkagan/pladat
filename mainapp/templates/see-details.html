@@ -43,7 +43,10 @@ body{
   position: relative;
   margin-top: 30px;
 }
-
+.company-image{
+  position:absolute;
+  left: 150px;
+}
   </style>
  
    <!-- JQuery included for slider  -->
@@ -59,6 +62,7 @@ $(document).ready(function(){
   $("#match").click(function(){
     if(temp==0){
     $(".container-fluid").hide();
+    $(".company-image").hide();
     $(".carousel").show();
     $(".carousel-control-next").show();
     $(".carousel-control-prev").show();
@@ -66,6 +70,7 @@ $(document).ready(function(){
     }
     else{
     $(".container-fluid").show();
+    $(".company-image").show();
     $(".carousel").hide();
     $(".carousel-control-next").hide();
     $(".carousel-control-prev").hide();
@@ -88,14 +93,19 @@ $(document).ready(function(){
   <body>
     <!-- Job information -->
     <br><br>
+    <div class="company-image"><a href="/profile/{{ jobs_owner.user_id }}"><img src="{{ jobs_owner.profile_img.url }}" class="img-fluid" alt="Responsive image"></a></div>
     <div class="container-fluid">
+      
     <div class="row">
                 <h5>{{job.job_title}}</h5>
                 <div>
                     <br><br>
                     <h5 class="card-title">Description:</h5>
                     <p class="card-text">{{job.job_description}}</p>
-                    <h5 class="card-title">Due date:</h5> <p class="card-text"> {{job.due_date}}</p>
+                    <h5 class="card-text">Owner:</h5>
+                    <p class="card-text"> <a href="/profile/{{ jobs_owner.user_id }}">{{jobs_owner.name}} {{jobs_owner.surname}}</a></p>
+                    <h5 class="card-title">Due date:</h5> 
+                    <p class="card-text"> {{job.due_date}}</p>
                     <h5 class="card-title">Required Departments:</h5> 
                     <p class="card-text"> {{job.req_departments}}</p>
                     <h5 class="card-title">Required Skills:</h5>
@@ -115,6 +125,12 @@ $(document).ready(function(){
                 {% if is_jobs_owner %}
                     <a href="{% url 'update_job' jobid=job.id %}" class="btn btn-primary">Update Job</a>
                     <a href="{% url 'delete_job' jobid=job.id %}" class="btn btn-primary">Delete Job</a>
+                {% endif %}
+                {% if is_student %}
+                {% if job.id in student_applied_job %}
+                {% else %}
+                <a href="{% url 'apply_job' jobid=job.id %}"class="btn btn-primary">Apply</a>
+                {% endif %}
                 {% endif %}
                 </div>
             </div>

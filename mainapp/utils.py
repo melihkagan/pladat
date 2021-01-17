@@ -56,7 +56,7 @@ def match_jobs(student):
         point = 0
         for skill in jobskills:
             if StudentSkill.objects.filter(student=student, skill=skill.skill).count() == 1:
-                print(job)
+                #print(job)
                 point += get_point(skill, StudentSkill.objects.filter(student=student, skill=skill.skill)[0], unit)
 
         return point
@@ -71,12 +71,12 @@ def match_jobs(student):
         for job in jobs:
             points.append(matching(student, job))
 
-        print(points)
+        #print(points)
         ids = Job.objects.all().values_list('id', flat=True)
         ids = list(ids)
-        print(ids)
+        #print(ids)
         ids.sort()
-        print(ids)
+        #print(ids)
         # points.sort()
         points_ids = list(zip(ids, points))
         points_ids.sort(key=takeSecond, reverse=True)

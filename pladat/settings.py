@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -134,5 +134,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mainapp/media/')
 
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'landing'
+
+LOGIN_URL = 'landing' # first entrance redirect to landing
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
