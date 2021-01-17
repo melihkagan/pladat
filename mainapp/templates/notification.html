@@ -1,0 +1,80 @@
+{% extends 'navbar.html' %}
+
+{% block content %}
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <style>
+
+*{
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+
+.container-fluid .row{
+  position: relative;
+  margin-top: 15px;
+}
+body{
+  background: url('{% static "hero-bg.jpg" %}')
+}
+  </style>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Notifications</title>
+  </head>
+  <body>
+      <br><br><br><br><br>
+     <div class="container w-75">
+        <div class="infinite-container">
+            {% for not in notif %}
+                <div class="row infinite-item">
+                    <div class="card text-white bg-info mb-3" style="max-width: 45rem;">
+                      <div class="card-header"><a href="../{{ not.link }}" class="text-light" >{{ not.title }} </a></div>
+                      <div class="card-body">
+                        <p class="card-text">{{not.description}}</p>
+                        <footer class="blockquote-footer">{{not.publish_time}}</footer>
+                      </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+        <div class="d-flex justify-content-center" style="display:none;">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'jquery.waypoints.min.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+  
+  </body>
+</html>
+{% endblock %}
