@@ -93,51 +93,67 @@ $(document).ready(function(){
   <body>
     <!-- Job information -->
     <br><br>
-    <div class="company-image"><a href="/profile/{{ jobs_owner.user_id }}"><img src="{{ jobs_owner.profile_img.url }}" class="img-fluid" alt="Responsive image"></a></div>
+    
     <div class="container-fluid">
-      
+    <div class="card"><div class="card-body">
     <div class="row">
-                <h5>{{job.job_title}}</h5>
-                <div>
-                    <br><br>
-                    <h5 class="card-title">Description:</h5>
-                    <p class="card-text">{{job.job_description}}</p>
-                    <h5 class="card-text">Owner:</h5>
-                    <p class="card-text"> <a href="/profile/{{ jobs_owner.user_id }}">{{jobs_owner.name}} {{jobs_owner.surname}}</a></p>
-                    <h5 class="card-title">Due date:</h5> 
-                    <p class="card-text"> {{job.due_date}}</p>
-                    <h5 class="card-title">Required Departments:</h5> 
-                    <p class="card-text"> {{job.req_departments}}</p>
-                    <h5 class="card-title">Required Skills:</h5>
-                    <ul >
-                        {% for skill,rate in jobs_skill_total %}
-                        <li> {{skill}}
-                          {% for i in '0123456789'|make_list %}
-                          {% if forloop.counter <= rate %}
-                          <span class="fa fa-star checked" style="color: orange"></span>
-                          {% else %}
-                          <span class="fa fa-star"></span>
-                          {% endif %}
-                          {% endfor %}
-                        </li>
-                      {% endfor %}
-                </ul>
-                {% if is_jobs_owner %}
-                    <a href="{% url 'update_job' jobid=job.id %}" class="btn btn-primary">Update Job</a>
-                    <a href="{% url 'delete_job' jobid=job.id %}" class="btn btn-primary">Delete Job</a>
+        <div class="col">
+            <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px width:100%;">
+            <div class="card-body"><a href="/profile/{{ jobs_owner.user_id }}"><img src="{{ jobs_owner.profile_img.url }}" class="img-fluid" alt="Responsive image"></a></div></div>
+        <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px width:100%;">   
+        <div class="card-body"><br><br>
+            {% if is_jobs_owner %}
+                    <div class="row">
+                    <div class="col"><a href="{% url 'update_job' jobid=job.id %}" class="btn btn-primary">Update Job</a></div>
+                    <div class="col"><a href="{% url 'delete_job' jobid=job.id %}" class="btn btn-primary">Delete Job</a></div>
+                    </div>
                 {% endif %}
                 {% if is_student %}
                 {% if job.id in student_applied_job %}
                 {% else %}
-                <a href="{% url 'apply_job' jobid=job.id %}"class="btn btn-primary">Apply</a>
+            <div class="col"><a href="{% url 'apply_job' jobid=job.id %}"class="btn btn-primary">Apply</a></div>
                 {% endif %}
                 {% endif %}
-                </div>
-            </div>
+            </div></div>
         </div>
+            <div class="col-5">
+                <div class="card" style="margin-left:20px; margin-right:20px; margin-bottom:10px; background-color:rgba(218, 247, 166, 0.5)">
+                <div class="card-body">
+                <h5>{{job.job_title}}</h5>
+                <h5 class="card-title">Description:</h5>
+                <p class="card-text">{{job.job_description}}</p>
+                <h5 class="card-text">Owner:</h5>
+                <p class="card-text"> <a href="/profile/{{ jobs_owner.user_id }}">{{jobs_owner.name}} {{jobs_owner.surname}}</a></p>
+                <h5 class="card-title">Due date:</h5> 
+                <p class="card-text"> {{job.due_date}}</p>
+                <h5 class="card-title">Required Departments:</h5> 
+                <p class="card-text"> {{job.req_departments}}</p>
+                </div></div>
+        </div></div>
+        </div></div>
+        <br><br>
+        <div class="card"><div class="card-body">
+        <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px width:100%;">   <div class="card-body">
+        <h5 class="card-title">Required Skills:</h5>
+            <ul >
+                {% for skill,rate in jobs_skill_total %}
+                <li> {{skill}}
+                  {% for i in '0123456789'|make_list %}
+                  {% if forloop.counter <= rate %}
+                  <span class="fa fa-star checked" style="color: orange"></span>
+                  {% else %}
+                  <span class="fa fa-star"></span>
+                  {% endif %}
+                  {% endfor %}
+                </li>
+              {% endfor %}
+        </ul></div></div>
+    </div></div>        
+    </div>
     <!-- Applicant Students -->
     <div class="container-fluid">
-    <br><h6>Applicant Students</h6><br>
+    <div class="card"><div class="card-body">
+    <br><h6>Applicant Students:</h6><br>
     {% for student,skill_rate in students_skill_total_all_zipped %}
     <div class="row">
             <div class="card">
@@ -184,6 +200,7 @@ $(document).ready(function(){
             </div>
         </div>
         {% endfor %}
+    </div></div>
     </div>
     <!-- Slider -->
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -231,7 +248,7 @@ $(document).ready(function(){
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
-    </div>
+    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
