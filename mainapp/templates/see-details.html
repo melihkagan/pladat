@@ -99,10 +99,24 @@ $(document).ready(function(){
     <div class="row">
         <div class="col">
             <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px width:100%;">
-            <div class="card-body"><a href="/profile/{{ jobs_owner.user_id }}"><img src="{{ jobs_owner.profile_img.url }}" class="img-fluid" alt="Responsive image"></a></div></div>
+            <div class="card-body"><a href="/profile/{{ jobs_owner.user_id }}"><img src="{{ jobs_owner.profile_img.url }}" class="rounded mx-auto d-block" alt="Responsive image"></a></div></div>
         <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px width:100%;">   
-        <div class="card-body"><br><br>
-            {% if is_jobs_owner %}
+        <div class="card-body">
+            <h5 class="card-title">Description:</h5>
+            <p class="card-text">{{job.job_description}}</p>
+            </div></div>
+        </div>
+            <div class="col-5">
+                <div class="card" style="margin-left:20px; margin-right:20px; margin-bottom:10px; background-color:rgba(218, 247, 166, 0.5)">
+                <div class="card-body">
+                <div class="card"><div class="card-body"><h5 style="text-align: center;">{{job.job_title}}</h5></div></div><br>
+                <h5 class="card-text">Owner:</h5>
+                <p class="card-text"> <a href="/profile/{{ jobs_owner.user_id }}">{{jobs_owner.name}} {{jobs_owner.surname}}</a></p>
+                <h5 class="card-title">Due date:</h5> 
+                <p class="card-text"> {{job.due_date}}</p>
+                <h5 class="card-title">Required Departments:</h5> 
+                <p class="card-text"> {{job.req_departments}}</p>
+                {% if is_jobs_owner %}
                     <div class="row">
                     <div class="col"><a href="{% url 'update_job' jobid=job.id %}" class="btn btn-primary">Update Job</a></div>
                     <div class="col"><a href="{% url 'delete_job' jobid=job.id %}" class="btn btn-primary">Delete Job</a></div>
@@ -111,27 +125,13 @@ $(document).ready(function(){
                 {% if is_student %}
                 {% if job.id in student_applied_job %}
                 {% else %}
-            <div class="col"><a href="{% url 'apply_job' jobid=job.id %}"class="btn btn-primary">Apply</a></div>
+                    <div class="row"><div class="col"><a href="{% url 'apply_job' jobid=job.id %}"class="btn btn-primary">Apply</a></div></div>
                 {% endif %}
                 {% endif %}
-            </div></div>
-        </div>
-            <div class="col-5">
-                <div class="card" style="margin-left:20px; margin-right:20px; margin-bottom:10px; background-color:rgba(218, 247, 166, 0.5)">
-                <div class="card-body">
-                <h5>{{job.job_title}}</h5>
-                <h5 class="card-title">Description:</h5>
-                <p class="card-text">{{job.job_description}}</p>
-                <h5 class="card-text">Owner:</h5>
-                <p class="card-text"> <a href="/profile/{{ jobs_owner.user_id }}">{{jobs_owner.name}} {{jobs_owner.surname}}</a></p>
-                <h5 class="card-title">Due date:</h5> 
-                <p class="card-text"> {{job.due_date}}</p>
-                <h5 class="card-title">Required Departments:</h5> 
-                <p class="card-text"> {{job.req_departments}}</p>
                 </div></div>
         </div></div>
         </div></div>
-        <br><br>
+        <br>
         <div class="card"><div class="card-body">
         <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px width:100%;">   <div class="card-body">
         <h5 class="card-title">Required Skills:</h5>
@@ -153,9 +153,9 @@ $(document).ready(function(){
     <!-- Applicant Students -->
     <div class="container-fluid">
     <div class="card"><div class="card-body">
-    <br><h6>Applicant Students:</h6><br>
+    <br><h6 style="text-align: center; font-size: 25px;">Applicant Students:</h6><br>
     {% for student,skill_rate in students_skill_total_all_zipped %}
-    <div class="row">
+    <div class="row justify-content-center">
             <div class="card">
                 <h5 class="card-header"><a href="/profile/{{ student.user_id }}" >{{student.name}} {{student.surname}}</a></h5>
                 <div class="card-body">
