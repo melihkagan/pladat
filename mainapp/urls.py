@@ -20,4 +20,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.index, name = 'index'),
     path('notifications/', views.notview.as_view(),  name='notif'),
+    path('inbox/', views.mesview.as_view(),  name='mes'),
+    path('sendmes/<int:recivid>', views.sendmes , name='sendmes' ),
 ]

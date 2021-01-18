@@ -145,10 +145,10 @@ hr {
             <div class="col-6">
                 <ul class="list-group">
                   <li class="list-group-item"><b>Name:</b> {{employer.name}} {{employer.surname}}</li>
-                  <li class="list-group-item"><b>Sector:</b>{{employer.sector}}</li>
-                  <li class="list-group-item"><b>Phone:</b>{{employer.phone}}</li>
-                  <li class="list-group-item"><b>Website:</b><a href="url">{{employer.website}}</a></li>
-                  <li class="list-group-item"><b>Adress:</b>{{employer.address}}</li>
+                  <li class="list-group-item"><b>Sector:</b> {{employer.sector}}</li>
+                  <li class="list-group-item"><b>Phone:</b> {{employer.phone}}</li>
+                  <li class="list-group-item"><b>Website: </b><a href="url">{{employer.website}}</a></li>
+                  <li class="list-group-item"><b>Adress:</b> {{employer.address}}</li>
                 </ul>
             </div>
             <div class="col">
@@ -158,6 +158,9 @@ hr {
               </div>
               <div class="row">
                 <button onclick="document.getElementById('uploadmodal').style.display='block'" class="btn btn-primary">Post Multiple New Jobs</button>
+              </div>
+              {% else %}
+              <div class="row"><a class="btn btn-primary" href="/../sendmes/{{employer.user_id}}">Send message</a>
               </div>
               {% endif %}
             </div>      
@@ -207,7 +210,7 @@ hr {
                     {% if is_student %}
                     {% if job.id in student_applied_job %}
                     {% else %}
-                    <a href="{% url 'apply_job' jobid=job.id %}"class="btn btn-primary">Apply</a>
+                    <a href="{% url 'apply_job' jobid=job.id %}" class="btn btn-primary">Apply</a>
                     {% endif %}
                     {% endif %}
                     <a href="{% url 'see_details' jobid=job.id %}"  class="btn btn-primary">See details</a>

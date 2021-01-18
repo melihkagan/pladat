@@ -3,12 +3,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
-from django.views.generic.list import ListView 
+from django.views.generic.list import ListView
+from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from .forms import SkillForm, UpdateSkillForm, DeleteSkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent,SearchForm
-from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting, Notification
+from .forms import SkillForm, UpdateSkillForm, DeleteSkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent, SearchForm, SendmesForm
+from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting, Notification, Message
 from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student,match_students,match_jobs
 
 import pandas as pd
@@ -792,7 +793,7 @@ def signup(request):
             link = "settings/"
             desp= """We are happy to see you here. This is your first notification. 
             <a href=\"../settings/\" class=\"text-light\">Click here</a> to change your notifications settings or 
-            to do more like changing your profile picture. Enyoj ;) """
+            to do more like changing your profile picture. Don't forget to adjust your profile settings for a better experience. Enjoy ;) """
             Notification(user_id = username.id, title= "Welcome PlaDat!", link=link, description = desp).save()
             return redirect('index')
     else:
@@ -814,3 +815,40 @@ class notview(ListView):
       def get_queryset(self):
           usernots = Notification.objects.filter(user_id =self.request.user.id)
           return usernots.order_by('-publish_time')
+
+class mesview(ListView):
+    model = Message
+    paginate_by = 4
+    context_object_name = 'mes'
+    template_name = 'inbox.html'
+    def get_queryset(self):
+        usermes = Message.objects.filter(reciever = self.request.user.id)
+        return usermes.order_by('-created_at')
+
+@login_required
+def sendmes(request, recivid):
+    form = SendmesForm
+    sendto = User.objects.get(id = recivid)
+    sendtoname = sendto.username
+    if request.method == 'POST':
+        form = SendmesForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            mes = form.cleaned_data['msg_content']
+            name = request.user.username
+            Message(sender = request.user.id, reciever=recivid, title=title, msg_content=mes, sender_name = name).save()
+            try:
+                recivsetting = Setting.objects.get(user_id = recivid)
+                if( recivsetting.not_messages ):
+                    link = "inbox/"
+                    desp= """You have new message, to check your inbox 
+                    <a href=\"../inbox/\" class=\"text-light\">Click here</a> """
+                    Notification(user_id = recivid, title= "New Message!", link=link, description = desp).save()
+            except:
+                print("no setting object")
+            return redirect('/profile/' + str(recivid) + '/')
+    
+    return render(request, "sendmes.html", {"form" : form, "sendto" : sendtoname})
+    
+            
+    

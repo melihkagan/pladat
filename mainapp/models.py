@@ -98,4 +98,11 @@ class Notification(models.Model):
     def __str__(self):
         return self.title
 
+class Message(models.Model):
+    sender = models.IntegerField(default=None)
+    reciever = models.IntegerField(default=None)
+    msg_content = models.CharField(max_length=1000) 
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    title = models.CharField(max_length=200)
+    sender_name = models.CharField(max_length=200, blank=True)
 # Create your models here.

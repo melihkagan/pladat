@@ -46,3 +46,7 @@ class ImageFormStudent(forms.ModelForm):
 
 class SearchForm(forms.Form):
     searched_skill = forms.CharField(initial='searched_skill', max_length=100, required=True)
+
+class SendmesForm(forms.Form):
+    msg_content = forms.CharField(max_length=1000, label = 'Your message')
+    title = forms.CharField(max_length=200, label = 'Title')

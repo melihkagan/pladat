@@ -90,6 +90,7 @@
         <br>
         <h1 style="margin-left: 20px">{{student.name}}  {{student.surname}}</h1>
         <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px">
+            <div class="card-body">
             <br>
             <p class="major"> {{student.department}} </p>
             <p> {{student.school_name}} </p>
@@ -101,7 +102,12 @@
             <p style="font-size: 12px"> {{student.start_date}} - {{student.end_date}} </p>
             {% endif %}
             {% endif %}
-        </div>
+            {% if is_users_profile %}
+            {% else %}
+              <div><a class="btn btn-primary" href="/../sendmes/{{student.user_id}}">Send message</a></div>
+              </div>
+              {% endif %}
+        </div></div>
         <div class="card" style="background-color:rgba(172, 234, 253, 0.5); margin-left:20px; margin-top:10px; margin-right:20px">
             <br>
             {% if student.location %}
