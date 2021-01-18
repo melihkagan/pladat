@@ -153,9 +153,12 @@ hr {
             </div>
             <div class="col">
               {% if is_users_profile %}
+              <div class="row">
                 <a href="/{{user.id}}/add" class="btn btn-primary">Post New Job</a>
+              </div>
+              <div class="row">
                 <button onclick="document.getElementById('uploadmodal').style.display='block'" class="btn btn-primary">Post Multiple New Jobs</button>
-              
+              </div>
               {% endif %}
             </div>      
 

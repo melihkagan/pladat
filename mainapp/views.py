@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from .forms import SkillForm, UpdateSkillForm, DeleteSkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent
+from .forms import SkillForm, UpdateSkillForm, DeleteSkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent,SearchForm
 from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting, Notification
 from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student,match_students,match_jobs
 
@@ -105,8 +105,9 @@ def see_details(request, jobid):
 
     # find matching students
     matched_students = []
-    if JobSkill.objects.filter(job_id=job.id).count() > 1:
+    if JobSkill.objects.filter(job_id=job.id).count() >= 1:
         for item in match_students(job):
+            #print(item)
             matched_students.append(Student.objects.get(id=item[0]))
     
     # get applicant students
@@ -151,15 +152,15 @@ def settings_student(request):
     if request.method == 'POST' and 'skillset' in request.POST:
         # create a form instance and populate it with data from the request:
         form = SkillForm(request.POST)
-        print(request.POST)
+        #print(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            print(form.cleaned_data['skill'])
+            #print(form.cleaned_data['skill'])
             # while int(request.POST['star']) == 0:
 
-            print(request.POST['star'])
+            #print(request.POST['star'])
             skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
-            print(skill[0])
+            #print(skill[0])
             star_int = int(request.POST['star'])
             StudentSkill(student=student, skill=skill[0], rate=star_int).save()
             self_skills = StudentSkill.objects.filter(student=student)
@@ -549,15 +550,15 @@ def add_job(request, userid):
         skills_database.append(skills[i][1])
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        print("here")
+        #print("here")
         if 'job_form' in request.POST:
-            print("here")
+            #print("here")
             form = JobForm(request.POST)
             if form.is_valid():
-                print("burada")
-                print(form.cleaned_data['title'])
-                print(form.cleaned_data['description'])
-                print(form.cleaned_data['duedate'])
+                #print("burada")
+                #print(form.cleaned_data['title'])
+                #print(form.cleaned_data['description'])
+                #print(form.cleaned_data['duedate'])
                 title = form.cleaned_data['title']
                 description = form.cleaned_data['description']
                 duedate = form.cleaned_data['duedate']
@@ -571,14 +572,14 @@ def add_job(request, userid):
                 }
                 return render(request, 'addjob_skill.html', {'username': username, "skills_database": skills_database, "job_details": job_details})
         elif 'skill_form' in request.POST:
-            print("here")
+            #print("here")
             form = JobskillForm(request.POST)
             # check whether it's valid:
             if form.is_valid():
-                print(form.cleaned_data['skill'])
-                print(request.POST['star'])
+                #print(form.cleaned_data['skill'])
+                #print(request.POST['star'])
                 skill = Skill.objects.filter(skill=form.cleaned_data['skill'])
-                print(skill[0])
+                #print(skill[0])
                 star_int = int(request.POST['star'])
                 type_int = int(form.cleaned_data['type'])
                 job = Job.objects.filter(employer=employer).last()
@@ -744,6 +745,7 @@ def accept_student(request,jobid,studentid):
         if( stusetting.not_matches ):
             desp = "Congratulations! You have been hired by " + str(employer.company_name) + " to the "
             desp = desp + str(job.job_title) + " position"
+            desp = desp + "<br> Contact :" + "<a class=\"text-light\" href=mailto:" + str(employer.e_mail) + "> "+ str(employer.e_mail) + "</a>"
             link = "see-details/"+ str(jobid) + "/" 
             Notification(user_id = student.user_id, title = "New Match!", link=link, description = desp).save()
     except:
@@ -754,6 +756,7 @@ def accept_student(request,jobid,studentid):
         if( empsetting.not_matches ):
             desp = "Congratulations! You hired " + str(student.name) + " " + str(student.surname) + " to the "
             desp = desp + str(job.job_title) + " position"
+            desp = desp + "<br> Contact :" + "<a class=\"text-light\" href=mailto:" + str(student.e_mail) + "> "+ str(student.e_mail) + "</a>"
             link = "profile/" + str(student.user_id) + "/"
             Notification(user_id = employer.user_id, title= "New Match!", link=link, description = desp).save()
     except:
