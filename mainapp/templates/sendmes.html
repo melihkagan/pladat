@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+{% extends 'navbar.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <title>addjob</title>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Search bar -->
+    <link href="{% static 'main.css' %}" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            padding-top: 65px;
+        }
+
+        *{
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+
+        .card {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          max-width: 80%;
+          margin: auto;
+        }
+
+        .major {
+          color: grey;
+          font-size: 18px;
+          margin-left: 20px;
+        }
+
+        .card button {
+          border-radius: 5px;
+          outline: 0;
+          display: inline-block;
+          padding: 6px;
+          color: white;
+          background-color: orange;
+          text-align: center;
+          cursor: pointer;
+          width: 20%;
+          font-size: 16px;
+        }
+        .card p{
+          margin-left: 20px;
+        }
+
+        .card a {
+          text-decoration: none;
+          font-size: 22px;
+          color: black;
+        }
+
+        .card button:hover, a:hover {
+          opacity: 0.7;
+        }
+
+        #settings{
+          margin-top: 20px;
+          margin-right: 20px;
+          position:absolute;
+          top:0;
+          right:0;
+        }
+
+        .checked {
+          color: orange;
+        }
+        body{
+          background: url('{% static "hero-bg.jpg" %}')
+        }
+    </style>
+</head>
+<body>
+    <br><br><br>
+    <div class="card">
+        <div class="card-body">
+        <div class="card-header">Send message to {{sendto}}</div>
+        <form method="post"> 
+            {% csrf_token %} 
+            {{ form.as_p }} 
+            <input type="submit" value="Send"> 
+        </form> 
+        </div>
+      </div>
+</body>
+</html>
+{% endblock %}
