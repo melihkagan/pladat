@@ -36,7 +36,8 @@ def index(request):
             matched_jobs = []
             for item in match_jobs(student): # matching algorithm
                 #print(item)
-                matched_jobs.append(Job.objects.get(id=item[0]))
+                if not item[1] == 0.0:
+                    matched_jobs.append(Job.objects.get(id=item[0]))
             #print(matched_jobs)
         else:
             student_applied_job = [] # handle error
@@ -109,7 +110,8 @@ def see_details(request, jobid):
     if JobSkill.objects.filter(job_id=job.id).count() >= 1:
         for item in match_students(job):
             #print(item)
-            matched_students.append(Student.objects.get(id=item[0]))
+            if not item[1] == 0.0:
+                matched_students.append(Student.objects.get(id=item[0]))
     
     # get applicant students
     applications = Application.objects.filter(job_id = jobid)
