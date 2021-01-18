@@ -10,6 +10,8 @@ from django import forms
 from .forms import SkillForm, UpdateSkillForm, DeleteSkillForm, JobForm, SignupForm, JobskillForm, ImageFormEmployer, ImageFormStudent
 from mainapp.models import Student, Job, Employer, Skill, StudentSkill, JobSkill, Application, Setting, Notification
 from .utils import get_skill_rate_zipped_job, get_skill_rate_zipped_student,match_students,match_jobs
+
+import pandas as pd
 # Create your views here.
 
 def landing(request):
@@ -17,33 +19,68 @@ def landing(request):
 
 @login_required 
 def index(request):
-    current_user = request.user
-    all_jobs_by_order = Job.objects.all().order_by('-publish_time') # get all published jobs by order
-    jobs_employers = []
-    for item in all_jobs_by_order:
-        jobs_employers.append(Employer.objects.get(id=item.employer_id))
-    jobs_and_employers = zip(all_jobs_by_order,jobs_employers)
-    is_student = (Student.objects.filter(user_id=current_user.id).count()==1) # check if user is student
-    if is_student:
-        # check student's applied jobs, dont show apply button if already applied.
-        student = Student.objects.get(user_id=current_user.id)
-        student_applied = Application.objects.filter(student_id=student.id)
-        student_applied_job = student_applied.values_list('job_id', flat = True)
-        matched_jobs = []
-        for item in match_jobs(student): # matching algorithm
-            #print(item)
-            matched_jobs.append(Job.objects.get(id=item[0]))
-        #print(matched_jobs)
-    else:
-        student_applied_job = [] # handle error
-        matched_jobs = [] # handle error
-    return render(request, "index.html",{"jobs": all_jobs_by_order,
-                                        "jobs_and_employers":jobs_and_employers,
-                                        "is_student": is_student, 
-                                        "student_applied_job": student_applied_job,
-                                        "matched_jobs": matched_jobs})
+    if request.method == "GET":   
+        current_user = request.user
+        all_jobs_by_order = Job.objects.all().order_by('-publish_time') # get all published jobs by order
+        jobs_employers = []
+        for item in all_jobs_by_order:
+            jobs_employers.append(Employer.objects.get(id=item.employer_id))
+        jobs_and_employers = zip(all_jobs_by_order,jobs_employers)
+        is_student = (Student.objects.filter(user_id=current_user.id).count()==1) # check if user is student
+        if is_student:
+            # check student's applied jobs, dont show apply button if already applied.
+            student = Student.objects.get(user_id=current_user.id)
+            student_applied = Application.objects.filter(student_id=student.id)
+            student_applied_job = student_applied.values_list('job_id', flat = True)
+            matched_jobs = []
+            for item in match_jobs(student): # matching algorithm
+                #print(item)
+                matched_jobs.append(Job.objects.get(id=item[0]))
+            #print(matched_jobs)
+        else:
+            student_applied_job = [] # handle error
+            matched_jobs = [] # handle error
+        return render(request, "index.html",{"jobs": all_jobs_by_order,
+                                            "jobs_and_employers":jobs_and_employers,
+                                            "is_student": is_student, 
+                                            "student_applied_job": student_applied_job,
+                                            "matched_jobs": matched_jobs})
+    elif request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            searched_skill = Skill.objects.get(skill=form.cleaned_data['searched_skill'])
+        current_user = request.user
 
+        searched_jobs = []
+        searched = JobSkill.objects.filter(skill_id=searched_skill.id)
+        for item in searched:
+            searched_jobs.append(Job.objects.get(id=item.job_id))
+        
+        searched_jobs.sort(key=lambda x: x.publish_time, reverse=True)
 
+        jobs_employers = []
+        for item in searched_jobs:
+            jobs_employers.append(Employer.objects.get(id=item.employer_id))
+        jobs_and_employers = zip(searched_jobs,jobs_employers)
+        is_student = (Student.objects.filter(user_id=current_user.id).count()==1) # check if user is student
+        if is_student:
+            # check student's applied jobs, dont show apply button if already applied.
+            student = Student.objects.get(user_id=current_user.id)
+            student_applied = Application.objects.filter(student_id=student.id)
+            student_applied_job = student_applied.values_list('job_id', flat = True)
+            matched_jobs = []
+            for item in match_jobs(student): # matching algorithm
+                #print(item)
+                matched_jobs.append(Job.objects.get(id=item[0]))
+            #print(matched_jobs)
+        else:
+            student_applied_job = [] # handle error
+            matched_jobs = [] # handle error
+        return render(request, "index.html",{"jobs": searched_jobs,
+                                            "jobs_and_employers":jobs_and_employers,
+                                            "is_student": is_student, 
+                                            "student_applied_job": student_applied_job,
+                                            "matched_jobs": matched_jobs})
 
 @login_required
 def see_details(request, jobid):
@@ -456,8 +493,38 @@ def view_self_profile(request, userid):
                                                 "is_users_profile": is_users_profile})
 
         
-    if Employer.objects.filter(user_id=userid).count()==1: 
+    if Employer.objects.filter(user_id=userid).count()==1:
         employer = Employer.objects.get(user_id=userid)
+        
+        #Multiple Job Adding 
+        if request.method == 'POST' and request.FILES['myfile']:
+            myfile = request.FILES['myfile']
+            df = pd.read_excel(myfile)
+            total_jobs = len(df)
+
+            for i in range(total_jobs):
+                job_title = str(df['Job_Title'][i])
+                job_desc = str(df['Job_Description'][i])
+                date = str(df['Due Date'][i])
+                date_list = date.split()
+                due_date = date_list[0]
+                req_deps = str(df['Req_Departments'][i])
+                skills = str(df['Skills'][i])
+                rates = str(df['Rates'][i])
+                priorities = str(df['Priorities'][i])
+                skill_list = skills.split(";")
+                rate_list = rates.split(";")
+                priority_list = priorities.split(";")
+                skill_number = len(skill_list)
+                Job(job_title=job_title, job_description=job_desc, employer=employer, due_date=due_date, req_departments=req_deps).save()
+                for j in range(skill_number):
+                    skill = Skill.objects.filter(skill=skill_list[j])
+                    job = Job.objects.filter(employer=employer).last()
+                    JobSkill(job=job, skill=skill[0], rate=rate_list[j], type=int(priority_list[j])).save()
+
+
+
+        
         # check user is the employer
         employers_job = Job.objects.filter(employer_id = employer.id)  # get selected employer's published jobs
         is_users_profile = (current_user.id == employer.user_id) # check if profile is user's profile
@@ -720,7 +787,7 @@ def signup(request):
                 Employer(user_id = username.id, name = user_name, surname = user_surname, e_mail = user_mail).save()
             
             link = "settings/"
-            desp= """We are happy to see you inside us. This is your first notification. 
+            desp= """We are happy to see you here. This is your first notification. 
             <a href=\"../settings/\" class=\"text-light\">Click here</a> to change your notifications settings or 
             to do more like changing your profile picture. Enyoj ;) """
             Notification(user_id = username.id, title= "Welcome PlaDat!", link=link, description = desp).save()

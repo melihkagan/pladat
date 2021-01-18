@@ -47,7 +47,7 @@ class Student(models.Model):
 class Job(models.Model):
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE,default=None) #employer_id
     job_title = models.CharField(max_length=100,default=None)
-    job_description = models.CharField(max_length=100,default=None) #description
+    job_description = models.CharField(max_length=600,default=None) #description
     publish_time = models.DateTimeField(auto_now_add=True, blank=True)
     due_date = models.DateField(default=None,null=True)
     req_departments = models.CharField(max_length=100,default=None,null=True)

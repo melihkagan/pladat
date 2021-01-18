@@ -43,3 +43,6 @@ class ImageFormStudent(forms.ModelForm):
     class Meta:
         model = Student
         fields = ('profile_img',)
+
+class SearchForm(forms.Form):
+    searched_skill = forms.CharField(initial='searched_skill', max_length=100, required=True)

@@ -38,7 +38,7 @@ body{
                     <div class="card text-white bg-info mb-3" style="max-width: 45rem;">
                       <div class="card-header"><a href="../{{ not.link }}" class="text-light" >{{ not.title }} </a></div>
                       <div class="card-body">
-                        <p class="card-text">{{not.description}}</p>
+                        <p class="card-text">{{not.description |safe}}</p>
                         <footer class="blockquote-footer">{{not.publish_time}}</footer>
                       </div>
                     </div>
