@@ -1,3 +1,2 @@
 # pladat
-try online:
-http://pladat.me:8000/
+Placement Datings For Students
